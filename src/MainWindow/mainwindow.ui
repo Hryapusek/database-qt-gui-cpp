@@ -86,7 +86,7 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="refreshPerson">
+            <widget class="QPushButton" name="refreshPersonBtn">
              <property name="text">
               <string>Refresh</string>
              </property>
@@ -181,7 +181,7 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="refreshAuto">
+            <widget class="QPushButton" name="refreshAutoBtn">
              <property name="text">
               <string>Refresh</string>
              </property>
@@ -261,7 +261,7 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="refreshRoute">
+            <widget class="QPushButton" name="refreshRouteBtn">
              <property name="text">
               <string>Refresh</string>
              </property>
@@ -326,14 +326,14 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
-            <widget class="QPushButton" name="addTripBtn">
+            <widget class="QPushButton" name="addJournalRowBtn">
              <property name="text">
               <string>Add</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="removeTripBtn">
+            <widget class="QPushButton" name="removeJournalRowBtn">
              <property name="text">
               <string>Remove</string>
              </property>
@@ -356,7 +356,7 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="refreshJournal">
+            <widget class="QPushButton" name="refreshJournalBtn">
              <property name="text">
               <string>Refresh</string>
              </property>

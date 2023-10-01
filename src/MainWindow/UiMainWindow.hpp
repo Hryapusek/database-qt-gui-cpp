@@ -40,7 +40,7 @@ public:
     QPushButton *addPersonBtn;
     QPushButton *removePersonBtn;
     QSpacerItem *verticalSpacer_5;
-    QPushButton *refreshPerson;
+    QPushButton *refreshPersonBtn;
     QSpacerItem *verticalSpacer_2;
     QWidget *autoTab;
     QHBoxLayout *horizontalLayout_2;
@@ -50,7 +50,7 @@ public:
     QPushButton *addAutoBtn;
     QPushButton *removeAutoBtn;
     QSpacerItem *verticalSpacer_6;
-    QPushButton *refreshAuto;
+    QPushButton *refreshAutoBtn;
     QSpacerItem *verticalSpacer;
     QWidget *routeTab;
     QHBoxLayout *horizontalLayout_4;
@@ -60,17 +60,17 @@ public:
     QPushButton *addRouteBtn;
     QPushButton *removeRouteBtn;
     QSpacerItem *verticalSpacer_7;
-    QPushButton *refreshRoute;
+    QPushButton *refreshRouteBtn;
     QSpacerItem *verticalSpacer_3;
     QWidget *journalTab;
     QHBoxLayout *horizontalLayout_3;
     QTableWidget *journalTable;
     QGroupBox *groupBox_4;
     QVBoxLayout *verticalLayout_4;
-    QPushButton *addTripBtn;
-    QPushButton *removeTripBtn;
+    QPushButton *addJournalRowBtn;
+    QPushButton *removeJournalRowBtn;
     QSpacerItem *verticalSpacer_8;
-    QPushButton *refreshJournal;
+    QPushButton *refreshJournalBtn;
     QSpacerItem *verticalSpacer_4;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -123,10 +123,10 @@ public:
 
         verticalLayout_2->addItem(verticalSpacer_5);
 
-        refreshPerson = new QPushButton(groupBox_2);
-        refreshPerson->setObjectName(QString::fromUtf8("refreshPerson"));
+        refreshPersonBtn = new QPushButton(groupBox_2);
+        refreshPersonBtn->setObjectName(QString::fromUtf8("refreshPersonBtn"));
 
-        verticalLayout_2->addWidget(refreshPerson);
+        verticalLayout_2->addWidget(refreshPersonBtn);
 
         verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -175,10 +175,10 @@ public:
 
         verticalLayout->addItem(verticalSpacer_6);
 
-        refreshAuto = new QPushButton(groupBox);
-        refreshAuto->setObjectName(QString::fromUtf8("refreshAuto"));
+        refreshAutoBtn = new QPushButton(groupBox);
+        refreshAutoBtn->setObjectName(QString::fromUtf8("refreshAutoBtn"));
 
-        verticalLayout->addWidget(refreshAuto);
+        verticalLayout->addWidget(refreshAutoBtn);
 
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -221,10 +221,10 @@ public:
 
         verticalLayout_3->addItem(verticalSpacer_7);
 
-        refreshRoute = new QPushButton(groupBox_3);
-        refreshRoute->setObjectName(QString::fromUtf8("refreshRoute"));
+        refreshRouteBtn = new QPushButton(groupBox_3);
+        refreshRouteBtn->setObjectName(QString::fromUtf8("refreshRouteBtn"));
 
-        verticalLayout_3->addWidget(refreshRoute);
+        verticalLayout_3->addWidget(refreshRouteBtn);
 
         verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -259,24 +259,24 @@ public:
         groupBox_4->setObjectName(QString::fromUtf8("groupBox_4"));
         verticalLayout_4 = new QVBoxLayout(groupBox_4);
         verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
-        addTripBtn = new QPushButton(groupBox_4);
-        addTripBtn->setObjectName(QString::fromUtf8("addTripBtn"));
+        addJournalRowBtn = new QPushButton(groupBox_4);
+        addJournalRowBtn->setObjectName(QString::fromUtf8("addJournalRowBtn"));
 
-        verticalLayout_4->addWidget(addTripBtn);
+        verticalLayout_4->addWidget(addJournalRowBtn);
 
-        removeTripBtn = new QPushButton(groupBox_4);
-        removeTripBtn->setObjectName(QString::fromUtf8("removeTripBtn"));
+        removeJournalRowBtn = new QPushButton(groupBox_4);
+        removeJournalRowBtn->setObjectName(QString::fromUtf8("removeJournalRowBtn"));
 
-        verticalLayout_4->addWidget(removeTripBtn);
+        verticalLayout_4->addWidget(removeJournalRowBtn);
 
         verticalSpacer_8 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
         verticalLayout_4->addItem(verticalSpacer_8);
 
-        refreshJournal = new QPushButton(groupBox_4);
-        refreshJournal->setObjectName(QString::fromUtf8("refreshJournal"));
+        refreshJournalBtn = new QPushButton(groupBox_4);
+        refreshJournalBtn->setObjectName(QString::fromUtf8("refreshJournalBtn"));
 
-        verticalLayout_4->addWidget(refreshJournal);
+        verticalLayout_4->addWidget(refreshJournalBtn);
 
         verticalSpacer_4 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -320,7 +320,7 @@ public:
         groupBox_2->setTitle(QString());
         addPersonBtn->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
         removePersonBtn->setText(QCoreApplication::translate("MainWindow", "Remove", nullptr));
-        refreshPerson->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
+        refreshPersonBtn->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
         tabs->setTabText(tabs->indexOf(personnelTab), QCoreApplication::translate("MainWindow", "PERSONNEL", nullptr));
         QTableWidgetItem *___qtablewidgetitem4 = autoTable->horizontalHeaderItem(0);
         ___qtablewidgetitem4->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
@@ -335,7 +335,7 @@ public:
         groupBox->setTitle(QString());
         addAutoBtn->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
         removeAutoBtn->setText(QCoreApplication::translate("MainWindow", "Remove", nullptr));
-        refreshAuto->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
+        refreshAutoBtn->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
         tabs->setTabText(tabs->indexOf(autoTab), QCoreApplication::translate("MainWindow", "AUTO", nullptr));
         QTableWidgetItem *___qtablewidgetitem9 = routeTable->horizontalHeaderItem(0);
         ___qtablewidgetitem9->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
@@ -344,7 +344,7 @@ public:
         groupBox_3->setTitle(QString());
         addRouteBtn->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
         removeRouteBtn->setText(QCoreApplication::translate("MainWindow", "Remove", nullptr));
-        refreshRoute->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
+        refreshRouteBtn->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
         tabs->setTabText(tabs->indexOf(routeTab), QCoreApplication::translate("MainWindow", "ROUTE", nullptr));
         QTableWidgetItem *___qtablewidgetitem11 = journalTable->horizontalHeaderItem(0);
         ___qtablewidgetitem11->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
@@ -357,9 +357,9 @@ public:
         QTableWidgetItem *___qtablewidgetitem15 = journalTable->horizontalHeaderItem(4);
         ___qtablewidgetitem15->setText(QCoreApplication::translate("MainWindow", "ROUTE_ID", nullptr));
         groupBox_4->setTitle(QString());
-        addTripBtn->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
-        removeTripBtn->setText(QCoreApplication::translate("MainWindow", "Remove", nullptr));
-        refreshJournal->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
+        addJournalRowBtn->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
+        removeJournalRowBtn->setText(QCoreApplication::translate("MainWindow", "Remove", nullptr));
+        refreshJournalBtn->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
         tabs->setTabText(tabs->indexOf(journalTab), QCoreApplication::translate("MainWindow", "JOURNAL", nullptr));
     } // retranslateUi
 

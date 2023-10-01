@@ -16,7 +16,6 @@ void AutoTab::refreshTable()
   clearTable();
   for (const auto &autoObj : autos)
   {
-    // TODO change columns
     auto curRow = table_->rowCount();
     table_->insertRow(table_->rowCount());
     auto idStr = QString::fromStdString(std::to_string(autoObj.getId()));

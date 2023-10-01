@@ -24,8 +24,15 @@ add_executable(${TARGET}
     src/MainWindow/MainWindow.hpp
     src/MainWindow/MainWindow.cpp
     src/MainWindow/Tabs/PersonTab.cpp
+    src/MainWindow/Tabs/AutoTab.cpp
+    src/MainWindow/Tabs/RouteTab.cpp
+    src/MainWindow/Tabs/JournalTab.cpp
+    src/MainWindow/Tabs/Utils.cpp
     src/Database/DbApi.cpp
     src/Database/Person.cpp
+    src/Database/Route.cpp
+    src/Database/Auto.cpp
+    src/Database/JournalRow.cpp
 )
 
 target_include_directories(${TARGET} PRIVATE src)
