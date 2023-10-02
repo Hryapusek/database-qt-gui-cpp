@@ -20,19 +20,31 @@ set(TARGET tables)
 execute_process(COMMAND ./generateUI.sh)
 
 add_executable(${TARGET}
-    src/main.cpp
-    src/MainWindow/MainWindow.hpp
-    src/MainWindow/MainWindow.cpp
-    src/MainWindow/Tabs/PersonTab.cpp
-    src/MainWindow/Tabs/AutoTab.cpp
-    src/MainWindow/Tabs/RouteTab.cpp
-    src/MainWindow/Tabs/JournalTab.cpp
-    src/MainWindow/Tabs/Utils.cpp
     src/Database/DbApi.cpp
     src/Database/Person.cpp
     src/Database/Route.cpp
     src/Database/Auto.cpp
     src/Database/JournalRow.cpp
+
+    src/MainWindow/MainWindow.hpp
+    src/MainWindow/MainWindow.cpp
+    src/MainWindow/Utils.cpp
+
+    src/MainWindow/Person/PersonTab.cpp
+    src/MainWindow/Person/AddPersonDialog.cpp
+    src/MainWindow/Person/RemovePersonDialog.cpp
+
+    src/MainWindow/Auto/AutoTab.cpp
+    src/MainWindow/Auto/AddAutoDialog.cpp
+    src/MainWindow/Auto/RemoveAutoDialog.cpp
+
+    src/MainWindow/Route/RouteTab.cpp
+    src/MainWindow/Route/AddRouteDialog.cpp
+    src/MainWindow/Route/RemoveRouteDialog.cpp
+
+    src/MainWindow/Tabs/JournalTab.cpp
+
+    src/main.cpp
 )
 
 target_include_directories(${TARGET} PRIVATE src)

@@ -5,9 +5,9 @@
 #include <iostream>
 
 #include "Database/DbApi.hpp"
-#include "Tabs/PersonTab.hpp"
-#include "Tabs/AutoTab.hpp"
-#include "Tabs/RouteTab.hpp"
+#include "Person/PersonTab.hpp"
+#include "Auto/AutoTab.hpp"
+#include "Route/RouteTab.hpp"
 #include "Tabs/JournalTab.hpp"
 
 namespace details_

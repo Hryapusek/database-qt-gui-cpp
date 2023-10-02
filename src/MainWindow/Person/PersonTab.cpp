@@ -1,13 +1,21 @@
 #include "PersonTab.hpp"
+
 #include "Database/DbApi.hpp"
+
+#include "AddPersonDialog.hpp"
+#include "RemovePersonDialog.hpp"
+
+#include <iostream>
 
 PersonTab::PersonTab(QTableWidget *table, QPushButton *addBtn, QPushButton *removeBtn, QPushButton *refreshBtn) :
   table_(table),
   addBtn_(addBtn),
   removeBtn_(removeBtn),
   refreshBtn_(refreshBtn)
-{ 
+{
   QObject::connect(refreshBtn_, &QPushButton::clicked, this, &PersonTab::refreshTablesSig);
+  QObject::connect(addBtn_, &QPushButton::clicked, this, &PersonTab::addBtnClicked);
+  QObject::connect(removeBtn_, &QPushButton::clicked, this, &PersonTab::removeBtnClicked);
 }
 
 void PersonTab::refreshTable()
@@ -36,4 +44,37 @@ void PersonTab::clearTable()
   {
     table_->removeRow(row);
   }
+}
+
+PersonTab::~PersonTab()
+{
+}
+
+void PersonTab::removeBtnClicked()
+{
+  removePersonDialog = std::make_unique<RemovePersonDialog>(table_);
+  auto result = removePersonDialog->exec();
+  // TODO remove person from database
+  // Try-Catch if person does not exist?
+  if (result == QDialog::Accepted)
+    std::cout << "Id " << removePersonDialog->getId().toStdString() << '\n';
+  else
+    std::cout << "Result is rejected\n";
+}
+
+void PersonTab::addBtnClicked()
+{
+  addPersonDialog = std::make_unique<AddPersonDialog>(table_);
+  auto result = addPersonDialog->exec();
+  // TODO add person to database
+  // Try-Catch if person with id already exist?
+  if (result == QDialog::Accepted)
+  {
+    std::cout << "Id " << addPersonDialog->getId().toStdString() << '\n';
+    std::cout << "First name " << addPersonDialog->getFirstName().toStdString() << '\n';
+    std::cout << "Second name " << addPersonDialog->getSecondName().toStdString() << '\n';
+    std::cout << "Father name " << addPersonDialog->getFatherName().toStdString() << '\n';
+  }
+  else
+    std::cout << "Result is rejected\n";
 }

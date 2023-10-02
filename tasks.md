@@ -1,10 +1,6 @@
 # Current tasks
 
 # Tasks
-- Создать git
-- Tabs classes
-- Ask dialogs on Add row
-- Ask dialogs on Remove row
 - Database Api | Add ODB
 
 # Done tasks
@@ -16,3 +12,10 @@
 - Realization of JournalRow class 1.09
 - Fake Realization of Database api 1.09
 - time_t to string 1.09
+- Ask dialogs on Add row Person 2.09
+- Ask dialogs on Remove Person row 2.09
+- Ask dialogs on Add row Auto 2.09
+- Ask dialogs on Remove Auto row 2.09
+- Ask dialogs on Add row Route 2.09
+- Ask dialogs on Remove Route row 2.09
+- Connect Add btn to dialog
