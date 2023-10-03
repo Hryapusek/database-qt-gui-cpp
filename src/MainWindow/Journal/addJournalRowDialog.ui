@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AddPersonDialog</class>
- <widget class="QDialog" name="AddPersonDialog">
+ <class>AddJournalRowDialog</class>
+ <widget class="QDialog" name="AddJournalRowDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>217</width>
-    <height>213</height>
+    <width>282</width>
+    <height>234</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Add Person</string>
+   <string>Add Journal Row</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -57,20 +57,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <spacer name="horizontalSpacer_7">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="firstNameLbl">
+      <widget class="QLabel" name="timeOutLbl">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
          <horstretch>0</horstretch>
@@ -78,14 +65,14 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>First name</string>
+        <string>Time OUT</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="firstNameLine">
+      <widget class="QLineEdit" name="timeOutLine">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -97,20 +84,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <spacer name="horizontalSpacer_6">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="secondNameLbl">
+      <widget class="QLabel" name="timeInLbl">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
          <horstretch>0</horstretch>
@@ -118,14 +92,14 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Second name</string>
+        <string>Time IN</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="secondNameLine">
+      <widget class="QLineEdit" name="timeInLine">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -150,7 +124,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="fatherNameLbl">
+      <widget class="QLabel" name="autoIdLbl">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
          <horstretch>0</horstretch>
@@ -158,12 +132,52 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Father name</string>
+        <string>Auto ID</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="fatherNameLine">
+      <widget class="QLineEdit" name="autoIdLine">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <spacer name="horizontalSpacer_9">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="routeIdLbl">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Route ID</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="routeIdLine">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -223,7 +237,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>AddPersonDialog</receiver>
+   <receiver>AddJournalRowDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -239,7 +253,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>AddPersonDialog</receiver>
+   <receiver>AddJournalRowDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

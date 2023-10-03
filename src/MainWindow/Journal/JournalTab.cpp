@@ -3,6 +3,11 @@
 
 #include "MainWindow/Utils.hpp"
 
+#include "AddJournalRowDialog.hpp"
+#include "RemoveJournalRowDialog.hpp"
+
+#include <iostream>
+
 JournalTab::JournalTab(QTableWidget *table, QPushButton *addBtn, QPushButton *removeBtn, QPushButton *refreshBtn) :
   table_(table),
   addBtn_(addBtn),
@@ -10,6 +15,12 @@ JournalTab::JournalTab(QTableWidget *table, QPushButton *addBtn, QPushButton *re
   refreshBtn_(refreshBtn)
 { 
   QObject::connect(refreshBtn_, &QPushButton::clicked, this, &JournalTab::refreshTablesSig);
+  QObject::connect(addBtn_, &QPushButton::clicked, this, &JournalTab::addBtnClicked);
+  QObject::connect(removeBtn_, &QPushButton::clicked, this, &JournalTab::removeBtnClicked);
+}
+
+JournalTab::~JournalTab()
+{
 }
 
 void JournalTab::refreshTable()
@@ -46,4 +57,28 @@ void JournalTab::clearTable()
   {
     table_->removeRow(row);
   }
+}
+
+void JournalTab::removeBtnClicked()
+{
+  removeJournalRowDialog_ = std::make_unique<RemoveJournalRowDialog>(table_);
+  auto result = removeJournalRowDialog_->exec();
+  // TODO remove person from database
+  // Try-Catch if person does not exist?
+  if (result == QDialog::Accepted)
+    std::cout << "Id " << removeJournalRowDialog_->getId().toStdString() << '\n';
+  else
+    std::cout << "Result is rejected\n";
+}
+
+void JournalTab::addBtnClicked()
+{
+  addJournalRowDialog_ = std::make_unique<AddJournalRowDialog>(table_);
+  auto result = addJournalRowDialog_->exec();
+  // TODO add person to database
+  // Try-Catch if person with id already exist?
+  if (result == QDialog::Accepted)
+    std::cout << "Id " << addJournalRowDialog_->getId().toStdString() << '\n';
+  else
+    std::cout << "Result is rejected\n";
 }

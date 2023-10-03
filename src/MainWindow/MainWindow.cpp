@@ -8,7 +8,7 @@
 #include "Person/PersonTab.hpp"
 #include "Auto/AutoTab.hpp"
 #include "Route/RouteTab.hpp"
-#include "Tabs/JournalTab.hpp"
+#include "Journal/JournalTab.hpp"
 
 namespace details_
 {

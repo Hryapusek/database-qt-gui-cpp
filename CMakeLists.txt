@@ -42,7 +42,9 @@ add_executable(${TARGET}
     src/MainWindow/Route/AddRouteDialog.cpp
     src/MainWindow/Route/RemoveRouteDialog.cpp
 
-    src/MainWindow/Tabs/JournalTab.cpp
+    src/MainWindow/Journal/JournalTab.cpp
+    src/MainWindow/Journal/AddJournalRowDialog.cpp
+    src/MainWindow/Journal/RemoveJournalRowDialog.cpp
 
     src/main.cpp
 )

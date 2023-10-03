@@ -1,15 +1,15 @@
 set -e
 
-if ! uic addPersonDialog.ui > UiAddPersonDialog.hpp
+if ! uic addJournalRowDialog.ui > UiAddJournalRowDialog.hpp
 then
-  echo "Error while generating UiAddPersonDialog.hpp"
+  echo "Error while generating UiAddJournalRowDialog.hpp"
   exit 1
 fi
-echo "UiAddPersonDialog.hpp file generated"
+echo "UiAddJournalRowDialog.hpp file generated"
 
-if ! uic removePersonDialog.ui > UiRemovePersonDialog.hpp
+if ! uic removeJournalRowDialog.ui > UiRemoveJournalRowDialog.hpp
 then
-  echo "Error while generating UiRemovePersonDialog.hpp"
+  echo "Error while generating UiRemoveJournalRowDialog.hpp"
   exit 1
 fi
-echo "UiRemovePersonDialog.hpp file generated"
+echo "UiRemoveJournalRowDialog.hpp file generated"

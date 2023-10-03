@@ -1,45 +1,53 @@
-#include "AddPersonDialog.hpp"
-#include "UiAddPersonDialog.hpp"
+#include "AddJournalRowDialog.hpp"
+#include "UiAddJournalRowDialog.hpp"
 
 #include <QRegExpValidator>
 
-AddPersonDialog::AddPersonDialog(QWidget *parent) :
+AddJournalRowDialog::AddJournalRowDialog(QWidget *parent) :
   QDialog(parent),
-  ui(std::make_unique<Ui::AddPersonDialog>())
+  ui(std::make_unique<Ui::AddJournalRowDialog>())
 {
   ui->setupUi(this);
   auto idLineValidator = new QRegExpValidator(QRegExp("[-]?[1-9]{8}"), ui->idLine);
   ui->idLine->setValidator(idLineValidator);
 
-  auto firstNameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->firstNameLine);
-  ui->firstNameLine->setValidator(firstNameLineValidator);
+  auto timeOutLineValidator = new QRegExpValidator(QRegExp(".{30}"), ui->timeOutLine);
+  ui->timeOutLine->setValidator(timeOutLineValidator);
 
-  auto secondNameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->secondNameLine);
-  ui->secondNameLine->setValidator(secondNameLineValidator);
+  auto timeInLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->timeInLine);
+  ui->timeInLine->setValidator(timeInLineValidator);
 
-  auto fatherNameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->fatherNameLine);
-  ui->fatherNameLine->setValidator(fatherNameLineValidator);
+  auto autoIdLineValidator = new QRegExpValidator(QRegExp("[-]?[1-9]{8}"), ui->autoIdLine);
+  ui->autoIdLine->setValidator(autoIdLineValidator);
+
+  auto routeIdLineValidator = new QRegExpValidator(QRegExp("[-]?[1-9]{8}"), ui->routeIdLine);
+  ui->routeIdLine->setValidator(routeIdLineValidator);
 }
 
-AddPersonDialog::~AddPersonDialog()
+AddJournalRowDialog::~AddJournalRowDialog()
 {}
 
-QString AddPersonDialog::getId()
+QString AddJournalRowDialog::getId()
 {
   return ui->idLine->text();
 }
 
-QString AddPersonDialog::getFirstName()
+QString AddJournalRowDialog::getTimeOut()
 {
-  return ui->firstNameLine->text();
+  return ui->timeOutLine->text();
 }
 
-QString AddPersonDialog::getSecondName()
+QString AddJournalRowDialog::getTimeIn()
 {
-  return ui->secondNameLine->text();
+  return ui->timeInLine->text();
 }
 
-QString AddPersonDialog::getFatherName()
+QString AddJournalRowDialog::getAutoId()
 {
-  return ui->fatherNameLine->text();
+  return ui->autoIdLine->text();
+}
+
+QString AddJournalRowDialog::getRouteId()
+{
+  return ui->routeIdLine->text();
 }

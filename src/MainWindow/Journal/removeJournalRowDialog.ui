@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RemovePersonDialog</class>
- <widget class="QDialog" name="RemovePersonDialog">
+ <class>RemoveJournalRowDialog</class>
+ <widget class="QDialog" name="RemoveJournalRowDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>184</width>
-    <height>98</height>
+    <height>106</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Remove Person</string>
+   <string>Remove Journa lRow</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -103,7 +103,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>RemovePersonDialog</receiver>
+   <receiver>RemoveJournalRowDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -119,7 +119,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>RemovePersonDialog</receiver>
+   <receiver>RemoveJournalRowDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

@@ -1,27 +1,28 @@
-#ifndef ADD_PERSON_DIALOG
-#define ADD_PERSON_DIALOG
+#ifndef ADD_JOURNAL_ROW_DIALOG
+#define ADD_JOURNAL_ROW_DIALOG
 
 #include <QDialog>
 
 namespace Ui
 {
-  class AddPersonDialog;
+  class AddJournalRowDialog;
 }
 
-class AddPersonDialog : public QDialog
+class AddJournalRowDialog : public QDialog
 {
   Q_OBJECT
 
 public:
-  AddPersonDialog(QWidget *parent = nullptr);
-  ~AddPersonDialog();
+  AddJournalRowDialog(QWidget *parent = nullptr);
+  ~AddJournalRowDialog();
   QString getId();
-  QString getFirstName();
-  QString getSecondName();
-  QString getFatherName();
+  QString getTimeOut();
+  QString getTimeIn();
+  QString getAutoId();
+  QString getRouteId();
 
 private:
-  std::unique_ptr<Ui::AddPersonDialog> ui;
+  std::unique_ptr<Ui::AddJournalRowDialog> ui;
 
 };
 
