@@ -5,12 +5,12 @@ Route::Route(Id_t id, std::string name) :
   name_(std::move(name))
 {}
 
-Route::Id_t Route::getId() const
+Route::Id_t Route::id() const
 {
   return id_;
 }
 
-const std::string &Route::getName() const
+const Route::NullableStr_t &Route::name() const
 {
   return name_;
 }

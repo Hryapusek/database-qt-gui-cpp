@@ -8,8 +8,6 @@ AddJournalRowDialog::AddJournalRowDialog(QWidget *parent) :
   ui(std::make_unique<Ui::AddJournalRowDialog>())
 {
   ui->setupUi(this);
-  auto idLineValidator = new QRegExpValidator(QRegExp("[-]?[1-9]{8}"), ui->idLine);
-  ui->idLine->setValidator(idLineValidator);
 
   auto timeOutLineValidator = new QRegExpValidator(QRegExp(".{30}"), ui->timeOutLine);
   ui->timeOutLine->setValidator(timeOutLineValidator);
@@ -26,11 +24,6 @@ AddJournalRowDialog::AddJournalRowDialog(QWidget *parent) :
 
 AddJournalRowDialog::~AddJournalRowDialog()
 {}
-
-QString AddJournalRowDialog::getId()
-{
-  return ui->idLine->text();
-}
 
 QString AddJournalRowDialog::getTimeOut()
 {

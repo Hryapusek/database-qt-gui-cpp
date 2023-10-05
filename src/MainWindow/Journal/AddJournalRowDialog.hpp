@@ -15,7 +15,6 @@ class AddJournalRowDialog : public QDialog
 public:
   AddJournalRowDialog(QWidget *parent = nullptr);
   ~AddJournalRowDialog();
-  QString getId();
   QString getTimeOut();
   QString getTimeIn();
   QString getAutoId();

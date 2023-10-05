@@ -31,18 +31,18 @@ void JournalTab::refreshTable()
   {
     auto curRow = table_->rowCount();
     table_->insertRow(table_->rowCount());
-    auto idStr = QString::fromStdString(std::to_string(journalRow.getId()));
-    auto autoIdStr = QString::fromStdString(std::to_string(journalRow.getAutoId()));
-    auto routeIdStr = QString::fromStdString(std::to_string(journalRow.getRouteId()));
+    auto idStr = QString::fromStdString(std::to_string(journalRow.id()));
+    auto autoIdStr = QString::fromStdString(std::to_string(journalRow.autoId()));
+    auto routeIdStr = QString::fromStdString(std::to_string(journalRow.routeId()));
     table_->setItem(curRow, Column::ID, new QTableWidgetItem(idStr));
-    if (journalRow.getTimeOut())
+    if (journalRow.timeOut())
     {
-      auto timeOut = QString::fromStdString(StringUtils::to_string(*journalRow.getTimeOut()));
+      auto timeOut = QString::fromStdString(StringUtils::to_string(*journalRow.timeOut()));
       table_->setItem(curRow, Column::TIME_OUT, new QTableWidgetItem(timeOut));
     }
-    if (journalRow.getTimeIn())
+    if (journalRow.timeIn())
     {
-      auto timeIn = QString::fromStdString(StringUtils::to_string(*journalRow.getTimeIn()));
+      auto timeIn = QString::fromStdString(StringUtils::to_string(*journalRow.timeIn()));
       table_->setItem(curRow, Column::TIME_IN, new QTableWidgetItem(timeIn));
     }
     table_->setItem(curRow, Column::AUTO_ID, new QTableWidgetItem(autoIdStr));
@@ -78,7 +78,7 @@ void JournalTab::addBtnClicked()
   // TODO add person to database
   // Try-Catch if person with id already exist?
   if (result == QDialog::Accepted)
-    std::cout << "Id " << addJournalRowDialog_->getId().toStdString() << '\n';
+    std::cout << "Result acccepted" << '\n';
   else
     std::cout << "Result is rejected\n";
 }

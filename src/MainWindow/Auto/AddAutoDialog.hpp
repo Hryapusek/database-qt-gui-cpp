@@ -15,7 +15,6 @@ class AddAutoDialog : public QDialog
 public:
   AddAutoDialog(QWidget *parent = nullptr);
   ~AddAutoDialog();
-  QString getId();
   QString getNum();
   QString getColor();
   QString getMark();

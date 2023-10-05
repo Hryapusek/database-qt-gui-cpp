@@ -25,10 +25,6 @@ class Ui_AddAutoDialog
 {
 public:
     QVBoxLayout *verticalLayout;
-    QHBoxLayout *horizontalLayout_2;
-    QSpacerItem *horizontalSpacer_8;
-    QLabel *idLbl;
-    QLineEdit *idLine;
     QHBoxLayout *horizontalLayout_3;
     QSpacerItem *horizontalSpacer_7;
     QLabel *numLbl;
@@ -53,38 +49,9 @@ public:
     {
         if (AddAutoDialog->objectName().isEmpty())
             AddAutoDialog->setObjectName(QString::fromUtf8("AddAutoDialog"));
-        AddAutoDialog->resize(217, 243);
+        AddAutoDialog->resize(217, 208);
         verticalLayout = new QVBoxLayout(AddAutoDialog);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        horizontalSpacer_8 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_2->addItem(horizontalSpacer_8);
-
-        idLbl = new QLabel(AddAutoDialog);
-        idLbl->setObjectName(QString::fromUtf8("idLbl"));
-        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(idLbl->sizePolicy().hasHeightForWidth());
-        idLbl->setSizePolicy(sizePolicy);
-
-        horizontalLayout_2->addWidget(idLbl);
-
-        idLine = new QLineEdit(AddAutoDialog);
-        idLine->setObjectName(QString::fromUtf8("idLine"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(idLine->sizePolicy().hasHeightForWidth());
-        idLine->setSizePolicy(sizePolicy1);
-
-        horizontalLayout_2->addWidget(idLine);
-
-
-        verticalLayout->addLayout(horizontalLayout_2);
-
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
         horizontalSpacer_7 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -93,6 +60,9 @@ public:
 
         numLbl = new QLabel(AddAutoDialog);
         numLbl->setObjectName(QString::fromUtf8("numLbl"));
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(numLbl->sizePolicy().hasHeightForWidth());
         numLbl->setSizePolicy(sizePolicy);
 
@@ -100,6 +70,9 @@ public:
 
         numLine = new QLineEdit(AddAutoDialog);
         numLine->setObjectName(QString::fromUtf8("numLine"));
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(numLine->sizePolicy().hasHeightForWidth());
         numLine->setSizePolicy(sizePolicy1);
 
@@ -203,7 +176,6 @@ public:
     void retranslateUi(QDialog *AddAutoDialog)
     {
         AddAutoDialog->setWindowTitle(QCoreApplication::translate("AddAutoDialog", "Add Auto", nullptr));
-        idLbl->setText(QCoreApplication::translate("AddAutoDialog", "ID", nullptr));
         numLbl->setText(QCoreApplication::translate("AddAutoDialog", "Num", nullptr));
         colorLbl->setText(QCoreApplication::translate("AddAutoDialog", "Color", nullptr));
         markLbl->setText(QCoreApplication::translate("AddAutoDialog", "Mark", nullptr));

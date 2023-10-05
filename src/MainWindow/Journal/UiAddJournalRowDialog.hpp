@@ -25,16 +25,10 @@ class Ui_AddJournalRowDialog
 {
 public:
     QVBoxLayout *verticalLayout;
-    QHBoxLayout *horizontalLayout_2;
-    QSpacerItem *horizontalSpacer_8;
-    QLabel *idLbl;
-    QLineEdit *idLine;
     QHBoxLayout *horizontalLayout_3;
-    QSpacerItem *horizontalSpacer_7;
     QLabel *timeOutLbl;
     QLineEdit *timeOutLine;
     QHBoxLayout *horizontalLayout_4;
-    QSpacerItem *horizontalSpacer_6;
     QLabel *timeInLbl;
     QLineEdit *timeInLine;
     QHBoxLayout *horizontalLayout_5;
@@ -53,46 +47,16 @@ public:
     {
         if (AddJournalRowDialog->objectName().isEmpty())
             AddJournalRowDialog->setObjectName(QString::fromUtf8("AddJournalRowDialog"));
-        AddJournalRowDialog->resize(196, 234);
+        AddJournalRowDialog->resize(282, 200);
         verticalLayout = new QVBoxLayout(AddJournalRowDialog);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        horizontalSpacer_8 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_2->addItem(horizontalSpacer_8);
-
-        idLbl = new QLabel(AddJournalRowDialog);
-        idLbl->setObjectName(QString::fromUtf8("idLbl"));
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        timeOutLbl = new QLabel(AddJournalRowDialog);
+        timeOutLbl->setObjectName(QString::fromUtf8("timeOutLbl"));
         QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(idLbl->sizePolicy().hasHeightForWidth());
-        idLbl->setSizePolicy(sizePolicy);
-
-        horizontalLayout_2->addWidget(idLbl);
-
-        idLine = new QLineEdit(AddJournalRowDialog);
-        idLine->setObjectName(QString::fromUtf8("idLine"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(idLine->sizePolicy().hasHeightForWidth());
-        idLine->setSizePolicy(sizePolicy1);
-
-        horizontalLayout_2->addWidget(idLine);
-
-
-        verticalLayout->addLayout(horizontalLayout_2);
-
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
-        horizontalSpacer_7 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_3->addItem(horizontalSpacer_7);
-
-        timeOutLbl = new QLabel(AddJournalRowDialog);
-        timeOutLbl->setObjectName(QString::fromUtf8("timeOutLbl"));
         sizePolicy.setHeightForWidth(timeOutLbl->sizePolicy().hasHeightForWidth());
         timeOutLbl->setSizePolicy(sizePolicy);
 
@@ -100,6 +64,9 @@ public:
 
         timeOutLine = new QLineEdit(AddJournalRowDialog);
         timeOutLine->setObjectName(QString::fromUtf8("timeOutLine"));
+        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(timeOutLine->sizePolicy().hasHeightForWidth());
         timeOutLine->setSizePolicy(sizePolicy1);
 
@@ -110,10 +77,6 @@ public:
 
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
-        horizontalSpacer_6 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_4->addItem(horizontalSpacer_6);
-
         timeInLbl = new QLabel(AddJournalRowDialog);
         timeInLbl->setObjectName(QString::fromUtf8("timeInLbl"));
         sizePolicy.setHeightForWidth(timeInLbl->sizePolicy().hasHeightForWidth());
@@ -146,8 +109,11 @@ public:
 
         autoIdLine = new QLineEdit(AddJournalRowDialog);
         autoIdLine->setObjectName(QString::fromUtf8("autoIdLine"));
-        sizePolicy1.setHeightForWidth(autoIdLine->sizePolicy().hasHeightForWidth());
-        autoIdLine->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(autoIdLine->sizePolicy().hasHeightForWidth());
+        autoIdLine->setSizePolicy(sizePolicy2);
 
         horizontalLayout_5->addWidget(autoIdLine);
 
@@ -169,8 +135,8 @@ public:
 
         routeIdLine = new QLineEdit(AddJournalRowDialog);
         routeIdLine->setObjectName(QString::fromUtf8("routeIdLine"));
-        sizePolicy1.setHeightForWidth(routeIdLine->sizePolicy().hasHeightForWidth());
-        routeIdLine->setSizePolicy(sizePolicy1);
+        sizePolicy2.setHeightForWidth(routeIdLine->sizePolicy().hasHeightForWidth());
+        routeIdLine->setSizePolicy(sizePolicy2);
 
         horizontalLayout_6->addWidget(routeIdLine);
 
@@ -203,7 +169,6 @@ public:
     void retranslateUi(QDialog *AddJournalRowDialog)
     {
         AddJournalRowDialog->setWindowTitle(QCoreApplication::translate("AddJournalRowDialog", "Add Journal Row", nullptr));
-        idLbl->setText(QCoreApplication::translate("AddJournalRowDialog", "ID", nullptr));
         timeOutLbl->setText(QCoreApplication::translate("AddJournalRowDialog", "Time OUT", nullptr));
         timeInLbl->setText(QCoreApplication::translate("AddJournalRowDialog", "Time IN", nullptr));
         autoIdLbl->setText(QCoreApplication::translate("AddJournalRowDialog", "Auto ID", nullptr));

@@ -10,27 +10,27 @@ JournalRow::JournalRow(Id_t id, std::optional< time_t > timeOut, std::optional< 
 
 }
 
-JournalRow::Id_t JournalRow::getId() const
+JournalRow::Id_t JournalRow::id() const
 {
   return id_;
 }
 
-std::optional<time_t> JournalRow::getTimeOut() const
+std::optional<time_t> JournalRow::timeOut() const
 {
   return timeOut_;
 }
 
-std::optional<time_t> JournalRow::getTimeIn() const
+std::optional<time_t> JournalRow::timeIn() const
 {
   return timeIn_;
 }
 
-JournalRow::Id_t JournalRow::getAutoId() const
+JournalRow::Id_t JournalRow::autoId() const
 {
   return autoId_;
 }
 
-JournalRow::Id_t JournalRow::getRouteId() const
+JournalRow::Id_t JournalRow::routeId() const
 {
   return routeId_;
 }

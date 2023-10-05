@@ -15,7 +15,6 @@ class AddRouteDialog : public QDialog
 public:
   AddRouteDialog(QWidget *parent = nullptr);
   ~AddRouteDialog();
-  QString getId();
   QString getName();
 
 private:

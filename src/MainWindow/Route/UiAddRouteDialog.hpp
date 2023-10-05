@@ -25,10 +25,6 @@ class Ui_AddRouteDialog
 {
 public:
     QVBoxLayout *verticalLayout;
-    QHBoxLayout *horizontalLayout_2;
-    QSpacerItem *horizontalSpacer_8;
-    QLabel *idLbl;
-    QLineEdit *idLine;
     QHBoxLayout *horizontalLayout_3;
     QSpacerItem *horizontalSpacer_7;
     QLabel *nameLbl;
@@ -41,38 +37,9 @@ public:
     {
         if (AddRouteDialog->objectName().isEmpty())
             AddRouteDialog->setObjectName(QString::fromUtf8("AddRouteDialog"));
-        AddRouteDialog->resize(217, 138);
+        AddRouteDialog->resize(217, 103);
         verticalLayout = new QVBoxLayout(AddRouteDialog);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        horizontalSpacer_8 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_2->addItem(horizontalSpacer_8);
-
-        idLbl = new QLabel(AddRouteDialog);
-        idLbl->setObjectName(QString::fromUtf8("idLbl"));
-        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(idLbl->sizePolicy().hasHeightForWidth());
-        idLbl->setSizePolicy(sizePolicy);
-
-        horizontalLayout_2->addWidget(idLbl);
-
-        idLine = new QLineEdit(AddRouteDialog);
-        idLine->setObjectName(QString::fromUtf8("idLine"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(idLine->sizePolicy().hasHeightForWidth());
-        idLine->setSizePolicy(sizePolicy1);
-
-        horizontalLayout_2->addWidget(idLine);
-
-
-        verticalLayout->addLayout(horizontalLayout_2);
-
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
         horizontalSpacer_7 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -81,6 +48,9 @@ public:
 
         nameLbl = new QLabel(AddRouteDialog);
         nameLbl->setObjectName(QString::fromUtf8("nameLbl"));
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(nameLbl->sizePolicy().hasHeightForWidth());
         nameLbl->setSizePolicy(sizePolicy);
 
@@ -88,6 +58,9 @@ public:
 
         nameLine = new QLineEdit(AddRouteDialog);
         nameLine->setObjectName(QString::fromUtf8("nameLine"));
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(nameLine->sizePolicy().hasHeightForWidth());
         nameLine->setSizePolicy(sizePolicy1);
 
@@ -122,7 +95,6 @@ public:
     void retranslateUi(QDialog *AddRouteDialog)
     {
         AddRouteDialog->setWindowTitle(QCoreApplication::translate("AddRouteDialog", "Add Route", nullptr));
-        idLbl->setText(QCoreApplication::translate("AddRouteDialog", "ID", nullptr));
         nameLbl->setText(QCoreApplication::translate("AddRouteDialog", "Name", nullptr));
     } // retranslateUi
 

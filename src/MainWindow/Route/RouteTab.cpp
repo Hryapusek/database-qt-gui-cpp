@@ -25,8 +25,8 @@ void RouteTab::refreshTable()
   {
     auto curRow = table_->rowCount();
     table_->insertRow(table_->rowCount());
-    auto idStr = QString::fromStdString(std::to_string(route.getId()));
-    auto name = QString::fromStdString(route.getName());
+    auto idStr = QString::fromStdString(std::to_string(route.id()));
+    auto name = QString::fromStdString(route.name());
     table_->setItem(curRow, Column::ID, new QTableWidgetItem(idStr));
     table_->setItem(curRow, Column::NAME, new QTableWidgetItem(name));
   }
@@ -65,7 +65,6 @@ void RouteTab::addBtnClicked()
   // Try-Catch if person with id already exist?
   if (result == QDialog::Accepted)
   {
-    std::cout << "Id " << addRouteDialog->getId().toStdString() << '\n';
     std::cout << "Num " << addRouteDialog->getName().toStdString() << '\n';
   }
   else

@@ -8,8 +8,6 @@ AddAutoDialog::AddAutoDialog(QWidget *parent) :
   ui(std::make_unique<Ui::AddAutoDialog>())
 {
   ui->setupUi(this);
-  auto idLineValidator = new QRegExpValidator(QRegExp("[-]?[1-9]{8}"), ui->idLine);
-  ui->idLine->setValidator(idLineValidator);
 
   auto numLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z0-9]{20}"), ui->numLine);
   ui->numLine->setValidator(numLineValidator);
@@ -26,11 +24,6 @@ AddAutoDialog::AddAutoDialog(QWidget *parent) :
 
 AddAutoDialog::~AddAutoDialog()
 {}
-
-QString AddAutoDialog::getId()
-{
-  return ui->idLine->text();
-}
 
 QString AddAutoDialog::getNum()
 {

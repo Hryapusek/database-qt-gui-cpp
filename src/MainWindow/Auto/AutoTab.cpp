@@ -25,11 +25,11 @@ void AutoTab::refreshTable()
   {
     auto curRow = table_->rowCount();
     table_->insertRow(table_->rowCount());
-    auto idStr = QString::fromStdString(std::to_string(autoObj.getId()));
-    auto num = QString::fromStdString(autoObj.getNum());
-    auto color = QString::fromStdString(autoObj.getColor());
-    auto mark = QString::fromStdString(autoObj.getMark());
-    auto personIdStr = QString::fromStdString(std::to_string(autoObj.getPersonId()));
+    auto idStr = QString::fromStdString(std::to_string(autoObj.id()));
+    auto num = QString::fromStdString(autoObj.num());
+    auto color = QString::fromStdString(autoObj.color());
+    auto mark = QString::fromStdString(autoObj.mark());
+    auto personIdStr = QString::fromStdString(std::to_string(autoObj.personId()));
     table_->setItem(curRow, Column::ID, new QTableWidgetItem(idStr));
     table_->setItem(curRow, Column::NUM, new QTableWidgetItem(num));
     table_->setItem(curRow, Column::COLOR, new QTableWidgetItem(color));
@@ -71,7 +71,6 @@ void AutoTab::addBtnClicked()
   // Try-Catch if person with id already exist?
   if (result == QDialog::Accepted)
   {
-    std::cout << "Id " << addAutoDialog->getId().toStdString() << '\n';
     std::cout << "Num " << addAutoDialog->getNum().toStdString() << '\n';
   }
   else

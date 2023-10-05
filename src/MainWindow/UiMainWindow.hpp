@@ -10,6 +10,7 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
@@ -29,8 +30,10 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
+    QAction *actionReset_connection;
+    QAction *actionSettings;
     QWidget *centralwidget;
-    QHBoxLayout *horizontalLayout;
+    QVBoxLayout *verticalLayout_5;
     QTabWidget *tabs;
     QWidget *personnelTab;
     QHBoxLayout *horizontalLayout_5;
@@ -72,6 +75,11 @@ public:
     QSpacerItem *verticalSpacer_8;
     QPushButton *refreshJournalBtn;
     QSpacerItem *verticalSpacer_4;
+    QGroupBox *groupBox_5;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *resetBtn;
+    QSpacerItem *horizontalSpacer;
+    QPushButton *settingsBtn;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -80,10 +88,14 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->resize(978, 667);
+        actionReset_connection = new QAction(MainWindow);
+        actionReset_connection->setObjectName(QString::fromUtf8("actionReset_connection"));
+        actionSettings = new QAction(MainWindow);
+        actionSettings->setObjectName(QString::fromUtf8("actionSettings"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
-        horizontalLayout = new QHBoxLayout(centralwidget);
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        verticalLayout_5 = new QVBoxLayout(centralwidget);
+        verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
         tabs = new QTabWidget(centralwidget);
         tabs->setObjectName(QString::fromUtf8("tabs"));
         personnelTab = new QWidget();
@@ -287,7 +299,36 @@ public:
 
         tabs->addTab(journalTab, QString());
 
-        horizontalLayout->addWidget(tabs);
+        verticalLayout_5->addWidget(tabs);
+
+        groupBox_5 = new QGroupBox(centralwidget);
+        groupBox_5->setObjectName(QString::fromUtf8("groupBox_5"));
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(groupBox_5->sizePolicy().hasHeightForWidth());
+        groupBox_5->setSizePolicy(sizePolicy);
+        groupBox_5->setMinimumSize(QSize(0, 20));
+        groupBox_5->setMaximumSize(QSize(16777215, 40));
+        horizontalLayout = new QHBoxLayout(groupBox_5);
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setContentsMargins(-1, 2, -1, 2);
+        resetBtn = new QPushButton(groupBox_5);
+        resetBtn->setObjectName(QString::fromUtf8("resetBtn"));
+
+        horizontalLayout->addWidget(resetBtn);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+        settingsBtn = new QPushButton(groupBox_5);
+        settingsBtn->setObjectName(QString::fromUtf8("settingsBtn"));
+
+        horizontalLayout->addWidget(settingsBtn);
+
+
+        verticalLayout_5->addWidget(groupBox_5);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -309,6 +350,8 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        actionReset_connection->setText(QCoreApplication::translate("MainWindow", "Reset connection", nullptr));
+        actionSettings->setText(QCoreApplication::translate("MainWindow", "Settings", nullptr));
         QTableWidgetItem *___qtablewidgetitem = personnelTable->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = personnelTable->horizontalHeaderItem(1);
@@ -361,6 +404,9 @@ public:
         removeJournalRowBtn->setText(QCoreApplication::translate("MainWindow", "Remove", nullptr));
         refreshJournalBtn->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
         tabs->setTabText(tabs->indexOf(journalTab), QCoreApplication::translate("MainWindow", "JOURNAL", nullptr));
+        groupBox_5->setTitle(QString());
+        resetBtn->setText(QCoreApplication::translate("MainWindow", "Reset Connection", nullptr));
+        settingsBtn->setText(QCoreApplication::translate("MainWindow", "Settings", nullptr));
     } // retranslateUi
 
 };

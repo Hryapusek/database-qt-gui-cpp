@@ -1,0 +1,1 @@
+odb -x -std=c++17 --std c++14 -d pgsql --generate-query --generate-schema ./Person.hpp ./Auto.hpp ./Route.hpp ./JournalRow.hpp

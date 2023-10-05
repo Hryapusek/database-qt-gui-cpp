@@ -26,10 +26,10 @@ void PersonTab::refreshTable()
   {
     auto curRow = table_->rowCount();
     table_->insertRow(table_->rowCount());
-    auto idStr = QString::fromStdString(std::to_string(person.getId()));
+    auto idStr = QString::fromStdString(std::to_string(person.id()));
     auto firstName = QString::fromStdString(person.getFirstName());
-    auto secondName = QString::fromStdString(person.getSecondName());
-    auto fatherName = QString::fromStdString(person.getFatherName());
+    auto secondName = QString::fromStdString(person.secondName());
+    auto fatherName = QString::fromStdString(person.fatherName());
     table_->setItem(curRow, Column::ID, new QTableWidgetItem(idStr));
     table_->setItem(curRow, Column::FIRST_NAME, new QTableWidgetItem(firstName));
     table_->setItem(curRow, Column::SECOND_NAME, new QTableWidgetItem(secondName));
@@ -70,7 +70,6 @@ void PersonTab::addBtnClicked()
   // Try-Catch if person with id already exist?
   if (result == QDialog::Accepted)
   {
-    std::cout << "Id " << addPersonDialog->getId().toStdString() << '\n';
     std::cout << "First name " << addPersonDialog->getFirstName().toStdString() << '\n';
     std::cout << "Second name " << addPersonDialog->getSecondName().toStdString() << '\n';
     std::cout << "Father name " << addPersonDialog->getFatherName().toStdString() << '\n';

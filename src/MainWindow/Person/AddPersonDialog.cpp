@@ -8,8 +8,6 @@ AddPersonDialog::AddPersonDialog(QWidget *parent) :
   ui(std::make_unique<Ui::AddPersonDialog>())
 {
   ui->setupUi(this);
-  auto idLineValidator = new QRegExpValidator(QRegExp("[-]?[1-9]{8}"), ui->idLine);
-  ui->idLine->setValidator(idLineValidator);
 
   auto firstNameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->firstNameLine);
   ui->firstNameLine->setValidator(firstNameLineValidator);
@@ -23,11 +21,6 @@ AddPersonDialog::AddPersonDialog(QWidget *parent) :
 
 AddPersonDialog::~AddPersonDialog()
 {}
-
-QString AddPersonDialog::getId()
-{
-  return ui->idLine->text();
-}
 
 QString AddPersonDialog::getFirstName()
 {

@@ -8,22 +8,22 @@ Person::Person(Id_t id, std::string firstName, std::string secondName, std::stri
 {
 }
 
-Person::Id_t Person::getId() const
+Person::Id_t Person::id() const
 {
   return id_;
 }
 
-const std::string &Person::getFirstName() const
+const std::string &Person::firstName() const
 {
-  return firstName_;
+  return *firstName_;
 }
 
-const std::string &Person::getSecondName() const
+const std::string &Person::secondName() const
 {
   return secondName_;
 }
 
-const std::string &Person::getFatherName() const
+const std::string &Person::fatherName() const
 {
   return fatherName_;
 }
