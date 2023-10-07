@@ -1,13 +1,7 @@
 # Current tasks
 
 # Tasks
-- Second name to Last name
-- Remove id Setters
-- "Update Row" Api
-- "Remove Row" Api
-
 - Settings dialog
-- Database Api | Add ODB
 - On cell change
 
 # Done tasks
@@ -28,3 +22,6 @@
 - Connect Add btn to dialog
 - Make objects persistable 7.10
 - Establish connection with database 7.10
+- "Update Row" Api 8.10
+- "Remove Row" Api 8.10
+- Database Api | Add ODB 8.10
