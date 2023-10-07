@@ -12,7 +12,7 @@ namespace odb
   access::object_traits< ::Auto >::
   id (const object_type& o)
   {
-    // From Auto.hpp:39:35
+    // From Auto.hpp:40:35
     return o.id ();
   }
 

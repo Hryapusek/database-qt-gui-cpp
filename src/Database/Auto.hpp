@@ -49,7 +49,7 @@ private:
   #pragma db access(mark) null column("MARK") type("VARCHAR(20)")
   NullableStr_t mark_;
 
-  #pragma db column("PERSONNEL_ID")
+  #pragma db column("PERSONNEL_ID") on_delete(cascade)
   Sh_Ptr_t< Person > person_;
 
 };

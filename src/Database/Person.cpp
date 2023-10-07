@@ -27,12 +27,12 @@ void Person::firstName(NullableStr_t firstName)
   firstName_ = std::move(firstName);
 }
 
-const Person::NullableStr_t &Person::secondName() const
+const Person::NullableStr_t &Person::lastName() const
 {
   return secondName_;
 }
 
-void Person::secondName(NullableStr_t secondName)
+void Person::lastName(NullableStr_t secondName)
 {
   secondName_ = std::move(secondName);
 }

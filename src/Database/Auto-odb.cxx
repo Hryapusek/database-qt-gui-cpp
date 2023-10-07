@@ -5,7 +5,6 @@
 #include <odb/pre.hxx>
 
 #include "Auto-odb.hxx"
-#include "Person-odb.hxx"
 
 #include <cassert>
 #include <cstring>  // std::memcpy
@@ -254,7 +253,7 @@ namespace odb
     // num_
     //
     {
-      // From Auto.hpp:42:14
+      // From Auto.hpp:43:14
       ::Auto::NullableStr_t const& v =
         o.num ();
 
@@ -276,7 +275,7 @@ namespace odb
     // color_
     //
     {
-      // From Auto.hpp:45:14
+      // From Auto.hpp:46:14
       ::Auto::NullableStr_t const& v =
         o.color ();
 
@@ -298,7 +297,7 @@ namespace odb
     // mark_
     //
     {
-      // From Auto.hpp:48:14
+      // From Auto.hpp:49:14
       ::Auto::NullableStr_t const& v =
         o.mark ();
 
@@ -357,7 +356,7 @@ namespace odb
     // id_
     //
     {
-      // From Auto.hpp:39:35
+      // From Auto.hpp:40:35
       long int v;
 
       pgsql::value_traits<
@@ -367,14 +366,14 @@ namespace odb
         i.id_value,
         i.id_null);
 
-      // From Auto.hpp:39:35
+      // From Auto.hpp:40:35
       o.id (v);
     }
 
     // num_
     //
     {
-      // From Auto.hpp:42:14
+      // From Auto.hpp:43:14
       ::Auto::NullableStr_t v;
 
       pgsql::value_traits<
@@ -385,14 +384,14 @@ namespace odb
         i.num_size,
         i.num_null);
 
-      // From Auto.hpp:42:14
+      // From Auto.hpp:43:14
       o.num (v);
     }
 
     // color_
     //
     {
-      // From Auto.hpp:45:14
+      // From Auto.hpp:46:14
       ::Auto::NullableStr_t v;
 
       pgsql::value_traits<
@@ -403,14 +402,14 @@ namespace odb
         i.color_size,
         i.color_null);
 
-      // From Auto.hpp:45:14
+      // From Auto.hpp:46:14
       o.color (v);
     }
 
     // mark_
     //
     {
-      // From Auto.hpp:48:14
+      // From Auto.hpp:49:14
       ::Auto::NullableStr_t v;
 
       pgsql::value_traits<
@@ -421,7 +420,7 @@ namespace odb
         i.mark_size,
         i.mark_null);
 
-      // From Auto.hpp:48:14
+      // From Auto.hpp:49:14
       o.mark (v);
     }
 
@@ -565,7 +564,7 @@ namespace odb
     if (!st.execute ())
       throw object_already_persistent ();
 
-    // From Auto.hpp:39:35
+    // From Auto.hpp:40:35
     obj.id (id (sts.id_image ()));
 
     callback (db,
@@ -588,7 +587,7 @@ namespace odb
     statements_type& sts (
       conn.statement_cache ().find_object<object_type> ());
 
-    // From Auto.hpp:39:35
+    // From Auto.hpp:40:35
     const id_type& id (
       obj.id ());
     id_image_type& idi (sts.id_image ());
@@ -765,7 +764,7 @@ namespace odb
 
     statements_type::auto_lock l (sts);
 
-    // From Auto.hpp:39:35
+    // From Auto.hpp:40:35
     const id_type& id  (
       obj.id ());
 

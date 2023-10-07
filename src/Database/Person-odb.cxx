@@ -259,7 +259,7 @@ namespace odb
     {
       // From Person.hpp:39:14
       ::Person::NullableStr_t const& v =
-        o.secondName ();
+        o.lastName ();
 
       bool is_null (true);
       std::size_t size (0);
@@ -360,7 +360,7 @@ namespace odb
         i.secondName_null);
 
       // From Person.hpp:39:14
-      o.secondName (v);
+      o.lastName (v);
     }
 
     // fatherName_
@@ -399,8 +399,8 @@ namespace odb
   "INSERT INTO \"AUTO_PERSONNEL\" "
   "(\"ID\", "
   "\"FIRST_NAME\", "
-  "\"SECOND_NAME\", "
-  "\"FATHER_NAME\") "
+  "\"LAST_NAME\", "
+  "\"PATHER_NAME\") "
   "VALUES "
   "(DEFAULT, $1, $2, $3) "
   "RETURNING \"ID\"";
@@ -409,8 +409,8 @@ namespace odb
   "SELECT "
   "\"AUTO_PERSONNEL\".\"ID\", "
   "\"AUTO_PERSONNEL\".\"FIRST_NAME\", "
-  "\"AUTO_PERSONNEL\".\"SECOND_NAME\", "
-  "\"AUTO_PERSONNEL\".\"FATHER_NAME\" "
+  "\"AUTO_PERSONNEL\".\"LAST_NAME\", "
+  "\"AUTO_PERSONNEL\".\"PATHER_NAME\" "
   "FROM \"AUTO_PERSONNEL\" "
   "WHERE \"AUTO_PERSONNEL\".\"ID\"=$1";
 
@@ -418,8 +418,8 @@ namespace odb
   "UPDATE \"AUTO_PERSONNEL\" "
   "SET "
   "\"FIRST_NAME\"=$1, "
-  "\"SECOND_NAME\"=$2, "
-  "\"FATHER_NAME\"=$3 "
+  "\"LAST_NAME\"=$2, "
+  "\"PATHER_NAME\"=$3 "
   "WHERE \"ID\"=$4";
 
   const char access::object_traits_impl< ::Person, id_pgsql >::erase_statement[] =
@@ -430,8 +430,8 @@ namespace odb
   "SELECT "
   "\"AUTO_PERSONNEL\".\"ID\", "
   "\"AUTO_PERSONNEL\".\"FIRST_NAME\", "
-  "\"AUTO_PERSONNEL\".\"SECOND_NAME\", "
-  "\"AUTO_PERSONNEL\".\"FATHER_NAME\" "
+  "\"AUTO_PERSONNEL\".\"LAST_NAME\", "
+  "\"AUTO_PERSONNEL\".\"PATHER_NAME\" "
   "FROM \"AUTO_PERSONNEL\"";
 
   const char access::object_traits_impl< ::Person, id_pgsql >::erase_query_statement[] =

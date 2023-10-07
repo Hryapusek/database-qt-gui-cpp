@@ -22,8 +22,8 @@ public:
   void id(Id_t);
   const NullableStr_t &firstName() const;
   void firstName(NullableStr_t firstName);
-  const NullableStr_t &secondName() const;
-  void secondName(NullableStr_t secondName);
+  const NullableStr_t &lastName() const;
+  void lastName(NullableStr_t secondName);
   const NullableStr_t &fatherName() const;
   void fatherName(NullableStr_t fatherName);
 
@@ -36,10 +36,10 @@ private:
   #pragma db access(firstName) null column("FIRST_NAME") type("VARCHAR(20)")
   NullableStr_t firstName_;
 
-  #pragma db access(secondName) null column("SECOND_NAME") type("VARCHAR(20)")
+  #pragma db access(lastName) null column("LAST_NAME") type("VARCHAR(20)")
   NullableStr_t secondName_;
 
-  #pragma db access(fatherName) null column("FATHER_NAME") type("VARCHAR(20)")
+  #pragma db access(fatherName) null column("PATHER_NAME") type("VARCHAR(20)")
   NullableStr_t fatherName_;
 
 };

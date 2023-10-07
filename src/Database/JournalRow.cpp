@@ -23,7 +23,7 @@ odb::nullable<time_t> JournalRow::timeIn() const
   return timeIn_;
 }
 
-JournalRow::Sh_Ptr_t< Auto > JournalRow::autoObj()
+JournalRow::Sh_Ptr_t< Auto > JournalRow::autoObj() const
 {
   return auto_;
 }
@@ -33,7 +33,7 @@ void JournalRow::autoObj(Sh_Ptr_t< Auto > autoObj)
   auto_ = std::move(autoObj);
 }
 
-JournalRow::Sh_Ptr_t< Route > JournalRow::route()
+JournalRow::Sh_Ptr_t< Route > JournalRow::route() const
 {
   return route_;
 }

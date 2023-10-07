@@ -15,6 +15,8 @@
 
 #include "Auto.hpp"
 
+#include "Person-odb.hxx"
+
 #include <memory>
 #include <cstddef>
 #include <utility>

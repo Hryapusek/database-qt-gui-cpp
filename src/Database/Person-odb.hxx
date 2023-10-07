@@ -156,12 +156,12 @@ namespace odb
   template <typename A>
   const typename query_columns< ::Person, id_pgsql, A >::secondName_type_
   query_columns< ::Person, id_pgsql, A >::
-  secondName (A::table_name, "\"SECOND_NAME\"", 0);
+  secondName (A::table_name, "\"LAST_NAME\"", 0);
 
   template <typename A>
   const typename query_columns< ::Person, id_pgsql, A >::fatherName_type_
   query_columns< ::Person, id_pgsql, A >::
-  fatherName (A::table_name, "\"FATHER_NAME\"", 0);
+  fatherName (A::table_name, "\"PATHER_NAME\"", 0);
 
   template <typename A>
   struct pointer_query_columns< ::Person, id_pgsql, A >:

@@ -31,10 +31,10 @@ public:
   odb::nullable< time_t > timeIn() const;
   void timeIn(odb::nullable< time_t >);
 
-  Sh_Ptr_t< Auto > autoObj();
+  Sh_Ptr_t< Auto > autoObj() const;
   void autoObj(Sh_Ptr_t< Auto >);
 
-  Sh_Ptr_t< Route > route();
+  Sh_Ptr_t< Route > route() const;
   void route(Sh_Ptr_t< Route >);
 
 private:
@@ -50,10 +50,10 @@ private:
   #pragma db access(timeIn) null column("TIME_IN") type("TIMESTAMP")
   odb::nullable< time_t > timeIn_;
 
-  #pragma db column("ROUTE_ID")
+  #pragma db column("ROUTE_ID") on_delete(cascade)
   Sh_Ptr_t< Route > route_;
 
-  #pragma db column("AUTO_ID")
+  #pragma db column("AUTO_ID") on_delete(cascade)
   Sh_Ptr_t< Auto > auto_;
 };
 
