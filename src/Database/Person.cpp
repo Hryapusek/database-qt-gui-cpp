@@ -1,9 +1,9 @@
 #include "Person.hpp"
 
-Person::Person(Id_t id, std::string firstName, std::string secondName, std::string fatherName) :
+Person::Person(Id_t id, std::string firstName, std::string lastName, std::string fatherName) :
   id_(id),
   firstName_(std::move(firstName)),
-  secondName_(std::move(secondName)),
+  lastName_(std::move(lastName)),
   fatherName_(std::move(fatherName))
 { }
 
@@ -29,12 +29,12 @@ void Person::firstName(NullableStr_t firstName)
 
 const Person::NullableStr_t &Person::lastName() const
 {
-  return secondName_;
+  return lastName_;
 }
 
-void Person::lastName(NullableStr_t secondName)
+void Person::lastName(NullableStr_t lastName)
 {
-  secondName_ = std::move(secondName);
+  lastName_ = std::move(lastName);
 }
 
 const Person::NullableStr_t &Person::fatherName() const

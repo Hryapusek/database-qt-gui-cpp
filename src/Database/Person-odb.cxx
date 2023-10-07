@@ -142,11 +142,11 @@ namespace odb
       grew = true;
     }
 
-    // secondName_
+    // lastName_
     //
     if (t[2UL])
     {
-      i.secondName_value.capacity (i.secondName_size);
+      i.lastName_value.capacity (i.lastName_size);
       grew = true;
     }
 
@@ -191,13 +191,13 @@ namespace odb
     b[n].is_null = &i.firstName_null;
     n++;
 
-    // secondName_
+    // lastName_
     //
     b[n].type = pgsql::bind::text;
-    b[n].buffer = i.secondName_value.data ();
-    b[n].capacity = i.secondName_value.capacity ();
-    b[n].size = &i.secondName_size;
-    b[n].is_null = &i.secondName_null;
+    b[n].buffer = i.lastName_value.data ();
+    b[n].capacity = i.lastName_value.capacity ();
+    b[n].size = &i.lastName_size;
+    b[n].is_null = &i.lastName_null;
     n++;
 
     // fatherName_
@@ -254,7 +254,7 @@ namespace odb
       grew = grew || (cap != i.firstName_value.capacity ());
     }
 
-    // secondName_
+    // lastName_
     //
     {
       // From Person.hpp:39:14
@@ -263,17 +263,17 @@ namespace odb
 
       bool is_null (true);
       std::size_t size (0);
-      std::size_t cap (i.secondName_value.capacity ());
+      std::size_t cap (i.lastName_value.capacity ());
       pgsql::value_traits<
           ::Person::NullableStr_t,
           pgsql::id_string >::set_image (
-        i.secondName_value,
+        i.lastName_value,
         size,
         is_null,
         v);
-      i.secondName_null = is_null;
-      i.secondName_size = size;
-      grew = grew || (cap != i.secondName_value.capacity ());
+      i.lastName_null = is_null;
+      i.lastName_size = size;
+      grew = grew || (cap != i.lastName_value.capacity ());
     }
 
     // fatherName_
@@ -345,7 +345,7 @@ namespace odb
       o.firstName (v);
     }
 
-    // secondName_
+    // lastName_
     //
     {
       // From Person.hpp:39:14
@@ -355,9 +355,9 @@ namespace odb
           ::Person::NullableStr_t,
           pgsql::id_string >::set_value (
         v,
-        i.secondName_value,
-        i.secondName_size,
-        i.secondName_null);
+        i.lastName_value,
+        i.lastName_size,
+        i.lastName_null);
 
       // From Person.hpp:39:14
       o.lastName (v);

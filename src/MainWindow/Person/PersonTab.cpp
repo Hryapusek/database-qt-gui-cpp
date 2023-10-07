@@ -28,7 +28,7 @@ void PersonTab::refreshTable()
     table_->insertRow(table_->rowCount());
     auto idStr = QString::fromStdString(std::to_string(person.id()));
     auto firstName = QString::fromStdString(person.getFirstName());
-    auto secondName = QString::fromStdString(person.secondName());
+    auto secondName = QString::fromStdString(person.lastName());
     auto fatherName = QString::fromStdString(person.fatherName());
     table_->setItem(curRow, Column::ID, new QTableWidgetItem(idStr));
     table_->setItem(curRow, Column::FIRST_NAME, new QTableWidgetItem(firstName));

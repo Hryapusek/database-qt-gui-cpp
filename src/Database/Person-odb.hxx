@@ -118,7 +118,7 @@ namespace odb
 
     static const firstName_type_ firstName;
 
-    // secondName
+    // lastName
     //
     typedef
     pgsql::query_column<
@@ -126,9 +126,9 @@ namespace odb
         ::std::basic_string< char >,
         pgsql::id_string >::query_type,
       pgsql::id_string >
-    secondName_type_;
+    lastName_type_;
 
-    static const secondName_type_ secondName;
+    static const lastName_type_ lastName;
 
     // fatherName
     //
@@ -154,9 +154,9 @@ namespace odb
   firstName (A::table_name, "\"FIRST_NAME\"", 0);
 
   template <typename A>
-  const typename query_columns< ::Person, id_pgsql, A >::secondName_type_
+  const typename query_columns< ::Person, id_pgsql, A >::lastName_type_
   query_columns< ::Person, id_pgsql, A >::
-  secondName (A::table_name, "\"LAST_NAME\"", 0);
+  lastName (A::table_name, "\"LAST_NAME\"", 0);
 
   template <typename A>
   const typename query_columns< ::Person, id_pgsql, A >::fatherName_type_
@@ -195,11 +195,11 @@ namespace odb
       std::size_t firstName_size;
       bool firstName_null;
 
-      // secondName_
+      // lastName_
       //
-      details::buffer secondName_value;
-      std::size_t secondName_size;
-      bool secondName_null;
+      details::buffer lastName_value;
+      std::size_t lastName_size;
+      bool lastName_null;
 
       // fatherName_
       //
