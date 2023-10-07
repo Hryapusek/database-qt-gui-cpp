@@ -12,7 +12,7 @@ namespace odb
   access::object_traits< ::JournalRow >::
   id (const object_type& o)
   {
-    // From JournalRow.hpp:40:35
+    // From JournalRow.hpp:44:35
     return o.id ();
   }
 

@@ -12,7 +12,7 @@ namespace odb
   access::object_traits< ::Person >::
   id (const object_type& o)
   {
-    // From Person.hpp:35:35
+    // From Person.hpp:33:35
     return o.id ();
   }
 

@@ -54,7 +54,7 @@ namespace odb
 
     static const bool polymorphic = false;
 
-    typedef ::Auto::Id_t id_type;
+    typedef long int id_type;
 
     static const bool auto_id = true;
 
@@ -99,7 +99,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Auto::Id_t,
+        long int,
         pgsql::id_bigint >::query_type,
       pgsql::id_bigint >
     id_type_;
@@ -111,7 +111,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Auto::NullableStr_t,
+        ::std::basic_string< char >,
         pgsql::id_string >::query_type,
       pgsql::id_string >
     num_type_;
@@ -123,7 +123,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Auto::NullableStr_t,
+        ::std::basic_string< char >,
         pgsql::id_string >::query_type,
       pgsql::id_string >
     color_type_;
@@ -135,7 +135,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Auto::NullableStr_t,
+        ::std::basic_string< char >,
         pgsql::id_string >::query_type,
       pgsql::id_string >
     mark_type_;
@@ -147,7 +147,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Person::Id_t,
+        long int,
         pgsql::id_bigint >::query_type,
       pgsql::id_bigint >
     person_type_;
@@ -375,7 +375,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Auto::Id_t,
+        long int,
         pgsql::id_bigint >::query_type,
       pgsql::id_bigint >
     id_type_;
@@ -387,7 +387,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Auto::NullableStr_t,
+        ::std::basic_string< char >,
         pgsql::id_string >::query_type,
       pgsql::id_string >
     num_type_;
@@ -399,7 +399,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Auto::NullableStr_t,
+        ::std::basic_string< char >,
         pgsql::id_string >::query_type,
       pgsql::id_string >
     color_type_;
@@ -411,7 +411,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Auto::NullableStr_t,
+        ::std::basic_string< char >,
         pgsql::id_string >::query_type,
       pgsql::id_string >
     mark_type_;
@@ -423,7 +423,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Person::Id_t,
+        long int,
         pgsql::id_bigint >::query_type,
       pgsql::id_bigint >
     person_column_type_;

@@ -91,7 +91,7 @@ namespace odb
     id_type id;
     {
       pgsql::value_traits<
-          ::Person::Id_t,
+          long int,
           pgsql::id_bigint >::set_value (
         id,
         i.id_value,
@@ -111,7 +111,7 @@ namespace odb
     id_type id;
     {
       pgsql::value_traits<
-          ::Person::Id_t,
+          long int,
           pgsql::id_bigint >::set_value (
         id,
         i.id_value,
@@ -235,7 +235,7 @@ namespace odb
     // firstName_
     //
     {
-      // From Person.hpp:38:14
+      // From Person.hpp:36:14
       ::Person::NullableStr_t const& v =
         o.firstName ();
 
@@ -257,7 +257,7 @@ namespace odb
     // secondName_
     //
     {
-      // From Person.hpp:41:14
+      // From Person.hpp:39:14
       ::Person::NullableStr_t const& v =
         o.secondName ();
 
@@ -279,7 +279,7 @@ namespace odb
     // fatherName_
     //
     {
-      // From Person.hpp:44:14
+      // From Person.hpp:42:14
       ::Person::NullableStr_t const& v =
         o.fatherName ();
 
@@ -313,24 +313,24 @@ namespace odb
     // id_
     //
     {
-      // From Person.hpp:35:35
-      ::Person::Id_t v;
+      // From Person.hpp:33:35
+      long int v;
 
       pgsql::value_traits<
-          ::Person::Id_t,
+          long int,
           pgsql::id_bigint >::set_value (
         v,
         i.id_value,
         i.id_null);
 
-      // From Person.hpp:35:35
+      // From Person.hpp:33:35
       o.id (v);
     }
 
     // firstName_
     //
     {
-      // From Person.hpp:38:14
+      // From Person.hpp:36:14
       ::Person::NullableStr_t v;
 
       pgsql::value_traits<
@@ -341,14 +341,14 @@ namespace odb
         i.firstName_size,
         i.firstName_null);
 
-      // From Person.hpp:38:14
+      // From Person.hpp:36:14
       o.firstName (v);
     }
 
     // secondName_
     //
     {
-      // From Person.hpp:41:14
+      // From Person.hpp:39:14
       ::Person::NullableStr_t v;
 
       pgsql::value_traits<
@@ -359,14 +359,14 @@ namespace odb
         i.secondName_size,
         i.secondName_null);
 
-      // From Person.hpp:41:14
+      // From Person.hpp:39:14
       o.secondName (v);
     }
 
     // fatherName_
     //
     {
-      // From Person.hpp:44:14
+      // From Person.hpp:42:14
       ::Person::NullableStr_t v;
 
       pgsql::value_traits<
@@ -377,7 +377,7 @@ namespace odb
         i.fatherName_size,
         i.fatherName_null);
 
-      // From Person.hpp:44:14
+      // From Person.hpp:42:14
       o.fatherName (v);
     }
   }
@@ -388,7 +388,7 @@ namespace odb
     {
       bool is_null (false);
       pgsql::value_traits<
-          ::Person::Id_t,
+          long int,
           pgsql::id_bigint >::set_image (
         i.id_value, is_null, id);
       i.id_null = is_null;
@@ -485,7 +485,7 @@ namespace odb
     if (!st.execute ())
       throw object_already_persistent ();
 
-    // From Person.hpp:35:35
+    // From Person.hpp:33:35
     obj.id (id (sts.id_image ()));
 
     callback (db,
@@ -508,7 +508,7 @@ namespace odb
     statements_type& sts (
       conn.statement_cache ().find_object<object_type> ());
 
-    // From Person.hpp:35:35
+    // From Person.hpp:33:35
     const id_type& id (
       obj.id ());
     id_image_type& idi (sts.id_image ());
@@ -685,7 +685,7 @@ namespace odb
 
     statements_type::auto_lock l (sts);
 
-    // From Person.hpp:35:35
+    // From Person.hpp:33:35
     const id_type& id  (
       obj.id ());
 

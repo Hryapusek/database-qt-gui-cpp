@@ -54,7 +54,7 @@ namespace odb
 
     static const bool polymorphic = false;
 
-    typedef ::JournalRow::Id_t id_type;
+    typedef long int id_type;
 
     static const bool auto_id = true;
 
@@ -99,7 +99,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::JournalRow::Id_t,
+        long int,
         pgsql::id_bigint >::query_type,
       pgsql::id_bigint >
     id_type_;
@@ -111,7 +111,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::std::optional< long int >,
+        long int,
         pgsql::id_timestamp >::query_type,
       pgsql::id_timestamp >
     timeOut_type_;
@@ -123,7 +123,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::std::optional< long int >,
+        long int,
         pgsql::id_timestamp >::query_type,
       pgsql::id_timestamp >
     timeIn_type_;
@@ -135,7 +135,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Route::Id_t,
+        long int,
         pgsql::id_bigint >::query_type,
       pgsql::id_bigint >
     route_type_;
@@ -147,7 +147,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Auto::Id_t,
+        long int,
         pgsql::id_bigint >::query_type,
       pgsql::id_bigint >
     auto__type_;
@@ -391,7 +391,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::JournalRow::Id_t,
+        long int,
         pgsql::id_bigint >::query_type,
       pgsql::id_bigint >
     id_type_;
@@ -403,7 +403,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::std::optional< long int >,
+        long int,
         pgsql::id_timestamp >::query_type,
       pgsql::id_timestamp >
     timeOut_type_;
@@ -415,7 +415,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::std::optional< long int >,
+        long int,
         pgsql::id_timestamp >::query_type,
       pgsql::id_timestamp >
     timeIn_type_;
@@ -427,7 +427,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Route::Id_t,
+        long int,
         pgsql::id_bigint >::query_type,
       pgsql::id_bigint >
     route_column_type_;
@@ -455,7 +455,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Auto::Id_t,
+        long int,
         pgsql::id_bigint >::query_type,
       pgsql::id_bigint >
     auto__column_type_;

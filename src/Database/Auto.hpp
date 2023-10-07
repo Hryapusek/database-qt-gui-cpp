@@ -3,38 +3,42 @@
 
 #include <odb/core.hxx>
 #include <odb/tr1/memory.hxx>
+#include <odb/nullable.hxx>
 
-#include <optional>
-#include <memory>
 #include <string>
 
 class Person;
+#include "Person.hpp"
 
 #pragma db object table("AUTO") pointer(std::tr1::shared_ptr)
 class Auto
 {
-  using NullableStr_t = std::optional<std::string>;
-
 public:
   using Id_t = long;
-  Auto() = default;
-  Auto(Id_t id, NullableStr_t num, NullableStr_t color, NullableStr_t mark, Id_t personId);
 
-  Id_t id() const;
-  void id(Id_t);
+  template < class T >
+  using Sh_Ptr_t = std::tr1::shared_ptr< T >;
+
+  using NullableStr_t = odb::nullable< std::string >;
+  Auto() = default;
+  Auto(long id, NullableStr_t num, NullableStr_t color, NullableStr_t mark, Sh_Ptr_t< Person > person);
+
+  long id() const;
+  void id(long);
   const NullableStr_t &num() const;
   void num(NullableStr_t);
   const NullableStr_t &color() const;
   void color(NullableStr_t);
   const NullableStr_t &mark() const;
   void mark(NullableStr_t);
-  std::shared_ptr<Person> person() const;
+  Sh_Ptr_t< Person > person() const;
+  void person(Sh_Ptr_t< Person >);
 
 private:
   friend class odb::access;
 
   #pragma db id auto column("ID") access(id)
-  Id_t id_;
+  long id_;
 
   #pragma db access(num) null column("NUM") type("VARCHAR(20)")
   NullableStr_t num_;
@@ -46,7 +50,7 @@ private:
   NullableStr_t mark_;
 
   #pragma db column("PERSONNEL_ID")
-  std::shared_ptr<Person> person_;
+  Sh_Ptr_t< Person > person_;
 
 };
 

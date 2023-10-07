@@ -54,7 +54,7 @@ namespace odb
 
     static const bool polymorphic = false;
 
-    typedef ::Person::Id_t id_type;
+    typedef long int id_type;
 
     static const bool auto_id = true;
 
@@ -99,7 +99,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Person::Id_t,
+        long int,
         pgsql::id_bigint >::query_type,
       pgsql::id_bigint >
     id_type_;
@@ -111,7 +111,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Person::NullableStr_t,
+        ::std::basic_string< char >,
         pgsql::id_string >::query_type,
       pgsql::id_string >
     firstName_type_;
@@ -123,7 +123,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Person::NullableStr_t,
+        ::std::basic_string< char >,
         pgsql::id_string >::query_type,
       pgsql::id_string >
     secondName_type_;
@@ -135,7 +135,7 @@ namespace odb
     typedef
     pgsql::query_column<
       pgsql::value_traits<
-        ::Person::NullableStr_t,
+        ::std::basic_string< char >,
         pgsql::id_string >::query_type,
       pgsql::id_string >
     fatherName_type_;

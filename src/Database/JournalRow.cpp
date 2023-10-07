@@ -1,36 +1,59 @@
 #include "JournalRow.hpp"
 
-JournalRow::JournalRow(Id_t id, std::optional< time_t > timeOut, std::optional< time_t > timeIn, Id_t autoId, Id_t routeId) :
+JournalRow::JournalRow(long id, odb::nullable< time_t > timeOut, odb::nullable< time_t > timeIn, Sh_Ptr_t< Auto > autoObj, Sh_Ptr_t< Route > route) :
   id_(id),
   timeOut_(timeOut),
   timeIn_(timeIn),
-  autoId_(autoId),
-  routeId_(routeId)
-{
+  auto_(std::move(autoObj)),
+  route_(std::move(route))
+{}
 
-}
-
-JournalRow::Id_t JournalRow::id() const
+long JournalRow::id() const
 {
   return id_;
 }
 
-std::optional<time_t> JournalRow::timeOut() const
+odb::nullable<time_t> JournalRow::timeOut() const
 {
   return timeOut_;
 }
 
-std::optional<time_t> JournalRow::timeIn() const
+odb::nullable<time_t> JournalRow::timeIn() const
 {
   return timeIn_;
 }
 
-JournalRow::Id_t JournalRow::autoId() const
+JournalRow::Sh_Ptr_t< Auto > JournalRow::autoObj()
 {
-  return autoId_;
+  return auto_;
 }
 
-JournalRow::Id_t JournalRow::routeId() const
+void JournalRow::autoObj(Sh_Ptr_t< Auto > autoObj)
 {
-  return routeId_;
+  auto_ = std::move(autoObj);
+}
+
+JournalRow::Sh_Ptr_t< Route > JournalRow::route()
+{
+  return route_;
+}
+
+void JournalRow::route(Sh_Ptr_t< Route > route)
+{
+  route_ = std::move(route);
+}
+
+void JournalRow::id(long id)
+{
+  id_ = id;
+}
+
+void JournalRow::timeOut(odb::nullable<time_t> timeOut)
+{
+  timeOut_ = timeOut;
+}
+
+void JournalRow::timeIn(odb::nullable<time_t> timeIn)
+{
+  timeIn_ = timeIn;
 }

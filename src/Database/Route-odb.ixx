@@ -12,7 +12,7 @@ namespace odb
   access::object_traits< ::Route >::
   id (const object_type& o)
   {
-    // From Route.hpp:28:35
+    // From Route.hpp:29:35
     return o.id ();
   }
 

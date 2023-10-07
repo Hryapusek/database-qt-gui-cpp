@@ -106,7 +106,7 @@ namespace odb
     id_type id;
     {
       pgsql::value_traits<
-          ::JournalRow::Id_t,
+          long int,
           pgsql::id_bigint >::set_value (
         id,
         i.id_value,
@@ -126,7 +126,7 @@ namespace odb
     id_type id;
     {
       pgsql::value_traits<
-          ::JournalRow::Id_t,
+          long int,
           pgsql::id_bigint >::set_value (
         id,
         i.id_value,
@@ -243,13 +243,13 @@ namespace odb
     // timeOut_
     //
     {
-      // From JournalRow.hpp:43:14
-      ::std::optional< long int > const& v =
+      // From JournalRow.hpp:47:14
+      ::odb::nullable< long int > const& v =
         o.timeOut ();
 
       bool is_null (true);
       pgsql::value_traits<
-          ::std::optional< long int >,
+          ::odb::nullable< long int >,
           pgsql::id_timestamp >::set_image (
         i.timeOut_value, is_null, v);
       i.timeOut_null = is_null;
@@ -258,13 +258,13 @@ namespace odb
     // timeIn_
     //
     {
-      // From JournalRow.hpp:46:14
-      ::std::optional< long int > const& v =
+      // From JournalRow.hpp:50:14
+      ::odb::nullable< long int > const& v =
         o.timeIn ();
 
       bool is_null (true);
       pgsql::value_traits<
-          ::std::optional< long int >,
+          ::odb::nullable< long int >,
           pgsql::id_timestamp >::set_image (
         i.timeIn_value, is_null, v);
       i.timeIn_null = is_null;
@@ -273,11 +273,11 @@ namespace odb
     // route_
     //
     {
-      ::std::shared_ptr< ::Route > const& v =
+      ::std::tr1::shared_ptr< ::Route > const& v =
         o.route_;
 
       typedef object_traits< ::Route > obj_traits;
-      typedef odb::pointer_traits< ::std::shared_ptr< ::Route > > ptr_traits;
+      typedef odb::pointer_traits< ::std::tr1::shared_ptr< ::Route > > ptr_traits;
 
       bool is_null (ptr_traits::null_ptr (v));
       if (!is_null)
@@ -298,11 +298,11 @@ namespace odb
     // auto_
     //
     {
-      ::std::shared_ptr< ::Auto > const& v =
+      ::std::tr1::shared_ptr< ::Auto > const& v =
         o.auto_;
 
       typedef object_traits< ::Auto > obj_traits;
-      typedef odb::pointer_traits< ::std::shared_ptr< ::Auto > > ptr_traits;
+      typedef odb::pointer_traits< ::std::tr1::shared_ptr< ::Auto > > ptr_traits;
 
       bool is_null (ptr_traits::null_ptr (v));
       if (!is_null)
@@ -335,62 +335,62 @@ namespace odb
     // id_
     //
     {
-      // From JournalRow.hpp:40:35
-      ::JournalRow::Id_t v;
+      // From JournalRow.hpp:44:35
+      long int v;
 
       pgsql::value_traits<
-          ::JournalRow::Id_t,
+          long int,
           pgsql::id_bigint >::set_value (
         v,
         i.id_value,
         i.id_null);
 
-      // From JournalRow.hpp:40:35
+      // From JournalRow.hpp:44:35
       o.id (v);
     }
 
     // timeOut_
     //
     {
-      // From JournalRow.hpp:43:14
-      ::std::optional< long int > v;
+      // From JournalRow.hpp:47:14
+      ::odb::nullable< long int > v;
 
       pgsql::value_traits<
-          ::std::optional< long int >,
+          ::odb::nullable< long int >,
           pgsql::id_timestamp >::set_value (
         v,
         i.timeOut_value,
         i.timeOut_null);
 
-      // From JournalRow.hpp:43:14
+      // From JournalRow.hpp:47:14
       o.timeOut (v);
     }
 
     // timeIn_
     //
     {
-      // From JournalRow.hpp:46:14
-      ::std::optional< long int > v;
+      // From JournalRow.hpp:50:14
+      ::odb::nullable< long int > v;
 
       pgsql::value_traits<
-          ::std::optional< long int >,
+          ::odb::nullable< long int >,
           pgsql::id_timestamp >::set_value (
         v,
         i.timeIn_value,
         i.timeIn_null);
 
-      // From JournalRow.hpp:46:14
+      // From JournalRow.hpp:50:14
       o.timeIn (v);
     }
 
     // route_
     //
     {
-      ::std::shared_ptr< ::Route >& v =
+      ::std::tr1::shared_ptr< ::Route >& v =
         o.route_;
 
       typedef object_traits< ::Route > obj_traits;
-      typedef odb::pointer_traits< ::std::shared_ptr< ::Route > > ptr_traits;
+      typedef odb::pointer_traits< ::std::tr1::shared_ptr< ::Route > > ptr_traits;
 
       if (i.route_null)
         v = ptr_traits::pointer_type ();
@@ -417,11 +417,11 @@ namespace odb
     // auto_
     //
     {
-      ::std::shared_ptr< ::Auto >& v =
+      ::std::tr1::shared_ptr< ::Auto >& v =
         o.auto_;
 
       typedef object_traits< ::Auto > obj_traits;
-      typedef odb::pointer_traits< ::std::shared_ptr< ::Auto > > ptr_traits;
+      typedef odb::pointer_traits< ::std::tr1::shared_ptr< ::Auto > > ptr_traits;
 
       if (i.auto_null)
         v = ptr_traits::pointer_type ();
@@ -452,7 +452,7 @@ namespace odb
     {
       bool is_null (false);
       pgsql::value_traits<
-          ::JournalRow::Id_t,
+          long int,
           pgsql::id_bigint >::set_image (
         i.id_value, is_null, id);
       i.id_null = is_null;
@@ -555,7 +555,7 @@ namespace odb
     if (!st.execute ())
       throw object_already_persistent ();
 
-    // From JournalRow.hpp:40:35
+    // From JournalRow.hpp:44:35
     obj.id (id (sts.id_image ()));
 
     callback (db,
@@ -578,7 +578,7 @@ namespace odb
     statements_type& sts (
       conn.statement_cache ().find_object<object_type> ());
 
-    // From JournalRow.hpp:40:35
+    // From JournalRow.hpp:44:35
     const id_type& id (
       obj.id ());
     id_image_type& idi (sts.id_image ());
@@ -755,7 +755,7 @@ namespace odb
 
     statements_type::auto_lock l (sts);
 
-    // From JournalRow.hpp:40:35
+    // From JournalRow.hpp:44:35
     const id_type& id  (
       obj.id ());
 

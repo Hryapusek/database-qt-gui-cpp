@@ -99,7 +99,7 @@ namespace odb
     id_type id;
     {
       pgsql::value_traits<
-          ::Auto::Id_t,
+          long int,
           pgsql::id_bigint >::set_value (
         id,
         i.id_value,
@@ -119,7 +119,7 @@ namespace odb
     id_type id;
     {
       pgsql::value_traits<
-          ::Auto::Id_t,
+          long int,
           pgsql::id_bigint >::set_value (
         id,
         i.id_value,
@@ -254,7 +254,7 @@ namespace odb
     // num_
     //
     {
-      // From Auto.hpp:39:14
+      // From Auto.hpp:42:14
       ::Auto::NullableStr_t const& v =
         o.num ();
 
@@ -276,7 +276,7 @@ namespace odb
     // color_
     //
     {
-      // From Auto.hpp:42:14
+      // From Auto.hpp:45:14
       ::Auto::NullableStr_t const& v =
         o.color ();
 
@@ -298,7 +298,7 @@ namespace odb
     // mark_
     //
     {
-      // From Auto.hpp:45:14
+      // From Auto.hpp:48:14
       ::Auto::NullableStr_t const& v =
         o.mark ();
 
@@ -320,11 +320,11 @@ namespace odb
     // person_
     //
     {
-      ::std::shared_ptr< ::Person > const& v =
+      ::std::tr1::shared_ptr< ::Person > const& v =
         o.person_;
 
       typedef object_traits< ::Person > obj_traits;
-      typedef odb::pointer_traits< ::std::shared_ptr< ::Person > > ptr_traits;
+      typedef odb::pointer_traits< ::std::tr1::shared_ptr< ::Person > > ptr_traits;
 
       bool is_null (ptr_traits::null_ptr (v));
       if (!is_null)
@@ -357,24 +357,24 @@ namespace odb
     // id_
     //
     {
-      // From Auto.hpp:36:35
-      ::Auto::Id_t v;
+      // From Auto.hpp:39:35
+      long int v;
 
       pgsql::value_traits<
-          ::Auto::Id_t,
+          long int,
           pgsql::id_bigint >::set_value (
         v,
         i.id_value,
         i.id_null);
 
-      // From Auto.hpp:36:35
+      // From Auto.hpp:39:35
       o.id (v);
     }
 
     // num_
     //
     {
-      // From Auto.hpp:39:14
+      // From Auto.hpp:42:14
       ::Auto::NullableStr_t v;
 
       pgsql::value_traits<
@@ -385,14 +385,14 @@ namespace odb
         i.num_size,
         i.num_null);
 
-      // From Auto.hpp:39:14
+      // From Auto.hpp:42:14
       o.num (v);
     }
 
     // color_
     //
     {
-      // From Auto.hpp:42:14
+      // From Auto.hpp:45:14
       ::Auto::NullableStr_t v;
 
       pgsql::value_traits<
@@ -403,14 +403,14 @@ namespace odb
         i.color_size,
         i.color_null);
 
-      // From Auto.hpp:42:14
+      // From Auto.hpp:45:14
       o.color (v);
     }
 
     // mark_
     //
     {
-      // From Auto.hpp:45:14
+      // From Auto.hpp:48:14
       ::Auto::NullableStr_t v;
 
       pgsql::value_traits<
@@ -421,18 +421,18 @@ namespace odb
         i.mark_size,
         i.mark_null);
 
-      // From Auto.hpp:45:14
+      // From Auto.hpp:48:14
       o.mark (v);
     }
 
     // person_
     //
     {
-      ::std::shared_ptr< ::Person >& v =
+      ::std::tr1::shared_ptr< ::Person >& v =
         o.person_;
 
       typedef object_traits< ::Person > obj_traits;
-      typedef odb::pointer_traits< ::std::shared_ptr< ::Person > > ptr_traits;
+      typedef odb::pointer_traits< ::std::tr1::shared_ptr< ::Person > > ptr_traits;
 
       if (i.person_null)
         v = ptr_traits::pointer_type ();
@@ -463,7 +463,7 @@ namespace odb
     {
       bool is_null (false);
       pgsql::value_traits<
-          ::Auto::Id_t,
+          long int,
           pgsql::id_bigint >::set_image (
         i.id_value, is_null, id);
       i.id_null = is_null;
@@ -565,7 +565,7 @@ namespace odb
     if (!st.execute ())
       throw object_already_persistent ();
 
-    // From Auto.hpp:36:35
+    // From Auto.hpp:39:35
     obj.id (id (sts.id_image ()));
 
     callback (db,
@@ -588,7 +588,7 @@ namespace odb
     statements_type& sts (
       conn.statement_cache ().find_object<object_type> ());
 
-    // From Auto.hpp:36:35
+    // From Auto.hpp:39:35
     const id_type& id (
       obj.id ());
     id_image_type& idi (sts.id_image ());
@@ -765,7 +765,7 @@ namespace odb
 
     statements_type::auto_lock l (sts);
 
-    // From Auto.hpp:36:35
+    // From Auto.hpp:39:35
     const id_type& id  (
       obj.id ());
 

@@ -87,7 +87,7 @@ namespace odb
     id_type id;
     {
       pgsql::value_traits<
-          ::Route::Id_t,
+          long int,
           pgsql::id_bigint >::set_value (
         id,
         i.id_value,
@@ -107,7 +107,7 @@ namespace odb
     id_type id;
     {
       pgsql::value_traits<
-          ::Route::Id_t,
+          long int,
           pgsql::id_bigint >::set_value (
         id,
         i.id_value,
@@ -197,7 +197,7 @@ namespace odb
     // name_
     //
     {
-      // From Route.hpp:31:14
+      // From Route.hpp:32:14
       ::Route::NullableStr_t const& v =
         o.name ();
 
@@ -231,24 +231,24 @@ namespace odb
     // id_
     //
     {
-      // From Route.hpp:28:35
-      ::Route::Id_t v;
+      // From Route.hpp:29:35
+      long int v;
 
       pgsql::value_traits<
-          ::Route::Id_t,
+          long int,
           pgsql::id_bigint >::set_value (
         v,
         i.id_value,
         i.id_null);
 
-      // From Route.hpp:28:35
+      // From Route.hpp:29:35
       o.id (v);
     }
 
     // name_
     //
     {
-      // From Route.hpp:31:14
+      // From Route.hpp:32:14
       ::Route::NullableStr_t v;
 
       pgsql::value_traits<
@@ -259,7 +259,7 @@ namespace odb
         i.name_size,
         i.name_null);
 
-      // From Route.hpp:31:14
+      // From Route.hpp:32:14
       o.name (v);
     }
   }
@@ -270,7 +270,7 @@ namespace odb
     {
       bool is_null (false);
       pgsql::value_traits<
-          ::Route::Id_t,
+          long int,
           pgsql::id_bigint >::set_image (
         i.id_value, is_null, id);
       i.id_null = is_null;
@@ -359,7 +359,7 @@ namespace odb
     if (!st.execute ())
       throw object_already_persistent ();
 
-    // From Route.hpp:28:35
+    // From Route.hpp:29:35
     obj.id (id (sts.id_image ()));
 
     callback (db,
@@ -382,7 +382,7 @@ namespace odb
     statements_type& sts (
       conn.statement_cache ().find_object<object_type> ());
 
-    // From Route.hpp:28:35
+    // From Route.hpp:29:35
     const id_type& id (
       obj.id ());
     id_image_type& idi (sts.id_image ());
@@ -559,7 +559,7 @@ namespace odb
 
     statements_type::auto_lock l (sts);
 
-    // From Route.hpp:28:35
+    // From Route.hpp:29:35
     const id_type& id  (
       obj.id ());
 

@@ -3,10 +3,9 @@
 
 #include <odb/core.hxx>
 #include <odb/tr1/memory.hxx>
+#include <odb/nullable.hxx>
 
 #include <string>
-#include <optional>
-#include <memory>
 
 class Auto;
 class Route;
@@ -16,41 +15,46 @@ class JournalRow
 {
 public:
   using Id_t = long;
+
+  template < class T >
+  using Sh_Ptr_t = std::tr1::shared_ptr< T >;
+
   JournalRow() = default;
-  JournalRow(Id_t id, std::optional< time_t > timeOut, std::optional< time_t > timeIn, Id_t autoId, Id_t routeId);
+  JournalRow(long id, odb::nullable< time_t > timeOut, odb::nullable< time_t > timeIn, Sh_Ptr_t< Auto > autoObj, Sh_Ptr_t< Route > route);
 
-  Id_t id() const;
-  void id(Id_t);
+  long id() const;
+  void id(long);
 
-  std::optional< time_t > timeOut() const;
-  void timeOut(std::optional< time_t >);
+  odb::nullable< time_t > timeOut() const;
+  void timeOut(odb::nullable< time_t >);
 
-  std::optional< time_t > timeIn() const;
-  void timeIn(std::optional< time_t >);
+  odb::nullable< time_t > timeIn() const;
+  void timeIn(odb::nullable< time_t >);
 
-  std::shared_ptr< Auto > autoObj();
-  std::shared_ptr< Route > route();
+  Sh_Ptr_t< Auto > autoObj();
+  void autoObj(Sh_Ptr_t< Auto >);
 
-  void setIds();
+  Sh_Ptr_t< Route > route();
+  void route(Sh_Ptr_t< Route >);
 
 private:
 
   friend class odb::access;
 
   #pragma db id auto column("ID") access(id)
-  Id_t id_;
+  long id_;
 
   #pragma db access(timeOut) null column("TIME_OUT") type("TIMESTAMP")
-  std::optional< time_t > timeOut_;
+  odb::nullable< time_t > timeOut_;
 
   #pragma db access(timeIn) null column("TIME_IN") type("TIMESTAMP")
-  std::optional< time_t > timeIn_;
+  odb::nullable< time_t > timeIn_;
 
   #pragma db column("ROUTE_ID")
-  std::shared_ptr< Route > route_;
+  Sh_Ptr_t< Route > route_;
 
   #pragma db column("AUTO_ID")
-  std::shared_ptr< Auto > auto_;
+  Sh_Ptr_t< Auto > auto_;
 };
 
 #ifdef ODB_COMPILER

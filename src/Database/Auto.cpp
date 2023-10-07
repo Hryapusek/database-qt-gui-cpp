@@ -1,14 +1,44 @@
 #include "Auto.hpp"
 
-Auto::Auto(Id_t id, NullableStr_t num, NullableStr_t color, NullableStr_t mark, Id_t personId) :
+Auto::Auto(long id, NullableStr_t num, NullableStr_t color, NullableStr_t mark, Sh_Ptr_t< Person > person) :
   id_(id),
   num_(std::move(num)),
   color_(std::move(color)),
   mark_(std::move(mark)),
-  personId_(std::move(personId))
-{}
+  person_(std::move(person))
+{ }
 
-Auto::Id_t Auto::id() const
+void Auto::id(long id)
+{
+  id_ = id;
+}
+
+void Auto::num(NullableStr_t num)
+{
+  num_ = std::move(num);
+}
+
+void Auto::color(NullableStr_t color)
+{
+  color_ = std::move(color);
+}
+
+void Auto::mark(NullableStr_t mark)
+{
+  mark_ = mark;
+}
+
+Auto::Sh_Ptr_t< Person > Auto::person() const
+{
+  return person_;
+}
+
+void Auto::person(Sh_Ptr_t< Person > person)
+{
+  person_ = std::move(person);
+}
+
+long Auto::id() const
 {
   return id_;
 }
@@ -26,9 +56,4 @@ const Auto::NullableStr_t &Auto::color() const
 const Auto::NullableStr_t &Auto::mark() const
 {
   return mark_;
-}
-
-Auto::Id_t Auto::personId() const
-{
-  return personId_;
 }
