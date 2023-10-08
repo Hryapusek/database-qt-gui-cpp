@@ -16,6 +16,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 
@@ -29,15 +30,20 @@ public:
     QSpacerItem *horizontalSpacer_7;
     QLabel *firstNameLbl;
     QLineEdit *firstNameLine;
+    QSpacerItem *horizontalSpacer;
     QHBoxLayout *horizontalLayout_4;
     QSpacerItem *horizontalSpacer_6;
     QLabel *lastNameLbl;
     QLineEdit *lastNameLine;
+    QSpacerItem *horizontalSpacer_2;
     QHBoxLayout *horizontalLayout_5;
     QSpacerItem *horizontalSpacer_5;
     QLabel *fatherNameLbl;
     QLineEdit *fatherNameLine;
+    QSpacerItem *horizontalSpacer_3;
     QSpacerItem *verticalSpacer;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *pushButton;
     QDialogButtonBox *buttonBox;
     QSpacerItem *verticalSpacer_2;
 
@@ -46,7 +52,7 @@ public:
         if (AddPersonDialog->objectName().isEmpty())
             AddPersonDialog->setObjectName(QString::fromUtf8("AddPersonDialog"));
         AddPersonDialog->setWindowModality(Qt::NonModal);
-        AddPersonDialog->resize(217, 168);
+        AddPersonDialog->resize(272, 175);
         verticalLayout = new QVBoxLayout(AddPersonDialog);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         horizontalLayout_3 = new QHBoxLayout();
@@ -75,6 +81,10 @@ public:
 
         horizontalLayout_3->addWidget(firstNameLine);
 
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer);
+
 
         verticalLayout->addLayout(horizontalLayout_3);
 
@@ -97,6 +107,10 @@ public:
         lastNameLine->setSizePolicy(sizePolicy1);
 
         horizontalLayout_4->addWidget(lastNameLine);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_4->addItem(horizontalSpacer_2);
 
 
         verticalLayout->addLayout(horizontalLayout_4);
@@ -121,6 +135,10 @@ public:
 
         horizontalLayout_5->addWidget(fatherNameLine);
 
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_3);
+
 
         verticalLayout->addLayout(horizontalLayout_5);
 
@@ -128,12 +146,23 @@ public:
 
         verticalLayout->addItem(verticalSpacer);
 
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setContentsMargins(-1, 0, -1, -1);
+        pushButton = new QPushButton(AddPersonDialog);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+
+        horizontalLayout->addWidget(pushButton);
+
         buttonBox = new QDialogButtonBox(AddPersonDialog);
         buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
 
-        verticalLayout->addWidget(buttonBox);
+        horizontalLayout->addWidget(buttonBox);
+
+
+        verticalLayout->addLayout(horizontalLayout);
 
         verticalSpacer_2 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
@@ -143,6 +172,9 @@ public:
         retranslateUi(AddPersonDialog);
         QObject::connect(buttonBox, SIGNAL(accepted()), AddPersonDialog, SLOT(accept()));
         QObject::connect(buttonBox, SIGNAL(rejected()), AddPersonDialog, SLOT(reject()));
+        QObject::connect(pushButton, SIGNAL(clicked()), fatherNameLine, SLOT(clear()));
+        QObject::connect(pushButton, SIGNAL(clicked()), lastNameLine, SLOT(clear()));
+        QObject::connect(pushButton, SIGNAL(clicked()), firstNameLine, SLOT(clear()));
 
         QMetaObject::connectSlotsByName(AddPersonDialog);
     } // setupUi
@@ -153,6 +185,7 @@ public:
         firstNameLbl->setText(QCoreApplication::translate("AddPersonDialog", "First name", nullptr));
         lastNameLbl->setText(QCoreApplication::translate("AddPersonDialog", "Last name", nullptr));
         fatherNameLbl->setText(QCoreApplication::translate("AddPersonDialog", "Father name", nullptr));
+        pushButton->setText(QCoreApplication::translate("AddPersonDialog", "Clear", nullptr));
     } // retranslateUi
 
 };

@@ -3,7 +3,6 @@
 # Tasks
 - Settings dialog
 - On cell change
-- Add clear button to Add Row
 
 # Future tasks
 
@@ -32,3 +31,4 @@
 - Delete row numbers 8.10
 - Connect Add Remove buttons to DbApi 8.10
 - Make Add Window not lose their data after closing or error 8.10
+- Add clear button to Add Row 8.10

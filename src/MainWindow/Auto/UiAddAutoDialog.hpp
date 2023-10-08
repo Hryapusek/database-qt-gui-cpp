@@ -16,6 +16,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 
@@ -42,6 +43,8 @@ public:
     QLabel *personIdLbl;
     QLineEdit *personIdLine;
     QSpacerItem *verticalSpacer;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *pushButton;
     QDialogButtonBox *buttonBox;
     QSpacerItem *verticalSpacer_2;
 
@@ -49,7 +52,7 @@ public:
     {
         if (AddAutoDialog->objectName().isEmpty())
             AddAutoDialog->setObjectName(QString::fromUtf8("AddAutoDialog"));
-        AddAutoDialog->resize(217, 208);
+        AddAutoDialog->resize(272, 207);
         verticalLayout = new QVBoxLayout(AddAutoDialog);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         horizontalLayout_3 = new QHBoxLayout();
@@ -154,12 +157,23 @@ public:
 
         verticalLayout->addItem(verticalSpacer);
 
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setContentsMargins(-1, 0, -1, -1);
+        pushButton = new QPushButton(AddAutoDialog);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+
+        horizontalLayout->addWidget(pushButton);
+
         buttonBox = new QDialogButtonBox(AddAutoDialog);
         buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
 
-        verticalLayout->addWidget(buttonBox);
+        horizontalLayout->addWidget(buttonBox);
+
+
+        verticalLayout->addLayout(horizontalLayout);
 
         verticalSpacer_2 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
@@ -169,6 +183,10 @@ public:
         retranslateUi(AddAutoDialog);
         QObject::connect(buttonBox, SIGNAL(accepted()), AddAutoDialog, SLOT(accept()));
         QObject::connect(buttonBox, SIGNAL(rejected()), AddAutoDialog, SLOT(reject()));
+        QObject::connect(pushButton, SIGNAL(clicked()), personIdLine, SLOT(clear()));
+        QObject::connect(pushButton, SIGNAL(clicked()), markLine, SLOT(clear()));
+        QObject::connect(pushButton, SIGNAL(clicked()), colorLine, SLOT(clear()));
+        QObject::connect(pushButton, SIGNAL(clicked()), numLine, SLOT(clear()));
 
         QMetaObject::connectSlotsByName(AddAutoDialog);
     } // setupUi
@@ -180,6 +198,7 @@ public:
         colorLbl->setText(QCoreApplication::translate("AddAutoDialog", "Color", nullptr));
         markLbl->setText(QCoreApplication::translate("AddAutoDialog", "Mark", nullptr));
         personIdLbl->setText(QCoreApplication::translate("AddAutoDialog", "Person ID", nullptr));
+        pushButton->setText(QCoreApplication::translate("AddAutoDialog", "Clear", nullptr));
     } // retranslateUi
 
 };

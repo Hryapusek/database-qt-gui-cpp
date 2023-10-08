@@ -16,6 +16,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 
@@ -30,6 +31,8 @@ public:
     QLabel *nameLbl;
     QLineEdit *nameLine;
     QSpacerItem *verticalSpacer;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *pushButton;
     QDialogButtonBox *buttonBox;
     QSpacerItem *verticalSpacer_2;
 
@@ -37,7 +40,7 @@ public:
     {
         if (AddRouteDialog->objectName().isEmpty())
             AddRouteDialog->setObjectName(QString::fromUtf8("AddRouteDialog"));
-        AddRouteDialog->resize(217, 103);
+        AddRouteDialog->resize(272, 110);
         verticalLayout = new QVBoxLayout(AddRouteDialog);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         horizontalLayout_3 = new QHBoxLayout();
@@ -73,12 +76,23 @@ public:
 
         verticalLayout->addItem(verticalSpacer);
 
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setContentsMargins(-1, 0, -1, -1);
+        pushButton = new QPushButton(AddRouteDialog);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+
+        horizontalLayout->addWidget(pushButton);
+
         buttonBox = new QDialogButtonBox(AddRouteDialog);
         buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
 
-        verticalLayout->addWidget(buttonBox);
+        horizontalLayout->addWidget(buttonBox);
+
+
+        verticalLayout->addLayout(horizontalLayout);
 
         verticalSpacer_2 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
@@ -88,6 +102,7 @@ public:
         retranslateUi(AddRouteDialog);
         QObject::connect(buttonBox, SIGNAL(accepted()), AddRouteDialog, SLOT(accept()));
         QObject::connect(buttonBox, SIGNAL(rejected()), AddRouteDialog, SLOT(reject()));
+        QObject::connect(pushButton, SIGNAL(clicked()), nameLine, SLOT(clear()));
 
         QMetaObject::connectSlotsByName(AddRouteDialog);
     } // setupUi
@@ -96,6 +111,7 @@ public:
     {
         AddRouteDialog->setWindowTitle(QCoreApplication::translate("AddRouteDialog", "Add Route", nullptr));
         nameLbl->setText(QCoreApplication::translate("AddRouteDialog", "Name", nullptr));
+        pushButton->setText(QCoreApplication::translate("AddRouteDialog", "Clear", nullptr));
     } // retranslateUi
 
 };

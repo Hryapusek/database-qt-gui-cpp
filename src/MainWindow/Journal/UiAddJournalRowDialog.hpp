@@ -16,6 +16,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 
@@ -40,6 +41,8 @@ public:
     QLabel *routeIdLbl;
     QLineEdit *routeIdLine;
     QSpacerItem *verticalSpacer;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *pushButton;
     QDialogButtonBox *buttonBox;
     QSpacerItem *verticalSpacer_2;
 
@@ -47,7 +50,7 @@ public:
     {
         if (AddJournalRowDialog->objectName().isEmpty())
             AddJournalRowDialog->setObjectName(QString::fromUtf8("AddJournalRowDialog"));
-        AddJournalRowDialog->resize(282, 200);
+        AddJournalRowDialog->resize(282, 211);
         verticalLayout = new QVBoxLayout(AddJournalRowDialog);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         horizontalLayout_3 = new QHBoxLayout();
@@ -147,12 +150,23 @@ public:
 
         verticalLayout->addItem(verticalSpacer);
 
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setContentsMargins(-1, 0, -1, -1);
+        pushButton = new QPushButton(AddJournalRowDialog);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+
+        horizontalLayout->addWidget(pushButton);
+
         buttonBox = new QDialogButtonBox(AddJournalRowDialog);
         buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
 
-        verticalLayout->addWidget(buttonBox);
+        horizontalLayout->addWidget(buttonBox);
+
+
+        verticalLayout->addLayout(horizontalLayout);
 
         verticalSpacer_2 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
@@ -162,6 +176,10 @@ public:
         retranslateUi(AddJournalRowDialog);
         QObject::connect(buttonBox, SIGNAL(accepted()), AddJournalRowDialog, SLOT(accept()));
         QObject::connect(buttonBox, SIGNAL(rejected()), AddJournalRowDialog, SLOT(reject()));
+        QObject::connect(pushButton, SIGNAL(clicked()), routeIdLine, SLOT(clear()));
+        QObject::connect(pushButton, SIGNAL(clicked()), autoIdLine, SLOT(clear()));
+        QObject::connect(pushButton, SIGNAL(clicked()), timeInLine, SLOT(clear()));
+        QObject::connect(pushButton, SIGNAL(clicked()), timeOutLine, SLOT(clear()));
 
         QMetaObject::connectSlotsByName(AddJournalRowDialog);
     } // setupUi
@@ -173,6 +191,7 @@ public:
         timeInLbl->setText(QCoreApplication::translate("AddJournalRowDialog", "Time IN", nullptr));
         autoIdLbl->setText(QCoreApplication::translate("AddJournalRowDialog", "Auto ID", nullptr));
         routeIdLbl->setText(QCoreApplication::translate("AddJournalRowDialog", "Route ID", nullptr));
+        pushButton->setText(QCoreApplication::translate("AddJournalRowDialog", "Clear", nullptr));
     } // retranslateUi
 
 };
