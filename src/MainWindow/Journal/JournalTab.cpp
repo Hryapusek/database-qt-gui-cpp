@@ -67,10 +67,9 @@ void JournalTab::clearTable()
 
 void JournalTab::removeBtnClicked()
 {
-  removeJournalRowDialog_ = std::make_unique< RemoveJournalRowDialog >(table_);
+  if (!removeJournalRowDialog_)
+    removeJournalRowDialog_ = std::make_unique< RemoveJournalRowDialog >(table_);
   auto result = removeJournalRowDialog_->exec();
-  // TODO remove person from database
-  // Try-Catch if person does not exist?
   if (result == QDialog::Accepted)
   {
     bool ok = true;

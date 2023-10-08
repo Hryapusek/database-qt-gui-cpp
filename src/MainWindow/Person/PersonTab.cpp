@@ -65,7 +65,8 @@ PersonTab::~PersonTab()
 
 void PersonTab::removeBtnClicked()
 {
-  removePersonDialog_ = std::make_unique< RemovePersonDialog >(table_);
+  if (!removePersonDialog_)
+    removePersonDialog_ = std::make_unique< RemovePersonDialog >(table_);
   auto result = removePersonDialog_->exec();
   if (result == QDialog::Accepted)
   {
@@ -74,7 +75,7 @@ void PersonTab::removeBtnClicked()
     if (!ok)
     {
       QMessageBox::critical(table_, "Bad ID", "Can not convert given ID to number", QMessageBox::Close);
-      return;
+      return removeBtnClicked();
     }
     try
     {
@@ -84,6 +85,7 @@ void PersonTab::removeBtnClicked()
     catch (const odb::exception &e)
     {
       QMessageBox::critical(table_, "Error", e.what(), QMessageBox::Close);
+      return removeBtnClicked();
     }
     emit refreshTablesSig();
   }
@@ -92,7 +94,8 @@ void PersonTab::removeBtnClicked()
 
 void PersonTab::addBtnClicked()
 {
-  addPersonDialog_ = std::make_unique< AddPersonDialog >(table_);
+  if (!addPersonDialog_)
+    addPersonDialog_ = std::make_unique< AddPersonDialog >(table_);
   auto result = addPersonDialog_->exec();
   if (result == QDialog::Accepted)
   {
@@ -107,6 +110,7 @@ void PersonTab::addBtnClicked()
     catch (const odb::exception &e)
     {
       QMessageBox::critical(table_, "Error", e.what(), QMessageBox::Close);
+      return addBtnClicked();
     }
     emit refreshTablesSig();
   }

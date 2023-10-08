@@ -53,7 +53,8 @@ RouteTab::~RouteTab()
 
 void RouteTab::removeBtnClicked()
 {
-  removeRouteDialog_ = std::make_unique< RemoveRouteDialog >(table_);
+  if (!removeRouteDialog_)
+    removeRouteDialog_ = std::make_unique< RemoveRouteDialog >(table_);
   auto result = removeRouteDialog_->exec();
   if (result == QDialog::Accepted)
   {
@@ -80,7 +81,8 @@ void RouteTab::removeBtnClicked()
 
 void RouteTab::addBtnClicked()
 {
-  addRouteDialog_ = std::make_unique< AddRouteDialog >(table_);
+  if (!addRouteDialog_)
+    addRouteDialog_ = std::make_unique< AddRouteDialog >(table_);
   auto result = addRouteDialog_->exec();
   if (result == QDialog::Accepted)
   {

@@ -65,7 +65,8 @@ AutoTab::~AutoTab()
 
 void AutoTab::removeBtnClicked()
 {
-  removeAutoDialog_ = std::make_unique< RemoveAutoDialog >(table_);
+  if (!removeAutoDialog_)
+    removeAutoDialog_ = std::make_unique< RemoveAutoDialog >(table_);
   auto result = removeAutoDialog_->exec();
   if (result == QDialog::Accepted)
   {
@@ -92,7 +93,8 @@ void AutoTab::removeBtnClicked()
 
 void AutoTab::addBtnClicked()
 {
-  addAutoDialog_ = std::make_unique< AddAutoDialog >(table_);
+  if (!addAutoDialog_)
+    addAutoDialog_ = std::make_unique< AddAutoDialog >(table_);
   auto result = addAutoDialog_->exec();
   if (result == QDialog::Accepted)
   {

@@ -3,9 +3,9 @@
 # Tasks
 - Settings dialog
 - On cell change
+- Add clear button to Add Row
 
 # Future tasks
-- Make Add Window not lose their data after closing or error
 
 # Done tasks
 - Play with QTableWidget 30.09
@@ -31,3 +31,4 @@
 - Database Api | Add ODB 8.10
 - Delete row numbers 8.10
 - Connect Add Remove buttons to DbApi 8.10
+- Make Add Window not lose their data after closing or error 8.10
