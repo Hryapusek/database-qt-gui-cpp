@@ -8,7 +8,7 @@ AddRouteDialog::AddRouteDialog(QWidget *parent) :
   ui(std::make_unique<Ui::AddRouteDialog>())
 {
   ui->setupUi(this);
-  auto nameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z0-9]{20}"), ui->nameLine);
+  auto nameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z0-9 ]{20}"), ui->nameLine);
   ui->nameLine->setValidator(nameLineValidator);
 }
 
