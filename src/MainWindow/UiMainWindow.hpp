@@ -361,9 +361,12 @@ public:
         QTableWidgetItem *___qtablewidgetitem3 = personnelTable->horizontalHeaderItem(3);
         ___qtablewidgetitem3->setText(QCoreApplication::translate("MainWindow", "FATHER_NAME", nullptr));
         groupBox_2->setTitle(QString());
-        addPersonBtn->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
-        removePersonBtn->setText(QCoreApplication::translate("MainWindow", "Remove", nullptr));
+        addPersonBtn->setText(QCoreApplication::translate("MainWindow", "&Add", nullptr));
+        removePersonBtn->setText(QCoreApplication::translate("MainWindow", "&Remove", nullptr));
         refreshPersonBtn->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
+#if QT_CONFIG(shortcut)
+        refreshPersonBtn->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+U", nullptr));
+#endif // QT_CONFIG(shortcut)
         tabs->setTabText(tabs->indexOf(personnelTab), QCoreApplication::translate("MainWindow", "PERSONNEL", nullptr));
         QTableWidgetItem *___qtablewidgetitem4 = autoTable->horizontalHeaderItem(0);
         ___qtablewidgetitem4->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));

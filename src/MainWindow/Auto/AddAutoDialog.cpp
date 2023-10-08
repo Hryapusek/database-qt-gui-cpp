@@ -18,7 +18,7 @@ AddAutoDialog::AddAutoDialog(QWidget *parent) :
   auto markLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->markLine);
   ui->markLine->setValidator(markLineValidator);
 
-  auto personIdLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->personIdLine);
+  auto personIdLineValidator = new QRegExpValidator(QRegExp("[-]?[1-9][0-9]{15}"), ui->personIdLine);
   ui->personIdLine->setValidator(personIdLineValidator);
 }
 
@@ -28,4 +28,19 @@ AddAutoDialog::~AddAutoDialog()
 QString AddAutoDialog::getNum()
 {
   return ui->numLine->text();
+}
+
+QString AddAutoDialog::getColor()
+{
+  return ui->colorLine->text();
+}
+
+QString AddAutoDialog::getMark()
+{
+  return ui->markLine->text();
+}
+
+QString AddAutoDialog::getPersonId()
+{
+  return ui->personIdLine->text();
 }

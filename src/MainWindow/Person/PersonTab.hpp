@@ -28,14 +28,14 @@ private:
   QPushButton *removeBtn_;
   QPushButton *refreshBtn_;
   QTableWidget *table_;
-  std::unique_ptr<AddPersonDialog> addPersonDialog;
-  std::unique_ptr<RemovePersonDialog> removePersonDialog;
+  std::unique_ptr<AddPersonDialog> addPersonDialog_;
+  std::unique_ptr<RemovePersonDialog> removePersonDialog_;
 
   enum Column
   {
     ID = 0,
     FIRST_NAME = 1,
-    SECOND_NAME = 2,
+    LAST_NAME = 2,
     FATHER_NAME = 3
   };
 };

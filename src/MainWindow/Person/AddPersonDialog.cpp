@@ -12,8 +12,8 @@ AddPersonDialog::AddPersonDialog(QWidget *parent) :
   auto firstNameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->firstNameLine);
   ui->firstNameLine->setValidator(firstNameLineValidator);
 
-  auto secondNameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->secondNameLine);
-  ui->secondNameLine->setValidator(secondNameLineValidator);
+  auto lastNameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->lastNameLine);
+  ui->lastNameLine->setValidator(lastNameLineValidator);
 
   auto fatherNameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->fatherNameLine);
   ui->fatherNameLine->setValidator(fatherNameLineValidator);
@@ -27,9 +27,9 @@ QString AddPersonDialog::getFirstName()
   return ui->firstNameLine->text();
 }
 
-QString AddPersonDialog::getSecondName()
+QString AddPersonDialog::getLastName()
 {
-  return ui->secondNameLine->text();
+  return ui->lastNameLine->text();
 }
 
 QString AddPersonDialog::getFatherName()

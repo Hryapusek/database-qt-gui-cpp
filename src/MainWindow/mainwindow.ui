@@ -90,6 +90,9 @@
              <property name="text">
               <string>Refresh</string>
              </property>
+             <property name="shortcut">
+              <string>Ctrl+U</string>
+             </property>
             </widget>
            </item>
            <item>

@@ -12,7 +12,7 @@
 
 namespace
 {
-  /// @throw odb::object_not_persistent if person with given id not found
+  /// @throw odb::object_not_persistent
   /// @throw odb::exception
   template < class T >
   void removeObject(typename T::Id_t id)
@@ -35,8 +35,19 @@ namespace
     return objects;
   }
 
-  /// @throw odb::object_not_persistent if person with given id not found
-  /// @throw odb::database_exception if data is not valid
+  /// @throw odb::object_not_persistent
+  /// @throw odb::exception
+  template < class T >
+  std::tr1::shared_ptr< T > getObject(typename T::Id_t id)
+  {
+    odb::transaction tr(DatabaseConnection::connection()->begin());
+    auto objPtr = DatabaseConnection::connection()->load< T >(id);
+    tr.commit();
+    return objPtr;
+  }
+
+  /// @throw odb::object_not_persistent
+  /// @throw odb::database_exception
   /// @throw odb::exception
   template < class T >
   void updateObject(T &&obj)
@@ -47,9 +58,41 @@ namespace
     DatabaseConnection::connection()->update(objToUpdate);
     tr.commit();
   }
+
+  /// @throw odb::object_already_persistent
+  /// @throw odb::database_exception
+  /// @throw odb::exception
+  template < class T >
+  typename T::Id_t addObject(T obj)
+  {
+    odb::transaction tr(DatabaseConnection::connection()->begin());
+    auto id = DatabaseConnection::connection()->persist(obj);
+    tr.commit();
+    return id;
+  }
 }
 
-std::vector< Person > DbApi::getPersons()
+std::tr1::shared_ptr< Person > DbApi::getPerson(Person::Id_t id)
+{
+  return getObject<Person>(id);
+}
+
+std::tr1::shared_ptr<Auto> DbApi::getAuto(Auto::Id_t id)
+{
+  return getObject<Auto>(id);
+}
+
+std::tr1::shared_ptr<Route> DbApi::getRoute(Route::Id_t id)
+{
+  return getObject<Route>(id);
+}
+
+std::tr1::shared_ptr<JournalRow> DbApi::getJournalRow(JournalRow::Id_t id)
+{
+  return getObject<JournalRow>(id);
+}
+
+std::vector<Person> DbApi::getPersons()
 {
   return getObjects< Person >();
 }
@@ -67,6 +110,26 @@ std::vector< Route > DbApi::getRoutes()
 std::vector< JournalRow > DbApi::getJournalRows()
 {
   return getObjects< JournalRow >();
+}
+
+Person::Id_t DbApi::addPerson(const Person &person)
+{
+  return addObject< Person >(person);
+}
+
+Auto::Id_t DbApi::addAuto(const Auto &autoObj)
+{
+  return addObject< Auto >(autoObj);
+}
+
+Route::Id_t DbApi::addRoute(const Route &route)
+{
+  return addObject< Route >(route);
+}
+
+JournalRow::Id_t DbApi::addJournalRow(const JournalRow &journalRow)
+{
+  return addObject< JournalRow >(journalRow);
 }
 
 void DbApi::removePerson(Person::Id_t id)

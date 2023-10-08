@@ -8,7 +8,7 @@ RemovePersonDialog::RemovePersonDialog(QWidget *parent) :
   ui(std::make_unique<Ui::RemovePersonDialog>())
 {
   ui->setupUi(this);
-  auto idLineValidator = new QRegExpValidator(QRegExp("[-]?[1-9]{8}"), ui->idLine);
+  auto idLineValidator = new QRegExpValidator(QRegExp("[-]?[1-9][0-9]{15}"), ui->idLine);
   ui->idLine->setValidator(idLineValidator);
 }
 

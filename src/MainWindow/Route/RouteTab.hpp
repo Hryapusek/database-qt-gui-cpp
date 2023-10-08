@@ -28,8 +28,8 @@ private:
   QPushButton *removeBtn_;
   QPushButton *refreshBtn_;
   QTableWidget *table_;
-  std::unique_ptr<AddRouteDialog> addRouteDialog;
-  std::unique_ptr<RemoveRouteDialog> removeRouteDialog;
+  std::unique_ptr<AddRouteDialog> addRouteDialog_;
+  std::unique_ptr<RemoveRouteDialog> removeRouteDialog_;
   enum Column
   {
     ID = 0,

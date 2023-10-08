@@ -4,4 +4,5 @@ cd Auto && ./generateUi.sh && cd ..
 cd Journal && ./generateUi.sh && cd ..
 cd Route && ./generateUi.sh && cd ..
 cd Person && ./generateUi.sh && cd ..
+cd Settings && ./generateUi.sh && cd ..
 echo "Finished generating design files!"

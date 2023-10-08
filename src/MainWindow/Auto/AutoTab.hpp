@@ -28,8 +28,8 @@ private:
   QPushButton *removeBtn_;
   QPushButton *refreshBtn_;
   QTableWidget *table_;
-  std::unique_ptr<AddAutoDialog> addAutoDialog;
-  std::unique_ptr<RemoveAutoDialog> removeAutoDialog;
+  std::unique_ptr<AddAutoDialog> addAutoDialog_;
+  std::unique_ptr<RemoveAutoDialog> removeAutoDialog_;
   enum Column
   {
     ID = 0,

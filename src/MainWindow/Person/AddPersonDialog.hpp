@@ -16,7 +16,7 @@ public:
   AddPersonDialog(QWidget *parent = nullptr);
   ~AddPersonDialog();
   QString getFirstName();
-  QString getSecondName();
+  QString getLastName();
   QString getFatherName();
 
 private:

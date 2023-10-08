@@ -31,8 +31,8 @@ public:
     QLineEdit *firstNameLine;
     QHBoxLayout *horizontalLayout_4;
     QSpacerItem *horizontalSpacer_6;
-    QLabel *secondNameLbl;
-    QLineEdit *secondNameLine;
+    QLabel *lastNameLbl;
+    QLineEdit *lastNameLine;
     QHBoxLayout *horizontalLayout_5;
     QSpacerItem *horizontalSpacer_5;
     QLabel *fatherNameLbl;
@@ -45,6 +45,7 @@ public:
     {
         if (AddPersonDialog->objectName().isEmpty())
             AddPersonDialog->setObjectName(QString::fromUtf8("AddPersonDialog"));
+        AddPersonDialog->setWindowModality(Qt::NonModal);
         AddPersonDialog->resize(217, 168);
         verticalLayout = new QVBoxLayout(AddPersonDialog);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
@@ -83,19 +84,19 @@ public:
 
         horizontalLayout_4->addItem(horizontalSpacer_6);
 
-        secondNameLbl = new QLabel(AddPersonDialog);
-        secondNameLbl->setObjectName(QString::fromUtf8("secondNameLbl"));
-        sizePolicy.setHeightForWidth(secondNameLbl->sizePolicy().hasHeightForWidth());
-        secondNameLbl->setSizePolicy(sizePolicy);
+        lastNameLbl = new QLabel(AddPersonDialog);
+        lastNameLbl->setObjectName(QString::fromUtf8("lastNameLbl"));
+        sizePolicy.setHeightForWidth(lastNameLbl->sizePolicy().hasHeightForWidth());
+        lastNameLbl->setSizePolicy(sizePolicy);
 
-        horizontalLayout_4->addWidget(secondNameLbl);
+        horizontalLayout_4->addWidget(lastNameLbl);
 
-        secondNameLine = new QLineEdit(AddPersonDialog);
-        secondNameLine->setObjectName(QString::fromUtf8("secondNameLine"));
-        sizePolicy1.setHeightForWidth(secondNameLine->sizePolicy().hasHeightForWidth());
-        secondNameLine->setSizePolicy(sizePolicy1);
+        lastNameLine = new QLineEdit(AddPersonDialog);
+        lastNameLine->setObjectName(QString::fromUtf8("lastNameLine"));
+        sizePolicy1.setHeightForWidth(lastNameLine->sizePolicy().hasHeightForWidth());
+        lastNameLine->setSizePolicy(sizePolicy1);
 
-        horizontalLayout_4->addWidget(secondNameLine);
+        horizontalLayout_4->addWidget(lastNameLine);
 
 
         verticalLayout->addLayout(horizontalLayout_4);
@@ -150,7 +151,7 @@ public:
     {
         AddPersonDialog->setWindowTitle(QCoreApplication::translate("AddPersonDialog", "Add Person", nullptr));
         firstNameLbl->setText(QCoreApplication::translate("AddPersonDialog", "First name", nullptr));
-        secondNameLbl->setText(QCoreApplication::translate("AddPersonDialog", "Second name", nullptr));
+        lastNameLbl->setText(QCoreApplication::translate("AddPersonDialog", "Last name", nullptr));
         fatherNameLbl->setText(QCoreApplication::translate("AddPersonDialog", "Father name", nullptr));
     } // retranslateUi
 

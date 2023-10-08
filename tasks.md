@@ -4,6 +4,9 @@
 - Settings dialog
 - On cell change
 
+# Future tasks
+- Make Add Window not lose their data after closing or error
+
 # Done tasks
 - Play with QTableWidget 30.09
 - Create GUI 30.09
@@ -22,6 +25,9 @@
 - Connect Add btn to dialog
 - Make objects persistable 7.10
 - Establish connection with database 7.10
-- "Update Row" Api 8.10
-- "Remove Row" Api 8.10
+- "Update Row" Api 7.10
+- "Remove Row" Api 7.10
+- "Add Row" Api 8.10
 - Database Api | Add ODB 8.10
+- Delete row numbers 8.10
+- Connect Add Remove buttons to DbApi 8.10

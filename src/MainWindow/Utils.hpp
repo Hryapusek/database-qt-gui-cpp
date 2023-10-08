@@ -6,11 +6,10 @@
 class StringUtils
 {
 public:
-  static std::string to_string(time_t time);
+  static std::string timeMicrosecFrom2000ToString(time_t time);
   
-  /// @brief Tries to read time from string in format d.m.Y H:M:S and returns time_t
-  /// @throw std::logic_error if bad time format
-  static time_t timeFromString(std::string timeStr);
+  /// @brief Tries to read time from string in format d.m.Y H:M:S and returns time_t.
+  static time_t stringToMicrosecFrom2000(std::string timeStr, bool *ok = nullptr);
 };
 
 #endif
