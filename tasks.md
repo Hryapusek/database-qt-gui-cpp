@@ -2,9 +2,9 @@
 
 # Tasks
 - Settings dialog
-- On cell change
 
 # Future tasks
+- Sorting?
 
 # Done tasks
 - Play with QTableWidget 30.09
@@ -32,3 +32,4 @@
 - Connect Add Remove buttons to DbApi 8.10
 - Make Add Window not lose their data after closing or error 8.10
 - Add clear button to Add Row 8.10
+- On cell change 8.10

@@ -6,9 +6,64 @@
 #include "AddJournalRowDialog.hpp"
 #include "RemoveJournalRowDialog.hpp"
 
-#include <iostream>
+#include <optional>
 #include <QMessageBox>
 #include <odb/exceptions.hxx>
+
+namespace
+{
+  JournalRow journalRowFromString(QString timeOutStr, QString timeInStr, QString autoIdStr, QString routeIdStr, std::optional< std::string > &err)
+  {
+    JournalRow journalRow;
+    bool ok = true;
+    odb::nullable< time_t > timeOut;
+    if (timeOutStr.size())
+    {
+      timeOut = StringUtils::stringToMicrosecFrom2000(timeOutStr.toStdString(), &ok);
+      if (!ok)
+      {
+        err = "Bad Time Out value. Time must be in D.M.Y H:M:S";
+        return journalRow;
+      }
+    }
+    odb::nullable< time_t > timeIn;
+    if (timeInStr.size())
+    {
+      timeIn = StringUtils::stringToMicrosecFrom2000(timeInStr.toStdString(), &ok);
+      if (!ok)
+      {
+        err = "Bad Time In value. Time must be in D.M.Y H:M:S";
+        return journalRow;
+      }
+    }
+    auto autoId = autoIdStr.toLong(&ok);
+    if (!ok)
+    {
+      err = "Can not convert given auto ID to number";
+      return journalRow;
+    }
+    auto routeId = routeIdStr.toLong(&ok);
+    if (!ok)
+    {
+      err = "Can not convert given route ID to number";
+      return journalRow;
+    }
+    journalRow.timeIn(timeIn);
+    journalRow.timeOut(timeOut);
+    try
+    {
+      journalRow.route(DbApi::getRoute(routeId));
+      journalRow.autoObj(DbApi::getAuto(autoId));
+    }
+    catch (const std::exception &e)
+    {
+      err = e.what();
+      return journalRow;
+    }
+    err = std::nullopt;
+    return journalRow;
+  }
+}
 
 JournalTab::JournalTab(QTableWidget *table, QPushButton *addBtn, QPushButton *removeBtn, QPushButton *refreshBtn) :
   table_(table),
@@ -19,14 +74,75 @@ JournalTab::JournalTab(QTableWidget *table, QPushButton *addBtn, QPushButton *re
   QObject::connect(refreshBtn_, &QPushButton::clicked, this, &JournalTab::refreshTablesSig);
   QObject::connect(addBtn_, &QPushButton::clicked, this, &JournalTab::addBtnClicked);
   QObject::connect(removeBtn_, &QPushButton::clicked, this, &JournalTab::removeBtnClicked);
+  QObject::connect(table_, &QTableWidget::itemChanged, this, &JournalTab::itemChanged);
 }
 
 JournalTab::~JournalTab()
 { }
 
+void JournalTab::itemChanged(QTableWidgetItem *item)
+{
+  if (refreshing_)
+    return;
+  assert(("Item must be not null", item));
+  auto &currentItemMeta = cachedItems_[item->row()][item->column()];
+  if (currentItemMeta.text == item->text())
+    return;
+  auto restoreText =
+    [&currentItemMeta, item]() {
+      item->setText(currentItemMeta.text);
+    };
+  assert(("Item must be not null", table_->item(item->row(), Column::ID)));
+  bool ok = true;
+  auto id = table_->item(item->row(), Column::ID)->text().toLong(&ok);
+  assert(("ID column must contain a valid long int", ok == true));
+
+  std::optional< std::string > err;
+  QString timeOutStr;
+  if (table_->item(item->row(), Column::TIME_OUT))
+    timeOutStr = table_->item(item->row(), Column::TIME_OUT)->text();
+  QString timeInStr;
+  if (table_->item(item->row(), Column::TIME_IN))
+    timeOutStr = table_->item(item->row(), Column::TIME_OUT)->text();
+  QString autoIdStr;
+  if (table_->item(item->row(), Column::AUTO_ID))
+    autoIdStr = table_->item(item->row(), Column::AUTO_ID)->text();
+  QString routeIdStr;
+  if (table_->item(item->row(), Column::ROUTE_ID))
+    routeIdStr = table_->item(item->row(), Column::ROUTE_ID)->text();
+  auto journalRow = journalRowFromString(timeOutStr, timeInStr, autoIdStr, routeIdStr, err);
+  journalRow.id(id);
+  if (err)
+  {
+    QMessageBox::critical(table_, "Error", QString::fromStdString(*err), QMessageBox::Close);
+    restoreText();
+    return;
+  }
+  try
+  {
+    DbApi::updateJournalRow(std::move(journalRow));
+    currentItemMeta.text = item->text();
+  }
+  catch (const odb::exception &e)
+  {
+    QMessageBox::critical(table_, "Error", e.what(), QMessageBox::Close);
+    restoreText();
+  }
+}
+
 void JournalTab::refreshTable()
 {
-  auto journalRows = DbApi::getJournalRows();
+  decltype(DbApi::getJournalRows()) journalRows;
+  try
+  {
+    journalRows = DbApi::getJournalRows();
+  }
+  catch (const std::exception &e)
+  {
+    QMessageBox::critical(table_, "Error", e.what(), QMessageBox::Close);
+    return;
+  }
+  auto refreshRAII = startRefresh();
   clearTable();
   for (const auto &journalRow : journalRows)
   {
@@ -56,6 +172,7 @@ void JournalTab::refreshTable()
       table_->setItem(curRow, Column::TIME_IN, new QTableWidgetItem(timeIn));
     }
   }
+  updateCache();
 }
 
 void JournalTab::clearTable()
@@ -63,6 +180,7 @@ void JournalTab::clearTable()
   table_->clearContents();
   for (auto row = table_->rowCount() - 1; row >= 0; --row)
     table_->removeRow(row);
+  updateCache();
 }
 
 void JournalTab::removeBtnClicked()
@@ -100,50 +218,42 @@ void JournalTab::addBtnClicked()
   bool ok = false;
   if (result == QDialog::Accepted)
   {
-    auto timeOutStr = addJournalRowDialog_->getTimeOut().toStdString();
-    odb::nullable< time_t > timeOut;
-    if (timeOutStr.size())
+    std::optional< std::string > err;
+    auto journalRow = journalRowFromString(
+      addJournalRowDialog_->getTimeOut(),
+      addJournalRowDialog_->getTimeIn(),
+      addJournalRowDialog_->getAutoId(),
+      addJournalRowDialog_->getRouteId(),
+      err);
+    if (err)
     {
-      timeOut = StringUtils::stringToMicrosecFrom2000(timeOutStr, &ok);
-      if (!ok)
-      {
-        QMessageBox::critical(table_, "Error", "Bad Time Out value. Time must be in D.M.Y H:M:S", QMessageBox::Close);
-        return;
-      }
-    }
-    auto timeInStr = addJournalRowDialog_->getTimeIn().toStdString();
-    odb::nullable< time_t > timeIn;
-    if (timeInStr.size())
-    {
-      timeIn = StringUtils::stringToMicrosecFrom2000(timeInStr, &ok);
-      if (!ok)
-      {
-        QMessageBox::critical(table_, "Error", "Bad Time In value. Time must be in D.M.Y H:M:S", QMessageBox::Close);
-        return;
-      }
-    }
-    auto autoId = addJournalRowDialog_->getAutoId().toLong(&ok);
-    if (!ok)
-    {
-      QMessageBox::critical(table_, "Bad ID", "Can not convert given auto ID to number", QMessageBox::Close);
-      return;
-    }
-    auto routeId = addJournalRowDialog_->getRouteId().toLong(&ok);
-    if (!ok)
-    {
-      QMessageBox::critical(table_, "Bad ID", "Can not convert given auto ID to number", QMessageBox::Close);
-      return;
+      QMessageBox::critical(table_, "Error", QString::fromStdString(*err), QMessageBox::Close);
+      return addBtnClicked();
     }
     try
     {
-      DbApi::addJournalRow(JournalRow(0, timeOut, timeIn, DbApi::getAuto(autoId), DbApi::getRoute(routeId)));
+      DbApi::addJournalRow(journalRow);
       QMessageBox::information(table_, "Success!", "Journal row added", QMessageBox::Ok);
     }
     catch (const odb::exception &e)
     {
       QMessageBox::critical(table_, "Error", e.what(), QMessageBox::Close);
+      return addBtnClicked();
     }
     emit refreshTablesSig();
   }
   return;
+}
+
+void JournalTab::updateCache()
+{
+  cachedItems_.clear();
+  for (int row = 0; row < table_->rowCount(); ++row)
+    for (int col = 0; col < table_->columnCount(); ++col)
+    {
+      if (table_->item(row, col))
+      {
+        cachedItems_[row][col] = ItemMeta{ table_->item(row, col)->text() };
+      }
+    }
 }
