@@ -48,16 +48,19 @@ PersonTab::PersonTab(QTableWidget *table, QPushButton *addBtn, QPushButton *remo
   copy_ = new QAction("Copy", table_);
   copy_->setShortcut(Qt::Key_Copy);
   copy_->setEnabled(false);
+  copy_->setShortcutVisibleInContextMenu(false);
   QObject::connect(copy_, &QAction::triggered, this, &PersonTab::copy);
 
   del_ = new QAction("Del", table_);
   del_->setShortcut(Qt::Key_Delete);
   del_->setEnabled(false);
+  del_->setShortcutVisibleInContextMenu(false);
   QObject::connect(del_, &QAction::triggered, this, &PersonTab::del);
 
   cut_ = new QAction("Cut", table_);
   cut_->setShortcut(Qt::Key_Cut);
   cut_->setEnabled(false);
+  cut_->setShortcutVisibleInContextMenu(false);
   QObject::connect(cut_, &QAction::triggered, this, &PersonTab::cut);
 
   delRows_ = new QAction("Del Rows", table_);
