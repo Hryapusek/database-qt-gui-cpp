@@ -12,7 +12,7 @@ AddJournalRowDialog::AddJournalRowDialog(QWidget *parent) :
   auto timeOutLineValidator = new QRegExpValidator(QRegExp(".{30}"), ui->timeOutLine);
   ui->timeOutLine->setValidator(timeOutLineValidator);
 
-  auto timeInLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->timeInLine);
+  auto timeInLineValidator = new QRegExpValidator(QRegExp(".{30}"), ui->timeInLine);
   ui->timeInLine->setValidator(timeInLineValidator);
 
   auto autoIdLineValidator = new QRegExpValidator(QRegExp("[-]?[1-9]{8}"), ui->autoIdLine);
