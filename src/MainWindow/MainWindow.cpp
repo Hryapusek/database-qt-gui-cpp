@@ -1,14 +1,18 @@
 #include "MainWindow.hpp"
 #include "UiMainWindow.hpp"
 
-#include <QPushButton>
-#include <iostream>
+#include "Database/DatabaseConnection.hpp"
 
-#include "Database/DbApi.hpp"
 #include "Person/PersonTab.hpp"
 #include "Auto/AutoTab.hpp"
 #include "Route/RouteTab.hpp"
 #include "Journal/JournalTab.hpp"
+#include "Settings/SettingsDialog.hpp"
+#include "Settings/Settings.hpp"
+
+#include <odb/exception.hxx>
+#include <QPushButton>
+#include <QMessageBox>
 
 namespace details_
 {
@@ -19,8 +23,11 @@ namespace details_
     std::unique_ptr< AutoTab > autoTab;
     std::unique_ptr< RouteTab > routeTab;
     std::unique_ptr< JournalTab > journalTab;
+    std::unique_ptr< SettingsDialog > settingsDialog;
   };
 }
+
+const std::string MainWindow::settingsFile = "settings.json";
 
 MainWindow::MainWindow() :
   pimpl_(std::make_unique< MainWindowPimpl >())
@@ -54,15 +61,27 @@ MainWindow::MainWindow() :
     pimpl_->ui->removeJournalRowBtn,
     pimpl_->ui->refreshJournalBtn
     );
+
   QObject::connect(pimpl_->personTab.get(), &PersonTab::refreshTablesSig, this, &MainWindow::refreshTables);
   QObject::connect(pimpl_->autoTab.get(), &AutoTab::refreshTablesSig, this, &MainWindow::refreshTables);
   QObject::connect(pimpl_->routeTab.get(), &RouteTab::refreshTablesSig, this, &MainWindow::refreshTables);
   QObject::connect(pimpl_->journalTab.get(), &JournalTab::refreshTablesSig, this, &MainWindow::refreshTables);
-  refreshTables();
+  QObject::connect(pimpl_->ui->resetBtn, &QPushButton::clicked, this, &MainWindow::resetConnectionClicked);
+  QObject::connect(pimpl_->ui->settingsBtn, &QPushButton::clicked, this, &MainWindow::settings);
+  try
+  {
+    Settings::read(settingsFile);
+  }
+  catch (const std::exception &e)
+  {
+    QMessageBox::critical(this, "Fatal", "Bad settings file found. Application will be closed now", QMessageBox::Close);
+    QApplication::quit();
+  }
+  if (resetConnection())
+    refreshTables();
+  else
+    QMessageBox::warning(this, "Connection error", "Can not establish connection to database. Please check settings", QMessageBox::Close);
 }
-
-MainWindow::~MainWindow()
-{ }
 
 void MainWindow::refreshTables()
 {
@@ -71,3 +90,71 @@ void MainWindow::refreshTables()
   pimpl_->routeTab->refreshTable();
   pimpl_->journalTab->refreshTable();
 }
+
+void MainWindow::clearTables()
+{
+  pimpl_->personTab->clearTable();
+  pimpl_->autoTab->clearTable();
+  pimpl_->routeTab->clearTable();
+  pimpl_->journalTab->clearTable();
+}
+
+void MainWindow::resetConnectionClicked()
+{
+  if (resetConnection())
+  {
+    QMessageBox::information(this, "Success!", "Connection established", QMessageBox::Ok);
+    refreshTables();
+  }
+  else
+  {
+    QMessageBox::critical(this, "Fail",
+      "Could not establish conneciton with database. Please check settings",
+      QMessageBox::Close);
+    clearTables();
+  }
+}
+
+bool MainWindow::resetConnection()
+{
+  try
+  {
+    DatabaseConnection::resetConnection(
+      Settings::database(),
+      Settings::username(),
+      Settings::password()
+      );
+    return true;
+  }
+  catch (const odb::exception &e)
+  {
+    return false;
+  }
+}
+
+void MainWindow::settings()
+{
+  auto &settingsDialog = pimpl_->settingsDialog;
+  if (!settingsDialog)
+  {
+    settingsDialog = std::make_unique< SettingsDialog >(this);
+    QObject::connect(settingsDialog.get(), &SettingsDialog::apply, this, &MainWindow::settingsApply);
+  }
+  settingsDialog->username(QString::fromStdString(Settings::username()));
+  settingsDialog->database(QString::fromStdString(Settings::database()));
+  settingsDialog->password(QString::fromStdString(Settings::password()));
+  if (settingsDialog->exec() == QDialog::Accepted)
+    settingsApply();
+}
+
+void MainWindow::settingsApply()
+{
+  Settings::username(pimpl_->settingsDialog->username().toStdString());
+  Settings::database(pimpl_->settingsDialog->database().toStdString());
+  Settings::password(pimpl_->settingsDialog->password().toStdString());
+  Settings::write(settingsFile);
+  resetConnectionClicked();
+}
+
+MainWindow::~MainWindow()
+{ }

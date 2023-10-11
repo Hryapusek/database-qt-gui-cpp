@@ -1,4 +1,5 @@
 #include "JournalTab.hpp"
+
 #include "Database/DbApi.hpp"
 
 #include "MainWindow/Utils.hpp"
@@ -6,9 +7,14 @@
 #include "AddJournalRowDialog.hpp"
 #include "RemoveJournalRowDialog.hpp"
 
-#include <optional>
-#include <QMessageBox>
 #include <odb/exceptions.hxx>
+#include <QMessageBox>
+#include <QMenu>
+#include <QAction>
+#include <QGuiApplication>
+#include <QClipboard>
+#include <ranges>
+#include <optional>
 
 namespace
 {
@@ -75,59 +81,6 @@ JournalTab::JournalTab(QTableWidget *table, QPushButton *addBtn, QPushButton *re
   QObject::connect(addBtn_, &QPushButton::clicked, this, &JournalTab::addBtnClicked);
   QObject::connect(removeBtn_, &QPushButton::clicked, this, &JournalTab::removeBtnClicked);
   QObject::connect(table_, &QTableWidget::itemChanged, this, &JournalTab::itemChanged);
-}
-
-JournalTab::~JournalTab()
-{ }
-
-void JournalTab::itemChanged(QTableWidgetItem *item)
-{
-  if (refreshing_)
-    return;
-  assert(("Item must be not null", item));
-  auto &currentItemMeta = cachedItems_[item->row()][item->column()];
-  if (currentItemMeta.text == item->text())
-    return;
-  auto restoreText =
-    [&currentItemMeta, item]() {
-      item->setText(currentItemMeta.text);
-    };
-  assert(("Item must be not null", table_->item(item->row(), Column::ID)));
-  bool ok = true;
-  auto id = table_->item(item->row(), Column::ID)->text().toLong(&ok);
-  assert(("ID column must contain a valid long int", ok == true));
-
-  std::optional< std::string > err;
-  QString timeOutStr;
-  if (table_->item(item->row(), Column::TIME_OUT))
-    timeOutStr = table_->item(item->row(), Column::TIME_OUT)->text();
-  QString timeInStr;
-  if (table_->item(item->row(), Column::TIME_IN))
-    timeOutStr = table_->item(item->row(), Column::TIME_OUT)->text();
-  QString autoIdStr;
-  if (table_->item(item->row(), Column::AUTO_ID))
-    autoIdStr = table_->item(item->row(), Column::AUTO_ID)->text();
-  QString routeIdStr;
-  if (table_->item(item->row(), Column::ROUTE_ID))
-    routeIdStr = table_->item(item->row(), Column::ROUTE_ID)->text();
-  auto journalRow = journalRowFromString(timeOutStr, timeInStr, autoIdStr, routeIdStr, err);
-  journalRow.id(id);
-  if (err)
-  {
-    QMessageBox::critical(table_, "Error", QString::fromStdString(*err), QMessageBox::Close);
-    restoreText();
-    return;
-  }
-  try
-  {
-    DbApi::updateJournalRow(std::move(journalRow));
-    currentItemMeta.text = item->text();
-  }
-  catch (const odb::exception &e)
-  {
-    QMessageBox::critical(table_, "Error", e.what(), QMessageBox::Close);
-    restoreText();
-  }
 }
 
 void JournalTab::refreshTable()
@@ -245,6 +198,163 @@ void JournalTab::addBtnClicked()
   return;
 }
 
+void JournalTab::itemChanged(QTableWidgetItem *item)
+{
+  if (refreshing_)
+    return;
+  assert(("Item must be not null", item));
+  auto &currentItemMeta = cachedItems_[item->row()][item->column()];
+  if (currentItemMeta.text == item->text())
+    return;
+  auto restoreText =
+    [&currentItemMeta, item]() {
+      item->setText(currentItemMeta.text);
+    };
+  assert(("Item must be not null", table_->item(item->row(), Column::ID)));
+  bool ok = true;
+  auto id = table_->item(item->row(), Column::ID)->text().toLong(&ok);
+  assert(("ID column must contain a valid long int", ok == true));
+
+  std::optional< std::string > err;
+  QString timeOutStr;
+  if (table_->item(item->row(), Column::TIME_OUT))
+    timeOutStr = table_->item(item->row(), Column::TIME_OUT)->text();
+  QString timeInStr;
+  if (table_->item(item->row(), Column::TIME_IN))
+    timeOutStr = table_->item(item->row(), Column::TIME_OUT)->text();
+  QString autoIdStr;
+  if (table_->item(item->row(), Column::AUTO_ID))
+    autoIdStr = table_->item(item->row(), Column::AUTO_ID)->text();
+  QString routeIdStr;
+  if (table_->item(item->row(), Column::ROUTE_ID))
+    routeIdStr = table_->item(item->row(), Column::ROUTE_ID)->text();
+  auto journalRow = journalRowFromString(timeOutStr, timeInStr, autoIdStr, routeIdStr, err);
+  journalRow.id(id);
+  if (err)
+  {
+    QMessageBox::critical(table_, "Error", QString::fromStdString(*err), QMessageBox::Close);
+    restoreText();
+    return;
+  }
+  try
+  {
+    DbApi::updateJournalRow(std::move(journalRow));
+    currentItemMeta.text = item->text();
+  }
+  catch (const odb::exception &e)
+  {
+    QMessageBox::critical(table_, "Error", e.what(), QMessageBox::Close);
+    restoreText();
+  }
+}
+
+void JournalTab::menu(const QPoint &pos)
+{
+  checkCopyEnabled();
+  checkDelEnabled();
+  checkCutEnabled();
+  checkDelRowsEnabled();
+  menu_->exec(QCursor::pos());
+}
+
+void JournalTab::copy()
+{
+  QString str;
+  auto item = table_->currentItem();
+  if (item)
+    str = item->text();
+  QGuiApplication::clipboard()->setText(str);
+}
+
+void JournalTab::del()
+{
+  auto selectedRanges = table_->selectedRanges();
+  for (const auto &range : selectedRanges)
+  {
+    for (int col = range.leftColumn(); col <= range.rightColumn(); ++col)
+    {
+      if (col == Column::ID)
+        continue;
+      for (int row = range.topRow(); row <= range.bottomRow(); ++row)
+      {
+        if (!table_->item(row, col))
+          continue;
+        table_->item(row, col)->setText("");
+      }
+    }
+  }
+}
+
+void JournalTab::cut()
+{
+  copy();
+  del();
+}
+
+void JournalTab::delRows()
+{
+  std::map< Row_t, Id_t > rowIdMap;
+  auto selectedRanges = table_->selectedRanges();
+  for (const auto &range : selectedRanges)
+  {
+    for (Row_t row = range.bottomRow(); row >= range.topRow(); --row)
+    {
+      bool ok = true;
+      assert(("ID Column must be not null", table_->item(row, Column::ID)));
+      Id_t id = table_->item(row, Column::ID)->text().toLong(&ok);
+      assert(("ID Column must contain valid number", ok));
+      rowIdMap.insert({ row, id });
+    }
+  }
+  for (const auto [row, id] : rowIdMap | std::views::reverse)
+  {
+    try
+    {
+      DbApi::removeJournalRow(id);
+      table_->removeRow(row);
+      cachedItems_.erase(row);
+    }
+    catch (const odb::exception &e)
+    {
+      QMessageBox::warning(table_, "Skipping person",
+        QString::fromStdString("Can not delete person with id " + std::to_string(id)) + ". " + e.what(),
+        QMessageBox::Close);
+    }
+  }
+}
+
+void JournalTab::checkCopyEnabled()
+{
+  auto selectedRanges = table_->selectedRanges();
+  if (selectedRanges.size() != 1 || selectedRanges[0].columnCount() * selectedRanges[0].rowCount() != 1)
+    copy_->setEnabled(false);
+  else
+    copy_->setEnabled(true);
+}
+
+void JournalTab::checkDelEnabled()
+{
+  auto selectedRanges = table_->selectedRanges();
+  del_->setEnabled(!selectedRanges.empty());
+}
+
+void JournalTab::checkCutEnabled()
+{
+  cut_->setEnabled(copy_->isEnabled());
+}
+
+void JournalTab::checkDelRowsEnabled()
+{
+  auto selectedRanges = table_->selectedRanges();
+  bool allRows = true;
+  for (const auto &range : selectedRanges)
+  {
+    allRows = allRows && range.leftColumn() == Column::ID && range.rightColumn() == Column::ROUTE_ID;
+  }
+  delRows_->setEnabled(allRows);
+  del_->setEnabled(!delRows_->isEnabled());
+}
+
 void JournalTab::updateCache()
 {
   cachedItems_.clear();
@@ -257,3 +367,6 @@ void JournalTab::updateCache()
       }
     }
 }
+
+JournalTab::~JournalTab()
+{ }
