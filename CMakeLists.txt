@@ -17,6 +17,7 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 find_library(ODB_PGSQL odb-pgsql REQUIRED)
 find_library(ODB odb REQUIRED)
+find_library(JSONCPP jsoncpp REQUIRED)
 
 set(TARGET tables)
 
@@ -43,9 +44,13 @@ add_executable(${TARGET}
     src/MainWindow/Journal/AddJournalRowDialog.cpp
     src/MainWindow/Journal/RemoveJournalRowDialog.cpp
 
+    src/MainWindow/Settings/SettingsDialog.cpp
+
+    src/Settings/Settings.cpp
+
     src/main.cpp
 )
 
 target_include_directories(${TARGET} PRIVATE src)
 
-target_link_libraries(${TARGET} Qt5::Widgets database ${ODB_PGSQL} ${ODB} )
+target_link_libraries(${TARGET} Qt5::Widgets database ${ODB_PGSQL} ${ODB} ${JSONCPP} )
