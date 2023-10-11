@@ -8,7 +8,7 @@ namespace details_
   struct MainWindowPimpl;
 }
 
-class MainWindow : public QMainWindow
+class MainWindow: public QMainWindow
 {
   Q_OBJECT
 
@@ -18,9 +18,17 @@ public:
   MainWindow();
   virtual ~MainWindow();
 
+private slots:
+  void resetConnectionClicked();
+  void settings();
+  void settingsApply();
+
 private:
-  std::unique_ptr<MainWindowPimpl> pimpl_;
+  static const std::string settingsFile;
+  std::unique_ptr< MainWindowPimpl > pimpl_;
   void refreshTables();
+  void clearTables();
+  bool resetConnection();
 };
 
 #endif
