@@ -1,11 +1,17 @@
 #include "AutoTab.hpp"
+
 #include "Database/DbApi.hpp"
 
 #include "AddAutoDialog.hpp"
 #include "RemoveAutoDialog.hpp"
 
-#include <QMessageBox>
 #include <odb/exceptions.hxx>
+#include <QMessageBox>
+#include <QMenu>
+#include <QAction>
+#include <QGuiApplication>
+#include <QClipboard>
+#include <ranges>
 #include <optional>
 
 namespace
@@ -48,62 +54,36 @@ AutoTab::AutoTab(QTableWidget *table, QPushButton *addBtn, QPushButton *removeBt
   QObject::connect(addBtn_, &QPushButton::clicked, this, &AutoTab::addBtnClicked);
   QObject::connect(removeBtn_, &QPushButton::clicked, this, &AutoTab::removeBtnClicked);
   QObject::connect(table_, &QTableWidget::itemChanged, this, &AutoTab::itemChanged);
-}
+  table_->setContextMenuPolicy(Qt::CustomContextMenu);
+  QObject::connect(table_, &QTableWidget::customContextMenuRequested, this, &AutoTab::menu);
 
-void AutoTab::itemChanged(QTableWidgetItem *item)
-{
-  if (refreshing_)
-    return;
-  assert(("Item must be not null", item));
-  auto &currentItemMeta = cachedItems_[item->row()][item->column()];
-  if (currentItemMeta.text == item->text())
-    return;
-  auto restoreText =
-    [&currentItemMeta, item]() {
-      item->setText(currentItemMeta.text);
-    };
-  assert(("Item must be not null", table_->item(item->row(), Column::ID)));
+  copy_ = new QAction("Copy", table_);
+  copy_->setShortcut(Qt::Key_Copy);
+  copy_->setEnabled(false);
+  copy_->setShortcutVisibleInContextMenu(false);
+  QObject::connect(copy_, &QAction::triggered, this, &AutoTab::copy);
 
-  bool ok = true;
-  auto id = table_->item(item->row(), Column::ID)->text().toLong(&ok);
-  assert(("ID column must contain a valid long int", ok == true));
+  del_ = new QAction("Del", table_);
+  del_->setShortcut(Qt::Key_Delete);
+  del_->setEnabled(false);
+  del_->setShortcutVisibleInContextMenu(false);
+  QObject::connect(del_, &QAction::triggered, this, &AutoTab::del);
 
-  QString num;
-  if (table_->item(item->row(), Column::NUM))
-    num = table_->item(item->row(), Column::NUM)->text();
+  cut_ = new QAction("Cut", table_);
+  cut_->setShortcut(Qt::Key_Cut);
+  cut_->setEnabled(false);
+  cut_->setShortcutVisibleInContextMenu(false);
+  QObject::connect(cut_, &QAction::triggered, this, &AutoTab::cut);
 
-  QString color;
-  if (table_->item(item->row(), Column::COLOR))
-    color = table_->item(item->row(), Column::COLOR)->text();
+  delRows_ = new QAction("Del Rows", table_);
+  delRows_->setEnabled(false);
+  QObject::connect(delRows_, &QAction::triggered, this, &AutoTab::delRows);
 
-  QString mark;
-  if (table_->item(item->row(), Column::MARK))
-    mark = table_->item(item->row(), Column::MARK)->text();
-
-  QString personId;
-  if (table_->item(item->row(), Column::PERSON_ID))
-    personId = table_->item(item->row(), Column::PERSON_ID)->text();
-
-  std::optional< std::string > err;
-  auto autoObj = autoFromString(std::move(num), std::move(color), std::move(mark), std::move(personId), err);
-  autoObj.id(id);
-  if (err)
-  {
-    QMessageBox::critical(table_, "Error", QString::fromStdString(*err), QMessageBox::Close);
-    restoreText();
-    return;
-  }
-
-  try
-  {
-    DbApi::updateAuto(std::move(autoObj));
-    currentItemMeta.text = item->text();
-  }
-  catch (const odb::exception &e)
-  {
-    QMessageBox::critical(table_, "Error", e.what(), QMessageBox::Close);
-    restoreText();
-  }
+  menu_ = std::make_unique< QMenu >(table_);
+  menu_->addAction(copy_);
+  menu_->addAction(del_);
+  menu_->addAction(cut_);
+  menu_->addAction(delRows_);
 }
 
 void AutoTab::refreshTable()
@@ -157,9 +137,6 @@ void AutoTab::clearTable()
     table_->removeRow(row);
   updateCache();
 }
-
-AutoTab::~AutoTab()
-{ }
 
 void AutoTab::removeBtnClicked()
 {
@@ -222,6 +199,169 @@ void AutoTab::addBtnClicked()
   return;
 }
 
+void AutoTab::itemChanged(QTableWidgetItem *item)
+{
+  if (refreshing_)
+    return;
+  assert(("Item must be not null", item));
+  auto &currentItemMeta = cachedItems_[item->row()][item->column()];
+  if (currentItemMeta.text == item->text())
+    return;
+  auto restoreText =
+    [&currentItemMeta, item]() {
+      item->setText(currentItemMeta.text);
+    };
+  assert(("Item must be not null", table_->item(item->row(), Column::ID)));
+
+  bool ok = true;
+  auto id = table_->item(item->row(), Column::ID)->text().toLong(&ok);
+  assert(("ID column must contain a valid long int", ok == true));
+
+  QString num;
+  if (table_->item(item->row(), Column::NUM))
+    num = table_->item(item->row(), Column::NUM)->text();
+
+  QString color;
+  if (table_->item(item->row(), Column::COLOR))
+    color = table_->item(item->row(), Column::COLOR)->text();
+
+  QString mark;
+  if (table_->item(item->row(), Column::MARK))
+    mark = table_->item(item->row(), Column::MARK)->text();
+
+  QString personId;
+  if (table_->item(item->row(), Column::PERSON_ID))
+    personId = table_->item(item->row(), Column::PERSON_ID)->text();
+
+  std::optional< std::string > err;
+  auto autoObj = autoFromString(std::move(num), std::move(color), std::move(mark), std::move(personId), err);
+  autoObj.id(id);
+  if (err)
+  {
+    QMessageBox::critical(table_, "Error", QString::fromStdString(*err), QMessageBox::Close);
+    restoreText();
+    return;
+  }
+
+  try
+  {
+    DbApi::updateAuto(std::move(autoObj));
+    currentItemMeta.text = item->text();
+  }
+  catch (const odb::exception &e)
+  {
+    QMessageBox::critical(table_, "Error", e.what(), QMessageBox::Close);
+    restoreText();
+  }
+}
+
+void AutoTab::menu(const QPoint &pos)
+{
+  checkCopyEnabled();
+  checkDelEnabled();
+  checkCutEnabled();
+  checkDelRowsEnabled();
+  menu_->exec(QCursor::pos());
+}
+
+void AutoTab::copy()
+{
+  QString str;
+  auto item = table_->currentItem();
+  if (item)
+    str = item->text();
+  QGuiApplication::clipboard()->setText(str);
+}
+
+void AutoTab::del()
+{
+  auto selectedRanges = table_->selectedRanges();
+  for (const auto &range : selectedRanges)
+  {
+    for (int col = range.leftColumn(); col <= range.rightColumn(); ++col)
+    {
+      if (col == Column::ID)
+        continue;
+      for (int row = range.topRow(); row <= range.bottomRow(); ++row)
+      {
+        if (!table_->item(row, col))
+          continue;
+        table_->item(row, col)->setText("");
+      }
+    }
+  }
+}
+
+void AutoTab::cut()
+{
+  copy();
+  del();
+}
+
+void AutoTab::delRows()
+{
+  std::map< Row_t, Id_t > rowIdMap;
+  auto selectedRanges = table_->selectedRanges();
+  for (const auto &range : selectedRanges)
+  {
+    for (Row_t row = range.bottomRow(); row >= range.topRow(); --row)
+    {
+      bool ok = true;
+      assert(("ID Column must be not null", table_->item(row, Column::ID)));
+      Id_t id = table_->item(row, Column::ID)->text().toLong(&ok);
+      assert(("ID Column must contain valid number", ok));
+      rowIdMap.insert({ row, id });
+    }
+  }
+  for (const auto [row, id] : rowIdMap | std::views::reverse)
+  {
+    try
+    {
+      DbApi::removeAuto(id);
+      table_->removeRow(row);
+      cachedItems_.erase(row);
+    }
+    catch (const odb::exception &e)
+    {
+      QMessageBox::warning(table_, "Skipping person",
+        QString::fromStdString("Can not delete person with id " + std::to_string(id)) + ". " + e.what(),
+        QMessageBox::Close);
+    }
+  }
+}
+
+void AutoTab::checkCopyEnabled()
+{
+  auto selectedRanges = table_->selectedRanges();
+  if (selectedRanges.size() != 1 || selectedRanges[0].columnCount() * selectedRanges[0].rowCount() != 1)
+    copy_->setEnabled(false);
+  else
+    copy_->setEnabled(true);
+}
+
+void AutoTab::checkDelEnabled()
+{
+  auto selectedRanges = table_->selectedRanges();
+  del_->setEnabled(!selectedRanges.empty());
+}
+
+void AutoTab::checkCutEnabled()
+{
+  cut_->setEnabled(copy_->isEnabled());
+}
+
+void AutoTab::checkDelRowsEnabled()
+{
+  auto selectedRanges = table_->selectedRanges();
+  bool allRows = true;
+  for (const auto &range : selectedRanges)
+  {
+    allRows = allRows && range.leftColumn() == Column::ID && range.rightColumn() == Column::PERSON_ID;
+  }
+  delRows_->setEnabled(allRows);
+  del_->setEnabled(!delRows_->isEnabled());
+}
+
 void AutoTab::updateCache()
 {
   cachedItems_.clear();
@@ -235,3 +375,5 @@ void AutoTab::updateCache()
     }
 }
 
+AutoTab::~AutoTab()
+{ }
