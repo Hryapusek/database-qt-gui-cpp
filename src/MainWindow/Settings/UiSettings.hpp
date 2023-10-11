@@ -16,6 +16,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
@@ -25,14 +26,16 @@ class Ui_SettingsDialog
 public:
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
-    QLabel *label;
-    QLineEdit *lineEdit;
+    QLabel *databaseLbl;
+    QLineEdit *databaseLine;
     QHBoxLayout *horizontalLayout_2;
-    QLabel *label_2;
-    QLineEdit *lineEdit_2;
+    QLabel *usernameLbl;
+    QLineEdit *usernameLine;
     QHBoxLayout *horizontalLayout_3;
-    QLabel *label_3;
-    QLineEdit *lineEdit_3;
+    QLabel *passwordLbl;
+    QLineEdit *passwordLine;
+    QHBoxLayout *horizontalLayout_4;
+    QPushButton *applyBtn;
     QDialogButtonBox *buttonBox;
 
     void setupUi(QDialog *SettingsDialog)
@@ -40,60 +43,70 @@ public:
         if (SettingsDialog->objectName().isEmpty())
             SettingsDialog->setObjectName(QString::fromUtf8("SettingsDialog"));
         SettingsDialog->setWindowModality(Qt::ApplicationModal);
-        SettingsDialog->resize(237, 237);
+        SettingsDialog->resize(272, 194);
         verticalLayout = new QVBoxLayout(SettingsDialog);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        label = new QLabel(SettingsDialog);
-        label->setObjectName(QString::fromUtf8("label"));
+        databaseLbl = new QLabel(SettingsDialog);
+        databaseLbl->setObjectName(QString::fromUtf8("databaseLbl"));
 
-        horizontalLayout->addWidget(label);
+        horizontalLayout->addWidget(databaseLbl);
 
-        lineEdit = new QLineEdit(SettingsDialog);
-        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+        databaseLine = new QLineEdit(SettingsDialog);
+        databaseLine->setObjectName(QString::fromUtf8("databaseLine"));
 
-        horizontalLayout->addWidget(lineEdit);
+        horizontalLayout->addWidget(databaseLine);
 
 
         verticalLayout->addLayout(horizontalLayout);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        label_2 = new QLabel(SettingsDialog);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
+        usernameLbl = new QLabel(SettingsDialog);
+        usernameLbl->setObjectName(QString::fromUtf8("usernameLbl"));
 
-        horizontalLayout_2->addWidget(label_2);
+        horizontalLayout_2->addWidget(usernameLbl);
 
-        lineEdit_2 = new QLineEdit(SettingsDialog);
-        lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
+        usernameLine = new QLineEdit(SettingsDialog);
+        usernameLine->setObjectName(QString::fromUtf8("usernameLine"));
 
-        horizontalLayout_2->addWidget(lineEdit_2);
+        horizontalLayout_2->addWidget(usernameLine);
 
 
         verticalLayout->addLayout(horizontalLayout_2);
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
-        label_3 = new QLabel(SettingsDialog);
-        label_3->setObjectName(QString::fromUtf8("label_3"));
+        passwordLbl = new QLabel(SettingsDialog);
+        passwordLbl->setObjectName(QString::fromUtf8("passwordLbl"));
 
-        horizontalLayout_3->addWidget(label_3);
+        horizontalLayout_3->addWidget(passwordLbl);
 
-        lineEdit_3 = new QLineEdit(SettingsDialog);
-        lineEdit_3->setObjectName(QString::fromUtf8("lineEdit_3"));
+        passwordLine = new QLineEdit(SettingsDialog);
+        passwordLine->setObjectName(QString::fromUtf8("passwordLine"));
 
-        horizontalLayout_3->addWidget(lineEdit_3);
+        horizontalLayout_3->addWidget(passwordLine);
 
 
         verticalLayout->addLayout(horizontalLayout_3);
+
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
+        applyBtn = new QPushButton(SettingsDialog);
+        applyBtn->setObjectName(QString::fromUtf8("applyBtn"));
+
+        horizontalLayout_4->addWidget(applyBtn);
 
         buttonBox = new QDialogButtonBox(SettingsDialog);
         buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
 
-        verticalLayout->addWidget(buttonBox);
+        horizontalLayout_4->addWidget(buttonBox);
+
+
+        verticalLayout->addLayout(horizontalLayout_4);
 
 
         retranslateUi(SettingsDialog);
@@ -106,9 +119,10 @@ public:
     void retranslateUi(QDialog *SettingsDialog)
     {
         SettingsDialog->setWindowTitle(QCoreApplication::translate("SettingsDialog", "Settings", nullptr));
-        label->setText(QCoreApplication::translate("SettingsDialog", "Database", nullptr));
-        label_2->setText(QCoreApplication::translate("SettingsDialog", "Username", nullptr));
-        label_3->setText(QCoreApplication::translate("SettingsDialog", "Password", nullptr));
+        databaseLbl->setText(QCoreApplication::translate("SettingsDialog", "Database", nullptr));
+        usernameLbl->setText(QCoreApplication::translate("SettingsDialog", "Username", nullptr));
+        passwordLbl->setText(QCoreApplication::translate("SettingsDialog", "Password", nullptr));
+        applyBtn->setText(QCoreApplication::translate("SettingsDialog", "Apply", nullptr));
     } // retranslateUi
 
 };
