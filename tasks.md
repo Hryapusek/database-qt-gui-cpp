@@ -1,7 +1,7 @@
 # Current tasks
 
 # Tasks
-- Settings dialog
+- Handle Read Write Settings exceptions
 
 # Future tasks
 - Sorting?
@@ -33,3 +33,10 @@
 - Make Add Window not lose their data after closing or error 8.10
 - Add clear button to Add Row 8.10
 - On cell change 8.10
+- Delete Row 10.10 (11.10 04:43)
+- Copy 10.10 (11.10 04:43)
+- Delete Cell 10.10 (11.10 04:43)
+- Cut 10.10 (11.10 04:43)
+- Right click context menu 10.10 (11.10 04:43)
+- Settings and Settings Dialog 10.10 (11.10 04:43)
+- Connection establishing using settings 10.10 (11.10 04:43)
