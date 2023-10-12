@@ -2,7 +2,6 @@
 
 # Tasks
 - Add time format checking
-- Paste action?
 
 # Future tasks
 - Sorting?
@@ -45,3 +44,5 @@
 - Add info action in Route menu(task in the file) 12.10 18:52
 - Fix Shortcuts(need to add checking if action is allowed instead of just doing it) 12.10 22:53
 - Fix Shortcuts(addAction to every table_) 12.10 22:53
+- Undo previous task 12.10 23:56
+- Paste action? 12.10 23:56
