@@ -364,25 +364,45 @@ void JournalTab::delRows()
 
 void JournalTab::checkCopyEnabled()
 {
+  copy_->setEnabled(isCopyEnabled());
+}
+
+bool JournalTab::isCopyEnabled()
+{
   auto selectedRanges = table_->selectedRanges();
   if (selectedRanges.size() != 1 || selectedRanges[0].columnCount() * selectedRanges[0].rowCount() != 1)
-    copy_->setEnabled(false);
+    return false;
   else
-    copy_->setEnabled(true);
+    return true;
 }
 
 void JournalTab::checkDelEnabled()
 {
+  del_->setEnabled(isDelEnabled() && !isDelRowsEnabled());
+}
+
+bool JournalTab::isDelEnabled()
+{
   auto selectedRanges = table_->selectedRanges();
-  del_->setEnabled(!selectedRanges.empty());
+  return !selectedRanges.empty();
 }
 
 void JournalTab::checkCutEnabled()
 {
-  cut_->setEnabled(copy_->isEnabled());
+  cut_->setEnabled(isCutEnabled());
+}
+
+bool JournalTab::isCutEnabled()
+{
+  return isCopyEnabled() && isDelEnabled();
 }
 
 void JournalTab::checkDelRowsEnabled()
+{
+  delRows_->setEnabled(isDelRowsEnabled());
+}
+
+bool JournalTab::isDelRowsEnabled()
 {
   auto selectedRanges = table_->selectedRanges();
   bool allRows = true;
@@ -390,8 +410,7 @@ void JournalTab::checkDelRowsEnabled()
   {
     allRows = allRows && range.leftColumn() == Column::ID && range.rightColumn() == Column::ROUTE_ID;
   }
-  delRows_->setEnabled(allRows);
-  del_->setEnabled(!delRows_->isEnabled());
+  return allRows;
 }
 
 void JournalTab::updateCache()

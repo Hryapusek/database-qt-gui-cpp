@@ -62,6 +62,11 @@ PersonTab::PersonTab(QTableWidget *table, QPushButton *addBtn, QPushButton *remo
   delRows_->setEnabled(false);
   QObject::connect(delRows_, &QAction::triggered, this, &PersonTab::delRows);
 
+  table_->addAction(copy_);
+  table_->addAction(del_);
+  table_->addAction(cut_);
+  table_->addAction(delRows_);
+
   menu_ = std::make_unique< QMenu >(table_);
   menu_->addAction(copy_);
   menu_->addAction(del_);
@@ -309,25 +314,45 @@ void PersonTab::delRows()
 
 void PersonTab::checkCopyEnabled()
 {
+  copy_->setEnabled(isCopyEnabled());
+}
+
+bool PersonTab::isCopyEnabled()
+{
   auto selectedRanges = table_->selectedRanges();
   if (selectedRanges.size() != 1 || selectedRanges[0].columnCount() * selectedRanges[0].rowCount() != 1)
-    copy_->setEnabled(false);
+    return false;
   else
-    copy_->setEnabled(true);
+    return true;
 }
 
 void PersonTab::checkDelEnabled()
 {
+  del_->setEnabled(isDelEnabled() && !isDelRowsEnabled());
+}
+
+bool PersonTab::isDelEnabled()
+{
   auto selectedRanges = table_->selectedRanges();
-  del_->setEnabled(!selectedRanges.empty());
+  return !selectedRanges.empty();
 }
 
 void PersonTab::checkCutEnabled()
 {
-  cut_->setEnabled(copy_->isEnabled());
+  cut_->setEnabled(isCutEnabled());
+}
+
+bool PersonTab::isCutEnabled()
+{
+  return isCopyEnabled() && isDelEnabled();
 }
 
 void PersonTab::checkDelRowsEnabled()
+{
+  delRows_->setEnabled(isDelRowsEnabled());
+}
+
+bool PersonTab::isDelRowsEnabled()
 {
   auto selectedRanges = table_->selectedRanges();
   bool allRows = true;
@@ -335,8 +360,7 @@ void PersonTab::checkDelRowsEnabled()
   {
     allRows = allRows && range.leftColumn() == Column::ID && range.rightColumn() == Column::FATHER_NAME;
   }
-  delRows_->setEnabled(allRows);
-  del_->setEnabled(!delRows_->isEnabled());
+  return allRows;
 }
 
 void PersonTab::updateCache()

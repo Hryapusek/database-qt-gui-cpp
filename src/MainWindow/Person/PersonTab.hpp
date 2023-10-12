@@ -88,11 +88,16 @@ private:
   }
   
   void updateCache();
+
   void checkCopyEnabled();
+  bool isCopyEnabled();
   void checkDelEnabled();
+  bool isDelEnabled();
   void checkCutEnabled();
+  bool isCutEnabled();
   /// @note Must be called only after checkDelEnabled();
   void checkDelRowsEnabled();
+  bool isDelRowsEnabled();
 };
 
 #endif

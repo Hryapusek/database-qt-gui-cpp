@@ -348,25 +348,45 @@ void RouteTab::info()
 
 void RouteTab::checkCopyEnabled()
 {
+  copy_->setEnabled(isCopyEnabled());
+}
+
+bool RouteTab::isCopyEnabled()
+{
   auto selectedRanges = table_->selectedRanges();
   if (selectedRanges.size() != 1 || selectedRanges[0].columnCount() * selectedRanges[0].rowCount() != 1)
-    copy_->setEnabled(false);
+    return false;
   else
-    copy_->setEnabled(true);
+    return true;
 }
 
 void RouteTab::checkDelEnabled()
 {
+  del_->setEnabled(isDelEnabled() && !isDelRowsEnabled());
+}
+
+bool RouteTab::isDelEnabled()
+{
   auto selectedRanges = table_->selectedRanges();
-  del_->setEnabled(!selectedRanges.empty());
+  return !selectedRanges.empty();
 }
 
 void RouteTab::checkCutEnabled()
 {
-  cut_->setEnabled(copy_->isEnabled());
+  cut_->setEnabled(isCutEnabled());
+}
+
+bool RouteTab::isCutEnabled()
+{
+  return isCopyEnabled() && isDelEnabled();
 }
 
 void RouteTab::checkDelRowsEnabled()
+{
+  delRows_->setEnabled(isDelRowsEnabled());
+}
+
+bool RouteTab::isDelRowsEnabled()
 {
   auto selectedRanges = table_->selectedRanges();
   bool allRows = true;
@@ -374,15 +394,19 @@ void RouteTab::checkDelRowsEnabled()
   {
     allRows = allRows && range.leftColumn() == Column::ID && range.rightColumn() == Column::NAME;
   }
-  delRows_->setEnabled(allRows);
-  del_->setEnabled(!delRows_->isEnabled());
+  return allRows;
 }
 
 void RouteTab::checkInfoEnabled()
 {
+  info_->setEnabled(isInfoEnabled());
+}
+
+bool RouteTab::isInfoEnabled()
+{
   auto selectedRanges = table_->selectedRanges();
   bool isSelectionFromOneRow = selectedRanges.size() == 1 and selectedRanges[0].rowCount() == 1;
-  info_->setEnabled(isSelectionFromOneRow);
+  return isSelectionFromOneRow;
 }
 
 void RouteTab::updateCache()
