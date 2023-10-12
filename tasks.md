@@ -1,9 +1,8 @@
 # Current tasks
 
 # Tasks
-- Paste action?
-- Fix Shortcuts(need to add checking if action is allowed now instead of just doing it)
 - Add time format checking
+- Paste action?
 
 # Future tasks
 - Sorting?
@@ -44,3 +43,5 @@
 - Connection establishing using settings 10.10 (11.10 04:43)
 - Handle Read Write Settings exceptions 12.10 15:56
 - Add info action in Route menu(task in the file) 12.10 18:52
+- Fix Shortcuts(need to add checking if action is allowed instead of just doing it) 12.10 22:53
+- Fix Shortcuts(addAction to every table_) 12.10 22:53
