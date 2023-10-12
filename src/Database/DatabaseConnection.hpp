@@ -8,7 +8,7 @@ class DatabaseConnection
 {
 public:
   /// @brief Make sure @ref resetConnection was called at least once before usage
-  static std::shared_ptr<odb::database> connection();
+  static std::shared_ptr<odb::database> database();
   
   /// @brief Tries to establish connection with given parameters
   /// @throw odb::exception

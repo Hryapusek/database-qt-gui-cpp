@@ -5,7 +5,7 @@
 
 std::shared_ptr< odb::database > DatabaseConnection::database_ = nullptr;
 
-std::shared_ptr<odb::database> DatabaseConnection::connection()
+std::shared_ptr<odb::database> DatabaseConnection::database()
 {
   if (database_ == nullptr)
     throw odb::connection_lost{};
