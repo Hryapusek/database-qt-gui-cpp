@@ -12,6 +12,10 @@
 #include <QClipboard>
 #include <ranges>
 
+#ifndef _NDEBUG
+  #include <iostream>
+#endif
+
 namespace
 {
   Route routeFromString(QString name, std::optional< std::string > &err)
@@ -58,12 +62,16 @@ RouteTab::RouteTab(QTableWidget *table, QPushButton *addBtn, QPushButton *remove
   delRows_->setEnabled(false);
   QObject::connect(delRows_, &QAction::triggered, this, &RouteTab::delRows);
 
+  info_ = new QAction("Info", table_);
+  info_->setEnabled(false);
+  QObject::connect(info_, &QAction::triggered, this, &RouteTab::info);
+
   menu_ = std::make_unique< QMenu >(table_);
   menu_->addAction(copy_);
   menu_->addAction(del_);
   menu_->addAction(cut_);
   menu_->addAction(delRows_);
-
+  menu_->addAction(info_);
 }
 
 void RouteTab::refreshTable()
@@ -203,6 +211,7 @@ void RouteTab::menu(const QPoint &pos)
   checkDelEnabled();
   checkCutEnabled();
   checkDelRowsEnabled();
+  checkInfoEnabled();
   menu_->exec(QCursor::pos());
 }
 
@@ -272,6 +281,71 @@ void RouteTab::delRows()
   }
 }
 
+void RouteTab::info()
+{
+  auto item = table_->item(table_->currentItem()->row(), Column::ID);
+  assert(("ID must be not null", item != nullptr));
+  bool ok = true;
+  auto routeId = item->text().toLong(&ok);
+  assert(("ID must be a valid number", ok));
+  std::optional< time_t > record;
+  Id_t recordAutoId = 0;
+  long nAutoInRoute = 0;
+  decltype(DbApi::getJournalRows()) journalRows;
+  try
+  {
+    journalRows = DbApi::getJournalRows();
+  }
+  catch(const std::exception& e)
+  {
+    QMessageBox::critical(table_, "Error", e.what(), QMessageBox::Close);
+    return;
+  }
+  for (const auto &journalRow : DbApi::getJournalRows())
+  {
+    if (journalRow.route()->id() != routeId)
+      continue;
+    if (journalRow.timeOut() && !journalRow.timeIn())
+    {
+      ++nAutoInRoute;
+    }
+    else if (journalRow.timeOut() && journalRow.timeIn())
+    {
+      auto timeDiff = *journalRow.timeIn() - *journalRow.timeOut();
+      if (!record || timeDiff < *record)
+      {
+        record = *journalRow.timeIn() - *journalRow.timeOut();
+        recordAutoId = journalRow.autoObj()->id();
+      }
+    }
+  }
+  std::string idStr = "Id: " + std::to_string(routeId);
+  std::string recordStr = "Record: ";
+  if (record)
+  {
+    auto recordInSeconds = *record / 1000000l;
+    auto days = recordInSeconds / 60 / 60 / 24;
+    auto hours = recordInSeconds / 60 / 60 % 24;
+    auto minutes = recordInSeconds / 60 % 60;
+    auto seconds = recordInSeconds % 60;
+    if (days)
+      recordStr += std::to_string(days) + " days, ";
+    if (hours)
+      recordStr += std::to_string(hours) + " hours, ";
+    if (minutes)
+      recordStr += std::to_string(minutes) + " minutes, ";
+    if (seconds)
+      recordStr += std::to_string(seconds) + " seconds, ";
+    recordStr.pop_back();
+    recordStr.pop_back();
+  }
+  else
+    recordStr += "None";
+  auto autoInRouteStr = "Auto in route: " + std::to_string(nAutoInRoute);
+  QString info = QString::fromStdString(idStr + "\n" + recordStr + "\n" + autoInRouteStr);
+  QMessageBox::information(table_, "Route Info", info, QMessageBox::Close);
+}
+
 void RouteTab::checkCopyEnabled()
 {
   auto selectedRanges = table_->selectedRanges();
@@ -302,6 +376,13 @@ void RouteTab::checkDelRowsEnabled()
   }
   delRows_->setEnabled(allRows);
   del_->setEnabled(!delRows_->isEnabled());
+}
+
+void RouteTab::checkInfoEnabled()
+{
+  auto selectedRanges = table_->selectedRanges();
+  bool isSelectionFromOneRow = selectedRanges.size() == 1 and selectedRanges[0].rowCount() == 1;
+  info_->setEnabled(isSelectionFromOneRow);
 }
 
 void RouteTab::updateCache()
