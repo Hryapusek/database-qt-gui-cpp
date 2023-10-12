@@ -25,8 +25,16 @@ public:
 signals:
   void apply();
 
+private slots:
+  void somethingChanged(const QString &);
+  void applyClicked();
+  virtual void accept() override;
+
 private:
   std::unique_ptr<Ui::SettingsDialog> ui_;
+  bool somethingChanged_ = false;
+  void setSomethingChanged(bool val);
+  bool isSomethingChanged();
 
 };
 

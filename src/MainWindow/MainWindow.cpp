@@ -143,8 +143,7 @@ void MainWindow::settings()
   settingsDialog->username(QString::fromStdString(Settings::username()));
   settingsDialog->database(QString::fromStdString(Settings::database()));
   settingsDialog->password(QString::fromStdString(Settings::password()));
-  if (settingsDialog->exec() == QDialog::Accepted)
-    settingsApply();
+  settingsDialog->exec();
 }
 
 void MainWindow::settingsApply()
@@ -152,7 +151,15 @@ void MainWindow::settingsApply()
   Settings::username(pimpl_->settingsDialog->username().toStdString());
   Settings::database(pimpl_->settingsDialog->database().toStdString());
   Settings::password(pimpl_->settingsDialog->password().toStdString());
-  Settings::write(settingsFile);
+  try
+  {
+    Settings::write(settingsFile);
+  }
+  catch (const std::exception &e)
+  { 
+    QMessageBox::critical(this, "Fatal", "Can not open settings.json file to write. Application will be closed now", QMessageBox::Close);
+    QApplication::quit();
+  }
   resetConnectionClicked();
 }
 
