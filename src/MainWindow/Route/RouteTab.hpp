@@ -6,6 +6,7 @@
 
 class AddRouteDialog;
 class RemoveRouteDialog;
+class QShortcut;
 
 class RouteTab: public QObject
 {
@@ -46,8 +47,11 @@ private:
   QPushButton *refreshBtn_ = nullptr;
   QTableWidget *table_ = nullptr;
   QAction *copy_ = nullptr;
+  QShortcut *copyShortcut_ = nullptr;
   QAction *del_ = nullptr;
+  QShortcut *delShortcut_ = nullptr;
   QAction *cut_ = nullptr;
+  QShortcut *cutShortcut_ = nullptr;
   QAction *delRows_ = nullptr;
   QAction *info_ = nullptr;
   std::unique_ptr< QMenu > menu_;

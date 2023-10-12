@@ -15,6 +15,7 @@
 #include <QClipboard>
 #include <ranges>
 #include <optional>
+#include <QShortcut>
 
 #ifndef _NDEBUG
   #include <iostream>
@@ -93,22 +94,24 @@ JournalTab::JournalTab(QTableWidget *table, QPushButton *addBtn, QPushButton *re
   QObject::connect(table_, &QTableWidget::customContextMenuRequested, this, &JournalTab::menu);
 
   copy_ = new QAction("Copy", table_);
-  copy_->setShortcut(Qt::Key_Copy);
   copy_->setEnabled(false);
-  copy_->setShortcutVisibleInContextMenu(false);
   QObject::connect(copy_, &QAction::triggered, this, &JournalTab::copy);
 
+  copyShortcut_ = new QShortcut(QKeySequence::Copy, table_, this, &JournalTab::copy);
+
   del_ = new QAction("Del", table_);
-  del_->setShortcut(Qt::Key_Delete);
   del_->setEnabled(false);
-  del_->setShortcutVisibleInContextMenu(false);
   QObject::connect(del_, &QAction::triggered, this, &JournalTab::del);
+
+  delShortcut_ = new QShortcut(QKeySequence::Delete, table_, this, &JournalTab::del);
 
   cut_ = new QAction("Cut", table_);
   cut_->setShortcut(Qt::Key_Cut);
   cut_->setEnabled(false);
   cut_->setShortcutVisibleInContextMenu(false);
   QObject::connect(cut_, &QAction::triggered, this, &JournalTab::cut);
+
+  cutShortcut_ = new QShortcut(QKeySequence::Cut, table_, this, &JournalTab::cut);
 
   delRows_ = new QAction("Del Rows", table_);
   delRows_->setEnabled(false);
@@ -298,6 +301,8 @@ void JournalTab::menu(const QPoint &pos)
 
 void JournalTab::copy()
 {
+  if (!isCopyEnabled())
+    return;
   QString str;
   auto item = table_->currentItem();
   if (item)
@@ -307,6 +312,8 @@ void JournalTab::copy()
 
 void JournalTab::del()
 {
+  if (!isDelEnabled())
+    return;
   auto selectedRanges = table_->selectedRanges();
   for (const auto &range : selectedRanges)
   {
@@ -326,6 +333,8 @@ void JournalTab::del()
 
 void JournalTab::cut()
 {
+  if (!isCutEnabled())
+    return;
   copy();
   del();
 }

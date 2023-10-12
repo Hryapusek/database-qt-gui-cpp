@@ -13,6 +13,7 @@
 #include <QClipboard>
 #include <ranges>
 #include <optional>
+#include <QShortcut>
 
 namespace
 {
@@ -41,22 +42,22 @@ PersonTab::PersonTab(QTableWidget *table, QPushButton *addBtn, QPushButton *remo
   QObject::connect(table_, &QTableWidget::customContextMenuRequested, this, &PersonTab::menu);
 
   copy_ = new QAction("Copy", table_);
-  copy_->setShortcut(Qt::Key_Copy);
   copy_->setEnabled(false);
-  copy_->setShortcutVisibleInContextMenu(false);
   QObject::connect(copy_, &QAction::triggered, this, &PersonTab::copy);
 
+  copyShortcut_ = new QShortcut(QKeySequence::Copy, table_, this, &PersonTab::copy);
+
   del_ = new QAction("Del", table_);
-  del_->setShortcut(Qt::Key_Delete);
   del_->setEnabled(false);
-  del_->setShortcutVisibleInContextMenu(false);
   QObject::connect(del_, &QAction::triggered, this, &PersonTab::del);
 
+  delShortcut_ = new QShortcut(QKeySequence::Delete, table_, this, &PersonTab::del);
+
   cut_ = new QAction("Cut", table_);
-  cut_->setShortcut(Qt::Key_Cut);
   cut_->setEnabled(false);
-  cut_->setShortcutVisibleInContextMenu(false);
   QObject::connect(cut_, &QAction::triggered, this, &PersonTab::cut);
+
+  cutShortcut_ = new QShortcut(QKeySequence::Cut, table_, this, &PersonTab::cut);
 
   delRows_ = new QAction("Del Rows", table_);
   delRows_->setEnabled(false);
@@ -248,6 +249,8 @@ void PersonTab::menu(const QPoint &pos)
 
 void PersonTab::copy()
 {
+  if (!isCopyEnabled())
+    return;
   QString str;
   auto item = table_->currentItem();
   if (item)
@@ -257,6 +260,8 @@ void PersonTab::copy()
 
 void PersonTab::del()
 {
+  if (!isDelEnabled())
+    return;
   auto selectedRanges = table_->selectedRanges();
   for (const auto &range : selectedRanges)
   {
@@ -276,6 +281,8 @@ void PersonTab::del()
 
 void PersonTab::cut()
 {
+  if (!isCutEnabled())
+    return;
   copy();
   del();
 }
