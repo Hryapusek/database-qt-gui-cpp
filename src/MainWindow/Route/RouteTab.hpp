@@ -57,6 +57,7 @@ private:
   QShortcut *cutShortcut_ = nullptr;
   QAction *delRows_ = nullptr;
   QAction *info_ = nullptr;
+  QShortcut *infoShortcut_ = nullptr;
   std::unique_ptr< QMenu > menu_;
   bool refreshing_ = false;
   std::unique_ptr< AddRouteDialog > addRouteDialog_;

@@ -73,6 +73,8 @@ RouteTab::RouteTab(QTableWidget *table, QPushButton *addBtn, QPushButton *remove
   info_->setEnabled(false);
   QObject::connect(info_, &QAction::triggered, this, &RouteTab::info);
 
+  infoShortcut_ = new QShortcut(QKeySequence::fromString("CTRL+I"), table_, this, &RouteTab::info);
+
   menu_ = std::make_unique< QMenu >(table_);
   menu_->addAction(cut_);
   menu_->addAction(copy_);
@@ -309,6 +311,8 @@ void RouteTab::delRows()
 
 void RouteTab::info()
 {
+  if (!isInfoEnabled())
+    return;
   auto item = table_->item(table_->currentItem()->row(), Column::ID);
   assert(("ID must be not null", item != nullptr));
   bool ok = true;
