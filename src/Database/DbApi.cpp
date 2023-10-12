@@ -17,8 +17,8 @@ namespace
   template < class T >
   void removeObject(typename T::Id_t id)
   {
-    odb::transaction tr(DatabaseConnection::connection()->begin());
-    DatabaseConnection::connection()->template erase< T >(id);
+    odb::transaction tr(DatabaseConnection::database()->begin());
+    DatabaseConnection::database()->template erase< T >(id);
     tr.commit();
     return;
   }
@@ -27,8 +27,8 @@ namespace
   template < class T >
   std::vector< T > getObjects()
   {
-    odb::transaction tr(DatabaseConnection::connection()->begin());
-    auto result = DatabaseConnection::connection()->template query< T >();
+    odb::transaction tr(DatabaseConnection::database()->begin());
+    auto result = DatabaseConnection::database()->template query< T >();
     typename std::vector< T > objects;
     std::move(result.begin(), result.end(), std::back_inserter(objects));
     tr.commit();
@@ -40,8 +40,8 @@ namespace
   template < class T >
   std::tr1::shared_ptr< T > getObject(typename T::Id_t id)
   {
-    odb::transaction tr(DatabaseConnection::connection()->begin());
-    auto objPtr = DatabaseConnection::connection()->load< T >(id);
+    odb::transaction tr(DatabaseConnection::database()->begin());
+    auto objPtr = DatabaseConnection::database()->load< T >(id);
     tr.commit();
     return objPtr;
   }
@@ -52,10 +52,10 @@ namespace
   template < class T >
   void updateObject(T &&obj)
   {
-    odb::transaction tr(DatabaseConnection::connection()->begin());
-    auto objToUpdate = DatabaseConnection::connection()->load< T >(obj.id());
+    odb::transaction tr(DatabaseConnection::database()->begin());
+    auto objToUpdate = DatabaseConnection::database()->load< T >(obj.id());
     *objToUpdate = std::forward< std::decay_t< T > >(obj);
-    DatabaseConnection::connection()->update(objToUpdate);
+    DatabaseConnection::database()->update(objToUpdate);
     tr.commit();
   }
 
@@ -65,8 +65,8 @@ namespace
   template < class T >
   typename T::Id_t addObject(T obj)
   {
-    odb::transaction tr(DatabaseConnection::connection()->begin());
-    auto id = DatabaseConnection::connection()->persist(obj);
+    odb::transaction tr(DatabaseConnection::database()->begin());
+    auto id = DatabaseConnection::database()->persist(obj);
     tr.commit();
     return id;
   }

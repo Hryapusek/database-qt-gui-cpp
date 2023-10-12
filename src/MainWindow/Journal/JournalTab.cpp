@@ -16,10 +16,18 @@
 #include <ranges>
 #include <optional>
 
+#ifndef _NDEBUG
+  #include <iostream>
+#endif
+
 namespace
 {
   JournalRow journalRowFromString(QString timeOutStr, QString timeInStr, QString autoIdStr, QString routeIdStr, std::optional< std::string > &err)
   {
+    timeOutStr = std::move(timeOutStr).simplified();
+    timeInStr = std::move(timeInStr).simplified();
+    autoIdStr = std::move(autoIdStr).simplified();
+    routeIdStr = std::move(routeIdStr).simplified();
     JournalRow journalRow;
     bool ok = true;
     odb::nullable< time_t > timeOut;
@@ -81,6 +89,36 @@ JournalTab::JournalTab(QTableWidget *table, QPushButton *addBtn, QPushButton *re
   QObject::connect(addBtn_, &QPushButton::clicked, this, &JournalTab::addBtnClicked);
   QObject::connect(removeBtn_, &QPushButton::clicked, this, &JournalTab::removeBtnClicked);
   QObject::connect(table_, &QTableWidget::itemChanged, this, &JournalTab::itemChanged);
+    table_->setContextMenuPolicy(Qt::CustomContextMenu);
+  QObject::connect(table_, &QTableWidget::customContextMenuRequested, this, &JournalTab::menu);
+
+  copy_ = new QAction("Copy", table_);
+  copy_->setShortcut(Qt::Key_Copy);
+  copy_->setEnabled(false);
+  copy_->setShortcutVisibleInContextMenu(false);
+  QObject::connect(copy_, &QAction::triggered, this, &JournalTab::copy);
+
+  del_ = new QAction("Del", table_);
+  del_->setShortcut(Qt::Key_Delete);
+  del_->setEnabled(false);
+  del_->setShortcutVisibleInContextMenu(false);
+  QObject::connect(del_, &QAction::triggered, this, &JournalTab::del);
+
+  cut_ = new QAction("Cut", table_);
+  cut_->setShortcut(Qt::Key_Cut);
+  cut_->setEnabled(false);
+  cut_->setShortcutVisibleInContextMenu(false);
+  QObject::connect(cut_, &QAction::triggered, this, &JournalTab::cut);
+
+  delRows_ = new QAction("Del Rows", table_);
+  delRows_->setEnabled(false);
+  QObject::connect(delRows_, &QAction::triggered, this, &JournalTab::delRows);
+
+  menu_ = std::make_unique< QMenu >(table_);
+  menu_->addAction(copy_);
+  menu_->addAction(del_);
+  menu_->addAction(cut_);
+  menu_->addAction(delRows_);
 }
 
 void JournalTab::refreshTable()
@@ -166,7 +204,8 @@ void JournalTab::removeBtnClicked()
 
 void JournalTab::addBtnClicked()
 {
-  addJournalRowDialog_ = std::make_unique< AddJournalRowDialog >(table_);
+  if (!addJournalRowDialog_)
+    addJournalRowDialog_ = std::make_unique< AddJournalRowDialog >(table_);
   auto result = addJournalRowDialog_->exec();
   bool ok = false;
   if (result == QDialog::Accepted)
@@ -221,7 +260,7 @@ void JournalTab::itemChanged(QTableWidgetItem *item)
     timeOutStr = table_->item(item->row(), Column::TIME_OUT)->text();
   QString timeInStr;
   if (table_->item(item->row(), Column::TIME_IN))
-    timeOutStr = table_->item(item->row(), Column::TIME_OUT)->text();
+    timeInStr = table_->item(item->row(), Column::TIME_IN)->text();
   QString autoIdStr;
   if (table_->item(item->row(), Column::AUTO_ID))
     autoIdStr = table_->item(item->row(), Column::AUTO_ID)->text();

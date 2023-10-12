@@ -28,6 +28,7 @@ private slots:
   void del();
   void cut();
   void delRows();
+  void info();
 
 private:
   struct itemMeta
@@ -48,6 +49,7 @@ private:
   QAction *del_ = nullptr;
   QAction *cut_ = nullptr;
   QAction *delRows_ = nullptr;
+  QAction *info_ = nullptr;
   std::unique_ptr< QMenu > menu_;
   bool refreshing_ = false;
   std::unique_ptr< AddRouteDialog > addRouteDialog_;
@@ -91,6 +93,7 @@ private:
   void checkCutEnabled();
   /// @note Must be called only after checkDelEnabled();
   void checkDelRowsEnabled();
+  void checkInfoEnabled();
 };
 
 #endif

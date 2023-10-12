@@ -1,7 +1,9 @@
 # Current tasks
 
 # Tasks
-- Handle Read Write Settings exceptions
+- Paste action?
+- Fix Shortcuts(need to add checking if action is allowed now instead of just doing it)
+- Add time format checking
 
 # Future tasks
 - Sorting?
@@ -40,3 +42,5 @@
 - Right click context menu 10.10 (11.10 04:43)
 - Settings and Settings Dialog 10.10 (11.10 04:43)
 - Connection establishing using settings 10.10 (11.10 04:43)
+- Handle Read Write Settings exceptions 12.10 15:56
+- Add info action in Route menu(task in the file) 12.10 18:52

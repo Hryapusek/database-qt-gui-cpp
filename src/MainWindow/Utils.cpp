@@ -3,17 +3,19 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+#include <regex>
 
 std::string StringUtils::timeMicrosecFrom2000ToString(time_t time)
 {
-  static auto microsecFrom2000ToUnix = [](time_t time) -> time_t
-                                       {
-                                         static const time_t SECONDS_YEAR2000 = 946684800;
-                                         static const time_t toSeconds = 1e6;
-                                         time_t resTime = time / toSeconds;
-                                         resTime += SECONDS_YEAR2000;
-                                         return resTime;
-                                       };
+  static auto microsecFrom2000ToUnix =
+    [](time_t time) -> time_t
+    {
+      static const time_t SECONDS_YEAR2000 = 946684800;
+      static const time_t toSeconds = 1e6;
+      time_t resTime = time / toSeconds;
+      resTime += SECONDS_YEAR2000;
+      return resTime;
+    };
   auto unixTime = microsecFrom2000ToUnix(time);
   std::ostringstream ss;
   ss << std::put_time(std::gmtime(&unixTime), "%d.%m.%Y %H:%M:%S");
@@ -40,7 +42,7 @@ time_t StringUtils::stringToMicrosecFrom2000(std::string timeStr, bool *ok)
   std::tm tm;
   std::istringstream ss(std::move(timeStr));
   ss >> std::get_time(&tm, "%d.%m.%Y %H:%M:%S");
-  if (!ss)
+  if (ss.fail())
   {
     setGood(false);
     return 0;
