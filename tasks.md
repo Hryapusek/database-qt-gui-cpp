@@ -1,7 +1,6 @@
 # Current tasks
 
 # Tasks
-- Add time format checking
 
 # Future tasks
 - Sorting?
@@ -46,3 +45,4 @@
 - Fix Shortcuts(addAction to every table_) 12.10 22:53
 - Undo previous task 12.10 23:56
 - Paste action? 12.10 23:56
+- Add time format checking 12.10 (13.10 00:20)

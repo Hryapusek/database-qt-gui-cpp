@@ -39,6 +39,12 @@ time_t StringUtils::stringToMicrosecFrom2000(std::string timeStr, bool *ok)
       resTime *= toMicroSeconds;
       return resTime;
     };
+  std::regex timeRegex(R"([0-3]\d.[0-1]\d.[1-2]\d\d\d \d\d:\d\d:\d\d)");
+  if (!std::regex_match(timeStr, timeRegex))
+  {
+    setGood(false);
+    return 0;
+  }
   std::tm tm;
   std::istringstream ss(std::move(timeStr));
   ss >> std::get_time(&tm, "%d.%m.%Y %H:%M:%S");
