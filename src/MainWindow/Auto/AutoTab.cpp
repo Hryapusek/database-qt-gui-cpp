@@ -36,7 +36,12 @@ namespace
     try
     {
       autoObj.person(DbApi::getPerson(personId));
-    } catch (const odb::exception &e)
+    } catch (const odb::object_not_persistent &e)
+    {
+      err = "Person not found";
+      return autoObj;
+    }
+    catch (const odb::exception &e)
     {
       err = e.what();
       return autoObj;
@@ -66,6 +71,12 @@ AutoTab::AutoTab(QTableWidget *table, QPushButton *addBtn, QPushButton *removeBt
 
   copyShortcut_ = new QShortcut(QKeySequence::Copy, table_, this, &AutoTab::copy);
 
+  paste_ = new QAction("Paste", table_);
+  paste_->setEnabled(false);
+  QObject::connect(paste_, &QAction::triggered, this, &AutoTab::paste);
+
+  pasteShortcut_ = new QShortcut(QKeySequence::Paste, table_, this, &AutoTab::paste);
+
   del_ = new QAction("Del", table_);
   del_->setShortcut(Qt::Key_Delete);
   del_->setEnabled(false);
@@ -86,15 +97,12 @@ AutoTab::AutoTab(QTableWidget *table, QPushButton *addBtn, QPushButton *removeBt
   delRows_->setEnabled(false);
   QObject::connect(delRows_, &QAction::triggered, this, &AutoTab::delRows);
 
-  table_->addAction(copy_);
-  table_->addAction(del_);
-  table_->addAction(cut_);
-  table_->addAction(delRows_);
-
   menu_ = std::make_unique< QMenu >(table_);
-  menu_->addAction(copy_);
-  menu_->addAction(del_);
   menu_->addAction(cut_);
+  menu_->addAction(copy_);
+  menu_->addAction(paste_);
+  menu_->addAction(del_);
+  menu_->addSeparator();
   menu_->addAction(delRows_);
 }
 
@@ -269,9 +277,10 @@ void AutoTab::itemChanged(QTableWidgetItem *item)
 
 void AutoTab::menu(const QPoint &pos)
 {
-  checkCopyEnabled();
-  checkDelEnabled();
   checkCutEnabled();
+  checkCopyEnabled();
+  checkPasteEnabled();
+  checkDelEnabled();
   checkDelRowsEnabled();
   menu_->exec(QCursor::pos());
 }
@@ -285,6 +294,15 @@ void AutoTab::copy()
   if (item)
     str = item->text();
   QGuiApplication::clipboard()->setText(str);
+}
+
+void AutoTab::paste()
+{
+  if (!isPasteEnabled())
+    return;
+  auto item = table_->currentItem();
+  if (item)
+    table_->setItem(item->row(), item->column(), new QTableWidgetItem(QGuiApplication::clipboard()->text()));
 }
 
 void AutoTab::del()
@@ -360,6 +378,20 @@ bool AutoTab::isCopyEnabled()
     return false;
   else
     return true;
+}
+
+void AutoTab::checkPasteEnabled()
+{
+  paste_->setEnabled(isPasteEnabled());
+}
+
+bool AutoTab::isPasteEnabled()
+{
+  auto selectedRanges = table_->selectedRanges();
+  bool enabled = selectedRanges.size() == 1 &&
+                 selectedRanges[0].columnCount() * selectedRanges[0].rowCount() == 1 &&
+                 selectedRanges[0].leftColumn() != Column::ID;
+  return enabled;
 }
 
 void AutoTab::checkDelEnabled()

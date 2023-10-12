@@ -66,15 +66,30 @@ namespace
     journalRow.timeIn(timeIn);
     journalRow.timeOut(timeOut);
     try
+    { journalRow.route(DbApi::getRoute(routeId)); }
+    catch (const odb::object_not_persistent &e)
     {
-      journalRow.route(DbApi::getRoute(routeId));
-      journalRow.autoObj(DbApi::getAuto(autoId));
+      err = "Route was not found";
+      return journalRow;
     }
-    catch (const std::exception &e)
+    catch (const odb::exception &e)
     {
       err = e.what();
       return journalRow;
     }
+    try
+    { journalRow.autoObj(DbApi::getAuto(autoId)); }
+    catch (const odb::object_not_persistent &e)
+    {
+      err = "Auto was not found";
+      return journalRow;
+    }
+    catch (const odb::exception &e)
+    {
+      err = e.what();
+      return journalRow;
+    }
+
     err = std::nullopt;
     return journalRow;
   }
@@ -90,7 +105,7 @@ JournalTab::JournalTab(QTableWidget *table, QPushButton *addBtn, QPushButton *re
   QObject::connect(addBtn_, &QPushButton::clicked, this, &JournalTab::addBtnClicked);
   QObject::connect(removeBtn_, &QPushButton::clicked, this, &JournalTab::removeBtnClicked);
   QObject::connect(table_, &QTableWidget::itemChanged, this, &JournalTab::itemChanged);
-    table_->setContextMenuPolicy(Qt::CustomContextMenu);
+  table_->setContextMenuPolicy(Qt::CustomContextMenu);
   QObject::connect(table_, &QTableWidget::customContextMenuRequested, this, &JournalTab::menu);
 
   copy_ = new QAction("Copy", table_);
@@ -99,6 +114,12 @@ JournalTab::JournalTab(QTableWidget *table, QPushButton *addBtn, QPushButton *re
 
   copyShortcut_ = new QShortcut(QKeySequence::Copy, table_, this, &JournalTab::copy);
 
+  paste_ = new QAction("Paste", table_);
+  paste_->setEnabled(false);
+  QObject::connect(paste_, &QAction::triggered, this, &JournalTab::paste);
+
+  pasteShortcut_ = new QShortcut(QKeySequence::Paste, table_, this, &JournalTab::paste);
+
   del_ = new QAction("Del", table_);
   del_->setEnabled(false);
   QObject::connect(del_, &QAction::triggered, this, &JournalTab::del);
@@ -106,9 +127,7 @@ JournalTab::JournalTab(QTableWidget *table, QPushButton *addBtn, QPushButton *re
   delShortcut_ = new QShortcut(QKeySequence::Delete, table_, this, &JournalTab::del);
 
   cut_ = new QAction("Cut", table_);
-  cut_->setShortcut(Qt::Key_Cut);
   cut_->setEnabled(false);
-  cut_->setShortcutVisibleInContextMenu(false);
   QObject::connect(cut_, &QAction::triggered, this, &JournalTab::cut);
 
   cutShortcut_ = new QShortcut(QKeySequence::Cut, table_, this, &JournalTab::cut);
@@ -118,9 +137,11 @@ JournalTab::JournalTab(QTableWidget *table, QPushButton *addBtn, QPushButton *re
   QObject::connect(delRows_, &QAction::triggered, this, &JournalTab::delRows);
 
   menu_ = std::make_unique< QMenu >(table_);
-  menu_->addAction(copy_);
-  menu_->addAction(del_);
   menu_->addAction(cut_);
+  menu_->addAction(copy_);
+  menu_->addAction(paste_);
+  menu_->addAction(del_);
+  menu_->addSeparator();
   menu_->addAction(delRows_);
 }
 
@@ -292,9 +313,10 @@ void JournalTab::itemChanged(QTableWidgetItem *item)
 
 void JournalTab::menu(const QPoint &pos)
 {
-  checkCopyEnabled();
-  checkDelEnabled();
   checkCutEnabled();
+  checkCopyEnabled();
+  checkPasteEnabled();
+  checkDelEnabled();
   checkDelRowsEnabled();
   menu_->exec(QCursor::pos());
 }
@@ -308,6 +330,13 @@ void JournalTab::copy()
   if (item)
     str = item->text();
   QGuiApplication::clipboard()->setText(str);
+}
+
+void JournalTab::paste()
+{
+  if (!isPasteEnabled())
+    return;
+  table_->setItem(table_->currentRow(), table_->currentColumn(), new QTableWidgetItem(QGuiApplication::clipboard()->text()));
 }
 
 void JournalTab::del()
@@ -420,6 +449,20 @@ bool JournalTab::isDelRowsEnabled()
     allRows = allRows && range.leftColumn() == Column::ID && range.rightColumn() == Column::ROUTE_ID;
   }
   return allRows;
+}
+
+void JournalTab::checkPasteEnabled()
+{
+  paste_->setEnabled(isPasteEnabled());
+}
+
+bool JournalTab::isPasteEnabled()
+{
+  auto selectedRanges = table_->selectedRanges();
+  bool enabled = selectedRanges.size() == 1 &&
+                 selectedRanges[0].columnCount() * selectedRanges[0].rowCount() == 1 &&
+                 selectedRanges[0].leftColumn() != Column::ID;
+  return enabled;
 }
 
 void JournalTab::updateCache()
