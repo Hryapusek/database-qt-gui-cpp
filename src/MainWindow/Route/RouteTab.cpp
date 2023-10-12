@@ -47,6 +47,12 @@ RouteTab::RouteTab(QTableWidget *table, QPushButton *addBtn, QPushButton *remove
 
   copyShortcut_ = new QShortcut(QKeySequence::Copy, table_, this, &RouteTab::copy);
 
+  paste_ = new QAction("Paste", table_);
+  paste_->setEnabled(false);
+  QObject::connect(paste_, &QAction::triggered, this, &RouteTab::paste);
+
+  pasteShortcut_ = new QShortcut(QKeySequence::Paste, table_, this, &RouteTab::paste);
+
   del_ = new QAction("Del", table_);
   del_->setEnabled(false);
   QObject::connect(del_, &QAction::triggered, this, &RouteTab::del);
@@ -68,10 +74,13 @@ RouteTab::RouteTab(QTableWidget *table, QPushButton *addBtn, QPushButton *remove
   QObject::connect(info_, &QAction::triggered, this, &RouteTab::info);
 
   menu_ = std::make_unique< QMenu >(table_);
-  menu_->addAction(copy_);
-  menu_->addAction(del_);
   menu_->addAction(cut_);
+  menu_->addAction(copy_);
+  menu_->addAction(paste_);
+  menu_->addAction(del_);
+  menu_->addSeparator();
   menu_->addAction(delRows_);
+  menu_->addSeparator();
   menu_->addAction(info_);
 }
 
@@ -208,9 +217,10 @@ void RouteTab::itemChanged(QTableWidgetItem *item)
 
 void RouteTab::menu(const QPoint &pos)
 {
-  checkCopyEnabled();
-  checkDelEnabled();
   checkCutEnabled();
+  checkCopyEnabled();
+  checkPasteEnabled();
+  checkDelEnabled();
   checkDelRowsEnabled();
   checkInfoEnabled();
   menu_->exec(QCursor::pos());
@@ -225,6 +235,15 @@ void RouteTab::copy()
   if (item)
     str = item->text();
   QGuiApplication::clipboard()->setText(str);
+}
+
+void RouteTab::paste()
+{
+  if (!isPasteEnabled())
+    return;
+  auto item = table_->currentItem();
+  if (item)
+    table_->setItem(item->row(), item->column(), new QTableWidgetItem(QGuiApplication::clipboard()->text()));
 }
 
 void RouteTab::del()
@@ -303,7 +322,7 @@ void RouteTab::info()
   {
     journalRows = DbApi::getJournalRows();
   }
-  catch(const std::exception& e)
+  catch (const std::exception &e)
   {
     QMessageBox::critical(table_, "Error", e.what(), QMessageBox::Close);
     return;
@@ -365,6 +384,20 @@ bool RouteTab::isCopyEnabled()
     return false;
   else
     return true;
+}
+
+void RouteTab::checkPasteEnabled()
+{
+  paste_->setEnabled(isPasteEnabled());
+}
+
+bool RouteTab::isPasteEnabled()
+{
+  auto selectedRanges = table_->selectedRanges();
+  bool enabled = selectedRanges.size() == 1 &&
+                 selectedRanges[0].columnCount() * selectedRanges[0].rowCount() == 1 &&
+                 selectedRanges[0].leftColumn() != Column::ID;
+  return enabled;
 }
 
 void RouteTab::checkDelEnabled()

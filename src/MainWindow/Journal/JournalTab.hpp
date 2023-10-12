@@ -26,6 +26,7 @@ private slots:
   void itemChanged(QTableWidgetItem *item);
   void menu(const QPoint &pos);
   void copy();
+  void paste();
   void del();
   void cut();
   void delRows();
@@ -47,6 +48,8 @@ private:
   QTableWidget *table_ = nullptr;
   QAction *copy_ = nullptr;
   QShortcut *copyShortcut_ = nullptr;
+  QAction *paste_ = nullptr;
+  QShortcut *pasteShortcut_ = nullptr;
   QAction *del_ = nullptr;
   QShortcut *delShortcut_ = nullptr;
   QAction *cut_ = nullptr;
@@ -99,9 +102,10 @@ private:
   bool isDelEnabled();
   void checkCutEnabled();
   bool isCutEnabled();
-  /// @note Must be called only after checkDelEnabled();
   void checkDelRowsEnabled();
   bool isDelRowsEnabled();
+  void checkPasteEnabled();
+  bool isPasteEnabled();
 };
 
 #endif

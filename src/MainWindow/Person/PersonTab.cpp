@@ -47,6 +47,12 @@ PersonTab::PersonTab(QTableWidget *table, QPushButton *addBtn, QPushButton *remo
 
   copyShortcut_ = new QShortcut(QKeySequence::Copy, table_, this, &PersonTab::copy);
 
+  paste_ = new QAction("Paste", table_);
+  paste_->setEnabled(false);
+  QObject::connect(paste_, &QAction::triggered, this, &PersonTab::paste);
+
+  pasteShortcut_ = new QShortcut(QKeySequence::Paste, table_, this, &PersonTab::paste);
+
   del_ = new QAction("Del", table_);
   del_->setEnabled(false);
   QObject::connect(del_, &QAction::triggered, this, &PersonTab::del);
@@ -63,15 +69,12 @@ PersonTab::PersonTab(QTableWidget *table, QPushButton *addBtn, QPushButton *remo
   delRows_->setEnabled(false);
   QObject::connect(delRows_, &QAction::triggered, this, &PersonTab::delRows);
 
-  table_->addAction(copy_);
-  table_->addAction(del_);
-  table_->addAction(cut_);
-  table_->addAction(delRows_);
-
   menu_ = std::make_unique< QMenu >(table_);
-  menu_->addAction(copy_);
-  menu_->addAction(del_);
   menu_->addAction(cut_);
+  menu_->addAction(copy_);
+  menu_->addAction(paste_);
+  menu_->addAction(del_);
+  menu_->addSeparator();
   menu_->addAction(delRows_);
 }
 
@@ -244,6 +247,7 @@ void PersonTab::menu(const QPoint &pos)
   checkDelEnabled();
   checkCutEnabled();
   checkDelRowsEnabled();
+  checkPasteEnabled();
   menu_->exec(QCursor::pos());
 }
 
@@ -256,6 +260,15 @@ void PersonTab::copy()
   if (item)
     str = item->text();
   QGuiApplication::clipboard()->setText(str);
+}
+
+void PersonTab::paste()
+{
+  if (!isPasteEnabled())
+    return;
+  auto item = table_->currentItem();
+  if (item)
+    table_->setItem(item->row(), item->column(), new QTableWidgetItem(QGuiApplication::clipboard()->text()));
 }
 
 void PersonTab::del()
@@ -331,6 +344,20 @@ bool PersonTab::isCopyEnabled()
     return false;
   else
     return true;
+}
+
+void PersonTab::checkPasteEnabled()
+{
+  paste_->setEnabled(isPasteEnabled());
+}
+
+bool PersonTab::isPasteEnabled()
+{
+  auto selectedRanges = table_->selectedRanges();
+  bool enabled = selectedRanges.size() == 1 &&
+                 selectedRanges[0].columnCount() * selectedRanges[0].rowCount() == 1 &&
+                 selectedRanges[0].leftColumn() != Column::ID;
+  return enabled;
 }
 
 void PersonTab::checkDelEnabled()
