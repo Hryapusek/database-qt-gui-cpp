@@ -156,7 +156,7 @@ void MainWindow::settingsApply()
     Settings::write(settingsFile);
   }
   catch (const std::exception &e)
-  { 
+  {
     QMessageBox::critical(this, "Fatal", "Can not open settings.json file to write. Application will be closed now", QMessageBox::Close);
     QApplication::quit();
   }
