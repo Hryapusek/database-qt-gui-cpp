@@ -15,10 +15,10 @@ AddJournalRowDialog::AddJournalRowDialog(QWidget *parent) :
   auto timeInLineValidator = new QRegExpValidator(QRegExp(".{30}"), ui->timeInLine);
   ui->timeInLine->setValidator(timeInLineValidator);
 
-  auto autoIdLineValidator = new QRegExpValidator(QRegExp("[-]?[1-9]{8}"), ui->autoIdLine);
+  auto autoIdLineValidator = new QRegExpValidator(QRegExp("[-]?[0-9]{8}"), ui->autoIdLine);
   ui->autoIdLine->setValidator(autoIdLineValidator);
 
-  auto routeIdLineValidator = new QRegExpValidator(QRegExp("[-]?[1-9]{8}"), ui->routeIdLine);
+  auto routeIdLineValidator = new QRegExpValidator(QRegExp("[-]?[0-9]{8}"), ui->routeIdLine);
   ui->routeIdLine->setValidator(routeIdLineValidator);
 }
 
