@@ -9,13 +9,13 @@ AddPersonDialog::AddPersonDialog(QWidget *parent) :
 {
   ui->setupUi(this);
 
-  auto firstNameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->firstNameLine);
+  auto firstNameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Zа-яА-Я]{20}"), ui->firstNameLine);
   ui->firstNameLine->setValidator(firstNameLineValidator);
 
-  auto lastNameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->lastNameLine);
+  auto lastNameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Zа-яА-Я]{20}"), ui->lastNameLine);
   ui->lastNameLine->setValidator(lastNameLineValidator);
 
-  auto fatherNameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Z]{20}"), ui->fatherNameLine);
+  auto fatherNameLineValidator = new QRegExpValidator(QRegExp("[a-zA-Zа-яА-Я]{20}"), ui->fatherNameLine);
   ui->fatherNameLine->setValidator(fatherNameLineValidator);
 }
 
